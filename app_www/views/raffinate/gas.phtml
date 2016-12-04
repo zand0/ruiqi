@@ -1,0 +1,47 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}残液（余气）回收规范{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        残液（余气）回收规范
+        <span></span>
+        <a href="/raffinate/addgas" class="blueBtn8">添加回收规范</a>
+    </div>
+    <div class="contRList">
+
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>钢瓶类型</th>
+                        <th>允许退气总重</th>
+                        <th>最小退气量</th>
+                        <th>钢印（标称）皮重</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($bottleTypeData) > 0}
+                    {foreach $bottleTypeData as $key=>$value}
+                    <tr>
+                        <td>{$value['bottle_name']}</td>
+                        <td>{(isset($returnData[$key])) ? $returnData[$key]['weight'] : 0}</td>
+                        <td>{(isset($returnData[$key])) ? $returnData[$key]['down_weight'] : 0}</td>
+                        <td>{(isset($returnData[$key])) ? $returnData[$key]['net_weight'] : 0}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="5">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

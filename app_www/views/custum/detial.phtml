@@ -1,0 +1,205 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}客户管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            客户管理
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="path">
+                <a href="/custum/index">客户列表</a>&nbsp;
+                <i></i>&nbsp;
+                <a href="javascript:void(0);" class="active">客户详情</a>
+            </div>
+            <div class="detailTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="5">
+                                <div>
+                                    开户时间：<span><font>{date('Y-m-d',$data['ctime'])}</font></span>&nbsp;&nbsp;
+                                    编号：<span><font>{$data['kehu_sn']}</font></span>&nbsp;&nbsp;
+                                    类型：<span>{$kehuType[$data['ktype']]['typemanagername']}</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <p class="name">{$data['user_name']}&nbsp;{if $data['gender'] eq 1}男{else if $data['gender'] eq 2}女{else}保密{/if}</p>
+                                <p class="tel">{$data['mobile_phone']}</p>
+                            </td>
+                            <td>
+                                <div class="tableCont">
+                                    <p>
+                                        <font>所属门店：</font><span>{$shopObject[$data['shop_id']]['shop_name']}</span>
+                                    </p>
+                                    {if $data['recommended'] neq ''}
+                                    <p>
+                                        <font>推荐人：</font><span>{$data['recommended']}</span>
+                                    </p>
+                                    {/if}
+                                    {if $data['salesman_name'] neq ''}
+                                    <p>
+                                        <font>业务员：</font><span>{$data['salesman_name']}</span>
+                                    </p>
+                                    {/if}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tableCont">
+                                    <p>
+                                        <font>所在省/市：</font><span>{$regionObject[$data['sheng']]['region_name']}</span>
+                                    </p>
+                                    <p>
+                                        <font>市/县：</font><span>{$regionObject[$data['shi']]['region_name']}</span>
+                                    </p>
+                                    <p>
+                                        <font>区：</font><span>{$regionObject[$data['qu']]['region_name']}</span>
+                                    </p>
+                                    <p>
+                                        <font>村：</font><span>{$regionObject[$data['cun']]['region_name']}</span>
+                                    </p>
+                                </div>
+                                <p class="area"><i></i>客户地址</p>
+                                <p>{$data['address']}</p>
+                            </td>
+                            <td>
+                                <div class="tableCont">
+                                    <p>
+                                        <font>开户类型：</font><span>{$payType[$data['paytype']]}</span>
+                                    </p>
+                                    <p>
+                                        <font>发展渠道：</font><span>{$data['source']}</span>
+                                    </p>
+                                    <p>
+                                        <font>用户状态：</font><span>{$kehuStatus[$data['status']]}</span>
+                                    </p>
+                                    <p>
+                                        <font>最近订气：</font><span>{($data['last_buy']>0) ? date('Y-m-d',$data['last_buy']) : ''}</span>
+                                    </p>
+                                    <p>
+                                        <font>订气次数：</font><span>{$ext['count']}</span>
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tableCont">
+                                    <p>
+                                        <font>结算方式：</font><span>{$payType[$data['paytype']]}</span>
+                                    </p>
+                                    <p>
+                                        <font>押金：</font><span>{$data['pay_money']}元</span>
+                                    </p>
+                                    <p>
+                                        <font>账户余额：</font><span>{$data['balance']}元</span>
+                                    </p>
+                                    <p>
+                                        <font>欠款金额：</font><span>{$data['money']}</span>
+                                    </p>
+                                    <p>
+                                        <font>账户积分：</font><span>{$data['point']}</span>
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {if !empty($bottle_data)}
+    <div class="contRItem">
+        <div class="contRTitle">
+            用户优惠余额
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>名称规格</th>
+                            <th>类型</th>
+                            <th>单价</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $bottle_data as $yVal}
+                        <tr>
+                            <td>{$yVal['title']}</td>
+                            <td>{($yVal['type'] == 1) ? '优惠券' : '折扣余额券'}</td>
+                            <td>{$yVal['money']}</td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {/if}
+    <div class="contRItem">
+        <div class="contRTitle">
+            订单列表
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>订单编号</th>
+                            <th>商品价格</th>
+                            <th>押金</th>
+                            <th>折旧</th>
+                            <th>配送站点</th>
+                            <th>送气工</th>
+                            <th>订气时间</th>
+                            <th>订气方式</th>
+                            <th>订单状态</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $ext['list'] neq ''}
+                        {foreach $ext['list'] as $value}
+                        <tr>
+                            <td>{$value['order_sn']}</td>
+                            <td>{$value['money']}</td>
+                            <td>{$value['deposit']}</td>
+                            <td>{$value['depreciation']}</td>
+                            <td>{$shopObject[$value['shop_id']]['shop_name']}</td> 
+                            <td>{$value['shipper_name']}</td> 
+                            <td>{($value['ctime']>0) ? date('Y-m-d',$value['ctime']) : ''}</td> 
+                            <td>{$orderFs[$value['ordertype']]}</td> 
+                            <td class="chuli">{(isset($orderStatus[$value['status']])) ? $orderStatus[$value['status']] : ''}</td>
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr><td colspan="11">暂时还没有数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix sqspBottom">
+                <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                <input type="hidden" class="currentPage" value="{$page}">
+                <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                <input type="hidden" class="paramlist" value="{$getparamlist}" />
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

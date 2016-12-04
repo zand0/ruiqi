@@ -1,0 +1,66 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}车辆管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        车辆管理
+        <span></span>
+        <a href="/car/add" class="blueBtn6 addCars">添加车辆</a>
+    </div>
+    <div class="contRList">
+        <div class="mesgList">
+            <div class="msgTitle clearfix mb20">
+                <span class="fl">全部车辆</span>
+                <p class="fr totalMsg">共 <span>{count($data)}</span> 条记录</p>
+            </div>
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>车牌号</th>
+                            <th>车型号</th>
+                            <th>品牌</th>
+                            <th>车辆原重</th>
+                            <th>车辆识别代码</th>
+                            <th>驾驶员</th>
+                            <th>车检状态</th>
+                            <th>购买日期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $data neq ''}
+                        {foreach $data as $value}
+                        <tr>
+                            <td>{$value['license_plate']}</td>
+                            <td>{$carType[$value['car_type']]}</td>
+                            <td>{$value['brand_model']}</td>
+                            <td>{$value['load']}</td>
+                            <td>{$value['driver_license']}</td>
+                            <td>{$value['driver_name']}</td>
+                            <td>{$typeStatus[$value['inspection_status']]}</td>
+                            <td>{$value['gmrq']}</td>
+                            <td class="tableBtn">
+                                <a href="/car/edit?car_id={$value['car_id']}">编辑</a>
+                            </td>
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr><td colspan="9">暂时还没有数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/cheliangguanli.js"></script>{/block}

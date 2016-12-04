@@ -1,0 +1,102 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            门店管理
+            <span></span>
+        </div>
+        <div class="contRList">
+            <form name="form" method="POST">
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">省/市：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_province" name="region_1" style="width:170px;" class="selectmenu region_1"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">区县：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_city" name="region_2" style="width:170px;" class="selectmenu region_2"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption3 fl">
+                        <label class="fl">街道：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select id="loc_town" name="region_3" style="width:170px;" class="selectmenu region_3"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">所属门店：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="shop_id" class="selectmenu" style="width:170px;">
+                                    <option value="0">请选择</option>
+                                    {foreach $shopObject as $k=>$v}
+                                    {if $param['shop_id'] eq $k}
+                                    <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                                    {else}
+                                    <option value="{$k}" >{$v['shop_name']}</option>
+                                    {/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                        <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="contRItem">
+        <div class="contRTitle">
+            门店列表
+            <span></span>
+            <a href="/shop/add" class="blueBtn6 addStore">添加门店</a>
+        </div>
+        <div class="contRList">
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>门店名称</th>
+                            <th>门店类型</th>
+                            <th>门店店长</th>
+                            <th>联系电话</th>
+                            <th>所属区域</th>
+                            <th>账户余额</th>
+                            <th>门店等级</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $shoplistData neq ''}
+                        {$shoplistData}
+                        {else}
+                            <tr><td colspan="8">暂时还没有数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/storeManage.js"></script>{/block}

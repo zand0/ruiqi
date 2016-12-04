@@ -1,0 +1,83 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工确认回库单详情{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工确认回库单详情
+        <span></span>
+        <p>确认回库时间：{$time}</p>
+    </div>
+    <div class="contRList">
+        <div class="path">
+            <a href="/shipper/hkshop">送气工回库单</a>&nbsp;
+            <i></i>&nbsp;
+            <a href="javascript:void(0);" class="active">门店确认单详情</a>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>送气工</th>
+                        <th>门店</th>
+                        <th>类型</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="{$bottle_num}">{$shipper_name}</td>
+                        <td rowspan="{$bottle_num}">{$shopObject[$shop_id]['shop_name']}</td>
+                        <td rowspan="{$bottle_num}">{$bottleStatus[$ftype]}</td>
+                        {$list1}
+                    </tr>
+                    {$list2}
+                </tbody>
+            </table>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>钢印</th>
+                        <th>芯片</th>
+                        <th>类型</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $bottle_info != ''}
+                    {foreach $bottle_info as $value}
+                    <tr>
+                        <td>{$value['number']}</td>
+                        <td>{$value['xinpian']}</td>
+                        <td></td>
+                    </tr>
+                    {/foreach}
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        {if $status eq 0}
+        <div  class="rqLine">
+            <div class="rqOption">
+                <input type="hidden" name="sn" id="sn" value="{$confirme_no}" />
+                <input type="hidden" name="bottle" id="bottle" value='{$bottle}' />
+                <input type ="hidden" name="shop_id" id="shop_id" value="{$shop_id}" />
+                <input type="hidden" name="shipper_id" id="shipper_id" value="{$shipper_id}" />
+                <input type="hidden" name="bottle_data" id ="bottle_data" value='{$bottle_data}' />
+                <input type="hidden" name="ftype" id ="ftype" value="{$ftype}" />
+                <a href="javascript:;" class="blueBtn" id="confirmbtn">确认</a>
+            </div>
+        </div>
+        {/if}
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/jiaofei.js"></script>{/block}

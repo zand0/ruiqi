@@ -1,0 +1,278 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}客户管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            客户管理
+            <span></span>
+            <a href="/custum/index?temptype=new" class="blueBtn6" target="_blank">新版页面</a>
+        </div>
+        <div class="contRList">
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>客户类型</th>
+                            <th>订气次数</th>
+                            <th>用户数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $totalData neq ''}
+                        {foreach $totalData as $tkey => $tVal}
+                        <tr>
+                            <td>{(isset($kehuType[$tVal['ktype']])) ? $kehuType[$tVal['ktype']] : '未定义类型'}</td>
+                            <td>{$tVal['times']}</td>
+                            <td>{$tVal['num']}</td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="contRItem">
+        <div class="contRTitle">
+            客户列表
+            <span></span>
+            <a href="/custum/add" class="blueBtn6">添加客户</a>
+        </div>
+        <div class="contRList">
+            <form name="form" method="POST">
+                <div class="rqLine">
+                    <div class="rqOption clearfix rqRadio">
+                        <label class="fl">客户类型：</label>
+                        <div class="myradio fl">
+                            <div class="radiobox clearfix">
+                                {foreach $kehuType as $k =>$kVal}
+                                {if $param['ktype'] eq $k}
+                                <input type="radio" name="ktype" value="{$k}" class="active" /> {$kVal}
+                                {else}
+                                <input type="radio" name="ktype" value="{$k}" /> {$kVal}
+                                {/if}
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">客户编号：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="kehu_sn" value="{$param['kehu_sn']}" style="width:130px;">
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">客户姓名：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="user_name" value="{$param['user_name']}" style="width:130px;">
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">客户电话：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="mobile_phone" value="{$param['mobile_phone']}" style="width:130px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">所在省份：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_province" name="region_1" style="width:150px;" class="selectmenu region_1"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">所在市：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_city" style="width:150px;" name="region_2" class="selectmenu region_2"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">所在区：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_town" style="width:150px;" name="region_3" class="selectmenu region_3"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">所在村：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_town" style="width:150px;" name="region_4" class="selectmenu region_4"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">客户地址：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="address" value="{$param['address']}" style="width:350px;">
+                            <span>输入详细地址</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        {if isset($is_show_shop) && !empty($is_show_shop)}
+                        <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                        {else}
+                        <label class="fl">所属门店：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="shop_id" class="selectmenu" style="width:170px;">
+                                    <option value="0">请选择</option>
+                                    {foreach $shopObject as $k=>$v}
+                                    {if $param['shop_id'] eq $v['shop_id']}
+                                    <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                                    {else}
+                                    <option value="{$k}" >{$v['shop_name']}</option>
+                                    {/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">发展渠道：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="source" class="selectmenu" style="width:170px;">
+                                    <option value="0">请选择</option>
+                                    {foreach $custum_source as $k=>$v}
+                                    {if $param['source'] eq $k}
+                                    <option value="{$k}" selected="selected">{$v['typemanagername']}</option>
+                                    {else}
+                                    <option value="{$k}">{$v['typemanagername']}</option>
+                                    {/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">结算方式：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="paytype" class="selectmenu" style="width:170px;">
+                                    <option value="0">请选择</option>
+                                    {foreach $payType as $pKey => $pVal}
+                                    {if $pKey eq $param['paytype']}
+                                    <option value="{$pKey}" selected="selected">{$pVal}</option>
+                                    {else}
+                                    <option value="{$pKey}">{$pVal}</option>
+                                    {/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">客户状态：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="status" class="selectmenu" style="width:170px;">
+                                    <option value="0">请选择</option>
+                                    {foreach $kehuStatus as $hKey => $hVal}
+                                    {if $kehuStatus eq $param['status']}
+                                    <option value="{$hKey}" selected="selected">{$hVal}</option>
+                                    {else}
+                                    <option value="{$hKey}">{$hVal}</option>
+                                    {/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">开户时间：</label>
+                        <div class="riliInputBox fl">
+                            <div class="riliInput fl">
+                                <input type="text" style="width:140px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                            </div>
+                            <span class="fl">至</span>
+                            <div class="riliInput fl">
+                                <input type="text" id="time_end" style="width:140px;" name="time_end" value="{$param['time_end']}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                        <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                    </div>
+                </div>
+            </form>
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>隶属门店</th>
+                            <th>姓名</th>
+                            <th>电话</th>
+                            <th><a href="javascript:;" class="khorder" orderlist="{$param['orderlist']}">开户时间</a></th>
+                            <th><a href="javascript:;" class="updatetime" orderlist="{$param['orderlist']}">更新时间</a></th>
+                            <th><a href="javascript:;" class="ordertimes" orderlist="{$param['orderlist']}">订气次数</a></th>
+                            <th class="sort">欠款总额<span><a href="javascript:;" class="up"></a><a href="javascript:;" class="down"></a></span></th>
+                            <th class="sort">当前余额<span><a href="javascript:;" class="up"></a><a href="javascript:;" class="down"></a></span></th>
+                            <th>客户状态</th>
+                            <th>客户详情</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if count($ext['list']) > 0}
+                        {foreach $ext['list'] as $value}
+                        <tr>
+                            <td>{$value['kehu_sn']}</td>
+                            <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                            <td>{$value['user_name']}</td>
+                            <td>{$value['mobile_phone']}</td>
+                            <td>{date('m-d H:i',$value['ctime'])}</td>
+                            <td>{if ($value['utime'] > 0)}{date('Y-m-d H:i',$value['utime'])}{/if}</td>
+                            <td>{$value['buy_time']}</td>
+                            <td>{$value['money']}</td>
+                            <td>{$value['balance']}</td>
+                            <td>{$kehuStatus[$value['status']]}</td>
+                            <td class="tableBtn">
+                                <a href="/custum/detial?kid={$value['kid']}" target="_blank">详情</a>
+                            </td>
+                            <td class="tableBtn">
+                                {if $value['status'] neq 0}
+                                已停用
+                                {else}
+                                <a href="/custum/edite?kid={$value['kid']}">修改</a>|<a href="/custum/del?kid={$value['kid']}">停用</a>
+                                {/if}
+                                |<a href="/custum/payment?kid={$value['kid']}" target="_blank">交易记录</a>|<a href="/neck/custum?kid={$value['kid']}" target="_blank">钢瓶记录</a>
+                            </td>
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr><td colspan="10">暂时没有数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix sqspBottom">
+                <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                <input type="hidden" class="currentPage" value="{$page}">
+                <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                <input type="hidden" class="paramlist" value="{$getparamlist}" />
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/clientManage.js"></script>{/block}

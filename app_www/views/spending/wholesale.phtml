@@ -1,0 +1,150 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}其他收入{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        其他收入
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>收入项目</th>
+                        <th>数量/重量</th>
+                        <th>金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $dataTotal neq ''}
+                    <tr>
+                        <td>折旧</td>
+                        <td></td>
+                        <td>{$dataTotal['zjtotal']}</td>
+                    </tr>
+                    <tr>
+                        <td>残液</td>
+                        <td>{$dataTotal['total']}</td>
+                        <td>{$dataTotal['weight']}</td>
+                    </tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        其他收入记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">订单号：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="order_sn" value="{$param['order_sn']}" style="width:148px;">
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        {if isset($is_show_shop) && !empty($is_show_shop)}
+                        <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                        {else}
+                        <label class="fl">门店：</label>
+                        <div class="selectBox fl rqOption">
+                            <div class="mySelect">
+                                <select name="shop_id" class="selectmenu" style="width:170px;">
+                                    <option value="">选择站点</option>
+                                    {foreach $shopObject as $k=>$v}
+                                    {if $k eq $param['shop_id']}
+                                    <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                                    {else}
+                                    <option value="{$k}">{$v['shop_name']}</option>
+                                    {/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">收入时间：</label>
+                        <div class="riliInputBox fl">
+                            <div class="riliInput fl">
+                                <input type="text" style="width:148px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                            </div>
+                            <span class="fl">至</span>
+                            <div class="riliInput fl">
+                                <input type="text" id="time_end" style="width:148px;" name="time_end" value="{$param['time_end']}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                        <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>用户名称</th>
+                        <th>电话</th>
+                        <th>残液</th>
+                        <th>数量/重量</th>
+                        <th>折旧</th>
+                        <th>门店</th>
+                        <th>送气工</th>
+                        <th>送气工电话</th>
+                        <th>时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $val}
+                    <tr>
+                        <td>{$val['order_sn']}</td>
+                        <td>{$val['username']}</td>
+                        <td>{$val['mobile']}</td>
+                        <td>{$val['raffinat']}</td>
+                        <td>{$val['raffinat_weight']}</td>  
+                        <td>{$val['depreciation']}</td>
+                        <td>{$shopObject[$val['shop_id']]['shop_name']}</td>
+                        <td>{$val['shipper_name']}</td>
+                        <td>{$val['shipper_mobile']}</td>
+                        <td>{date('Y-m-d',$val['ctime'])}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="10">暂时没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/qitashouru.js"></script>{/block}

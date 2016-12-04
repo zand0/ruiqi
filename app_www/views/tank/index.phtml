@@ -1,0 +1,62 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}储罐设置管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        储罐设置管理
+        <span></span>
+        <a href="/tank/add" class="blueBtn8 addShangpin">添加储罐</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>编号</td>
+                    <td>储罐名称</td>
+                    <td>存储地点</td>
+                    <td>存储量</td>
+                    <td>燃气类型</td>
+                    <td>使用日期</td>
+                    <td>备注</td>
+                    <td>操作</td>
+                </tr>
+
+                {if $ext['list'] neq ''}
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['tanksn']}</td>
+                    <td>{$value['tank_name']}</td>
+                    <td>{$value['address']}</td>
+                    <td>{$value['stock']}</td>
+                    <td>{$gasObject[$value['gas_id']]['gas_name']}</td>
+                    <td>{$value['work_time']}</td>
+                    <td>{$value['comment']}</td>
+                    <td>
+                        <a href="/tank/edite?id={$value['id']}">编辑</a>|
+                        <a href="/tank/del?id={$value['id']}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+                    </td>
+                </tr>
+                {/foreach} 
+                {else}
+                <tr><td colspan="8">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shangpinzhongleiManage.js"></script>{/block}

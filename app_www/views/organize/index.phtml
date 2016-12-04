@@ -1,0 +1,73 @@
+{extends file='main.phtml'}
+{block name=rtitle}组织机构{/block}
+
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            总店
+            <span></span>
+        </div>
+        <div class="contRList clearfix">
+            <p class="client fl">大客户：</p>
+            <div class="fl clientList">
+                <ul class="clearfix">
+                    <li>
+                        <a href="javascript:;" class="clearfix">
+                            <div class="fl myheadface">
+                                <img src="/statics/upload/photo/touxiang.jpg">
+                            </div>
+                            <div class="fl">
+                                <h3>大客户</h3>
+                                <p>13800000000</p>
+                            </div>
+                            <span></span>
+                        </a>
+                    </li>	
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="contRItem">
+        <div class="contRTitle">
+            各个门店
+            <span></span>
+        </div>
+        <div class="contRList">
+            {if $shop neq ''}
+            {foreach $shop as $value}
+            <div class="clearfix mb20">
+                <div class="fl storeName">
+                    {$value['shop_name']}<i></i>
+                </div>
+                <div class="fr storeMember">
+                    <div class="myheadface">
+                        <a href="/organize/detial?shop_id={$value['shop_id']}"><img src="/statics/upload/photo/{$value['photo']}"></a>
+                    </div>
+                    <p>门店负责人：{$value['username']}&nbsp;&nbsp;&nbsp;联系电话：{$value['mobile_phone']}</p>
+                    <p>详细地址：{$value['address']}</p>
+                </div>
+            </div>
+            <div class="clientList clientList2">
+                <ul class="clearfix">
+                    <li class="num1">
+                        <a href="javascript:;" class="clearfix">
+                            <strong>卫星店1</strong>
+                            <div class="fl myheadface">
+                                <img src="/statics/upload/photo/touxiang.jpg">
+                            </div>
+                            <div class="fl">
+                                <h3>卫星店1</h3>
+                                <p>13800000000</p>
+                            </div>
+                            <span></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {/foreach}
+            {/if}
+        </div>
+    </div>
+</div>
+{/block}

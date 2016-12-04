@@ -1,0 +1,103 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店钢瓶借调{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRList">
+            <div class="path">
+                <a href="javascript:;" onclick="history.go(-1)">门店借调</a>&nbsp;
+                <i></i>&nbsp;
+                <a href="javascript:void(0);" class="active">借调详情</a>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">数据统计：</label>
+                    <div class="rqTabItem rqTabItem2 fl" style="width:580px;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>规格</th>
+                                    <th>数量</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if $typeData != ''}
+                                {foreach $typeData as $key => $val}
+                                <tr>
+                                    <td>{$bottleTypeData[$key]['bottle_name']}</td>
+                                    <td>{$val}</td>
+                                </tr>
+                                {/foreach}
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">钢瓶详情：</label>
+                    <div class="rqTabItem rqTabItem2 fl" style="width:580px;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>钢印号</th>
+                                    <th>规格</th>
+                                    <th>状态</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if $returnData != ''}
+                                {foreach $returnData as $value}
+                                <tr>
+                                    <td>{$value['number']}</td>
+                                    <td>{$value['type_name']}</td>
+                                    <td>
+                                        {if $value['status'] eq 1}
+                                        正常
+                                        {else}
+                                        <strong style="color: red">{$value['status_text']}</strong>
+                                        {/if}
+                                    </td>
+                                </tr>
+                                {/foreach}
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <form name="form" method="POST" action="/shop/ajaxbottle"> 
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <div class="rqOption fl" style="display: none;">
+                            <div class="inputBox fl">
+                                <textarea type="text" name="number" id="number">{$numberArr}</textarea>
+                                <input type="hidden" name="num" id="num" value="{$numberTotal}" />
+                                <input type="hidden" name="total" id="total" value='{$typeDataJson}' />
+                                <input type="hidden" name="sn" id="sn" value="{$sn}" />
+                                <input type="hidden" name="to_shop_id" id="to_shop_id" value="{$to_shop_id}" />
+                                <input type="hidden" name="shop_id" id="shop_id" value="{$shop_id}" />
+                            </div>
+                        </div>
+                        <div class="fr">
+                            <div class="rqOption fl">
+                                <a href="javascript:;" class="blueBtn qtjbtn">确认提交</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/storeManage.js"></script>{/block}

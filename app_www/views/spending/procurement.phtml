@@ -1,0 +1,151 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}采购支出{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        采购支出
+        <span></span>
+        <a href="/spending/procurement?temptype=new" class="blueBtn6" target="_blank">新版页面</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>产品类别</th>
+                        <th>规格/种类</th>
+                        <th>采购批次</th>
+                        <th>重量/数量</th>
+                        <th>支出金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $allData neq ''}
+                    {foreach $allData as $val}
+                    <tr>
+                        <td>{$type[$val['type']]}</td>
+                        <td>{$val['goods_name']}</td>
+                        <td>{$val['num']}</td>
+                        <td>{$val['gnum']}</td>
+                        <td>{$val['total']}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="5">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        采购支出记录
+        <span></span>
+        <!--a href="javascript:;" class="blueBtn8 addCgzc">添加采购支出</a-->
+        <a href="/spending/addprocurement" class="blueBtn8">添加采购支出</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl rqOption2">
+                    <label class="fl">产品类别：</label>
+                    <div class="selectBox fl rqOption">
+                        <div class="mySelect">
+                            <select name="type" id="typelist" class="selectmenu">
+                                <option value="0" >请选择</option>
+                                {foreach $type as $k => $v}
+                                {if $param['type'] eq $k}
+                                <option value="{$k}" selected="selected">{$v}</option>
+                                {else}
+                                <option value="{$k}">{$v}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">种类/规格：</label>
+                    <div class="selectBox fl rqOption">
+                        <div class="mySelect">
+                            <select name="goods_type" id="goods_type" class="selectmenu">
+                                <option value="0" >请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl rqOption2">
+                    <label class="fl">出入库时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" name="start_time" value="{$param['start_time']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:150px;" name="end_time" value="{$param['end_time']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>单号</th>
+                        <th>产品类别</th>
+                        <th>供应商</th>
+                        <th>规格/种类</th>
+                        <th>数量/重量</th>
+                        <th>单价</th>
+                        <th>金额</th>
+                        <th>经办人</th>
+                        <th>时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) > 0}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['procurement_no']}</td>
+                        <td>{$type[$value['type']]}</td>
+                        <td>{$value['name']}</td>
+                        <td>{$value['goods_name']}</td>
+                        <td>{$value['goods_num']}</td>
+                        <td>{$value['goods_price']}</td>
+                        <td>{$value['money']}</td>
+                        <td>{$value['admin_user']}</td>
+                        <td>{$value['time']}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="9">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$param['page']}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/caigouzhichu.js"></script>{/block}

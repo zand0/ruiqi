@@ -1,0 +1,88 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工钢瓶库存{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工钢瓶库存
+        <span></span>
+        <a href="/stock/shipperflow?pagetype=log" target="_blank" class="blueBtn11">出入库记录</a>
+    </div>
+    <div class="contRList">
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rqbtnbox mb20">
+                <li class="tabBtn active">全部<span></span></li>
+                {foreach $statusData as $kVal}
+                <li class="tabBtn">{$kVal}<span></span></li>
+                {/foreach}
+            </ul>
+            <ul class="tabItembox rqTabItem">
+                <li class="tabItem" style="display:block;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>送气工</th>
+                                <th>钢瓶规格</th>
+                                <th>数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if $dataTotalAll neq ''}
+                            {foreach $dataTotalAll as $key => $value}
+                            {foreach $value as $k => $val}
+                            <tr>
+                                <td><a href="/stock/shipperflow?pagetype=log&shipper_id={$key}" target="_blank">{$shipperObject[$key]['shipper_name']}</a></td>
+                                <td><a href="/stock/shipperflow?pagetype=log&shipper_id={$key}&fs_type_id={$k}" target="_blank">{$dataTotalName[$key][$k]}</a></td>
+                                <td>{$val}</td>
+                            </tr>
+                            {/foreach}
+                            {/foreach}
+                            {else}
+                            <tr><td colspan="3">暂时还没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                {foreach $statusData as $k => $kV}
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>送气工</th>
+                                <th>钢瓶规格</th>
+                                <th>数量</th>
+                                <th>合计</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if isset($dataTotalType[$k]) && $dataTotalType[$k] neq ''}
+                            {foreach $dataTotalType[$k] as $tkey => $tVal}
+                            {foreach $tVal as $tk => $tV }
+                            <tr>
+                                <td>{$shipperObject[$tkey]['shipper_name']}</td>
+                                <td>{$tV['fs_name']}</td>
+                                <td>{$tV['total']}</td>
+                                <td></td>
+                            </tr>
+                            {/foreach}
+                            {/foreach}
+                            {else}
+                            <tr><td colspan="4">暂时还没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/qizhangangpingkucun.js"></script>{/block}

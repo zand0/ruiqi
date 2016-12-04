@@ -1,0 +1,183 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}钢瓶管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery.circliful.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb30">
+        <div class="fl mr200">
+            <h3>钢瓶管理</h3>
+            <p>生产 > 钢瓶管理</p>
+        </div>	
+        <div class="fl chooseDate pt16">
+            <span class="fl">选择时段：</span>
+            <div class="doubleRili fl">
+                <input type="text" id="start" style="width:80px;" readonly="readonly" name="time_start" value="{$param['time_start']}">
+            </div>
+            <span class="fl plr8">到</span>
+            <div class="doubleRili fl">
+                <input type="text" id="end" style="width:80px;" readonly="readonly" name="time_end" value="{$param['time_end']}">
+            </div>
+            <a href="javascript:void(0);" class="fl">确定</a>
+        </div>
+        <div class="fr">
+            <a href="javascript:void(0);" class="blueBtn3 mt10">+添加钢瓶</a>
+        </div>
+    </div>
+    <!-- 数据统计 -->
+    <div class="gpData mb30">
+        <ul class="clearfix">
+            <li class="li_1" style="width:50%">
+                <div class="bg">
+                    <p>使用中钢瓶&nbsp;<span>100%</span></p>
+                    <p><strong>{$ext['count']}</strong></p>
+                </div>
+            </li>
+            <li class="li_2" style="width:30%">
+                <div class="bg">
+                    <p>库存钢瓶&nbsp;<span>0%</span></p>
+                    <p><strong>0</strong></p>
+                </div>
+            </li>
+            <li class="li_3" style="width:20%">
+                <div class="bg">
+                    <p>流失钢瓶&nbsp;<span>0%</span></p>
+                    <p><strong>0</strong></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- 钢瓶规格 -->
+    <div class="guige mb30">
+        <h4>钢瓶规格</h4>
+        <!-- 选项卡-->
+        <div class="clearfix">
+            <ul class="tabContrl fl btn">
+                <li class="active"><a href="javascript:void(0);">全部<div class="border"><span></span></div></a></li>
+                {if $bottleTypeData neq ''}
+                {foreach $bottleTypeData as $bKey => $bVal}
+                <li><a href="javascript:void(0);"><strong>{$bVal['bottle_name']}</strong><div class="border"><span></span></div></a></li>
+                {/foreach}
+                {/if}
+            </ul>
+            <div class="tabItem fl chartBox">
+                <!-- 全部 -->
+                <div class="listItem" style="display:block;">
+                    <ul class="clearfix">
+                        {if $bottleNumShow neq '' && $ext['count'] gt 0}
+                        {foreach $bottleNumShow as $tKey => $tVal}
+                        {assign var="tPoint" value=$tVal/$ext['count']}
+                        {assign var="point" value=$tPoint|string_format:'%.2f'}
+                        <li>
+                            <div id="myStat{$tKey+1}" data-dimension="140" data-text="{$point*100}%" data-percent="{$point*100}" data-info="{$typeObject[$tKey]}" data-width="8" data-fontsize="22"  data-fgcolor="{$colorObject[$tKey]}" data-bgcolor="#f4f4f4" data-fill="#fff" style="color:#696969"></div>
+                        </li>
+                        {/foreach}
+                        {/if}
+                    </ul>
+                </div>
+                <!-- 5kg -->
+                {if $bottleTypeData neq ''}
+                {foreach $bottleTypeData as $bKey => $bVal}
+                <div class="listItem">
+                    <ul class="clearfix">
+                        {if isset($bottleShow[$bKey])}
+                        {foreach $bottleShow[$bKey] as $bk => $btypeNum}
+                        <li>
+                            <div id="myStat{$bKey+$bk+5}" data-dimension="140" data-text="{$btypeNum['proportion']}%" data-percent="{$btypeNum['proportion']}" data-info="{$btypeNum['status_text']}" data-width="8" data-fontsize="22"  data-fgcolor="{$colorObject[$bk]}" data-bgcolor="#f4f4f4" data-fill="#fff" style="color:#696969"></div>
+                        </li>
+                        {/foreach}
+                        {/if}
+                    </ul>
+                </div>
+                {/foreach}
+                {/if}
+            </div>
+        </div>
+    </div>
+    <!--搜索条件 -->
+    <div class="searchArea mb40">
+        <div class="clearfix lineData lineData2">
+            <div class="fl mr46">
+                <label class="fl">钢印号：</label>
+                <input type="text" style="width:135px" placeholder="输入钢印号" name="number" value="{$param['number']}" class="fl">
+            </div>
+            <div class="fl mr46">
+                <label class="fl">芯片号：</label>
+                <input type="text" style="width:135px" placeholder="输入芯片号" name="xinpian" value="{$param['xinpian']}" class="fl">
+            </div>
+            <div class="fl mr46">
+                <label class="fl">条形码：</label>
+                <input type="text" style="width:135px" placeholder="输入条形码" name="bar_code" value="{$param['bar_code']}" class="fl">
+            </div>
+            <a href="javascript:void(0);" id="searchBtn" class="fl">搜索</a>
+        </div>
+    </div>
+    <!-- 订单查询结果 -->
+    <div class="result">
+        <div class="title mb10">
+            <p>订单查找结果：</p>
+        </div>
+        <div class="table2 mb34">
+            <table>
+                <thead>
+                    <tr>
+                        <th width="84">建档日期</th>
+                        <th width="90">钢印号</th>
+                        <th width="90">芯片号</th>
+                        <th width="90">条形码</th>
+                        <th width="66">瓶规格</th>
+                        <th width="66">瓶状态</th>
+                        <th>生产厂家</th>
+                        <th width="66">充装次数</th>
+                        <th width="66">维修次数</th>
+                        <th width="66">检测次数</th>
+                        <th width="60">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) neq 0}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{date('Y-m-d',$value['ctime'])}</td>
+                        <td>{$value['number']}</td>
+                        <td>{$value['xinpian']}</td>                              
+                        <td>{$value['bar_code']}</td>
+                        <td>{$bottleTypeData[$value['type']]['bottle_name']}</td>
+                        <td>{$typeObject[$value['status']]}</td>
+                        <td>{$value['chang_name']}</td>
+                        <td>{$value['user_time']}</td>
+                        <td>{$value['service_time']}</td>
+                        <td>{$value['detect_time']}</td>
+                        <td class="operate">
+                            <a href="/bottle/edite?xinpian={$value['xinpian']}">修改</a>
+                            |<a href="javascript:;" xinpian="{$value['xinpian']}">日志</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="11">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom mb50">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/gangpingguanliCtrl.js"></script>
+{/block}

@@ -1,0 +1,117 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}充装统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        充装统计
+        <span></span>
+    </div>
+    <div class="contRList">
+        {literal}
+        <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+        <script>
+                    $(function () {
+                    var categories_text = {/literal}{$key}{literal};
+                            var series_text = {/literal}{$data}{literal};
+                                    $('#container').highcharts({
+                            title: {
+                            text: '充装统计',
+                                    x: - 20 //center
+                            },
+                                    subtitle: {
+                                    text: '一周内每日订单统计',
+                                            x: - 20
+                                    },
+                                    credits:{
+                                    enabled:false // 禁用版权信息
+                                    },
+                                    xAxis: {
+                                    categories: categories_text
+                                    },
+                                    yAxis: {
+                                    title: {
+                                    text: '(个)'
+                                    },
+                                            plotLines: [{
+                                            value: 0,
+                                                    width: 1,
+                                                    color: '#808080'
+                                            }]
+                                    },
+                                    tooltip: {
+                                    valueSuffix: '个'
+                                    },
+                                    legend: {
+                                    layout: 'vertical',
+                                            align: 'right',
+                                            verticalAlign: 'middle',
+                                            borderWidth: 0
+                                    },
+                                    series: [{"name":"充装数量", "data":series_text}]
+                            });
+                            });</script>
+        {/literal}
+        <div id="container"></div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        充装统计记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqLine clearfix">
+            <form name="form" method="POST">
+                <div class="rqOption fl">
+                    <label class="fl">发布时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:140px;" name="time_start" id="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" name="time_end" style="width:140px;" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </form>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>日期</th>
+                        <th>规格</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {$list}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$count}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$param['page']}">
+            <input type="hidden" class="totalPage" value="{ceil($count/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/chongzhuangtongji.js"></script>{/block}

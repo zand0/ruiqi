@@ -1,0 +1,129 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}区域价格设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        区域价格设置
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/areaprice/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">所属区域：</label>
+                    <div class="selectBox fl">
+                        <select name="area_id" class="selectmenu" id="area_id">
+                            <option value="">请选择</option>
+                            {if $areaData neq ''}
+                            {foreach $areaData as $ak => $av}
+                            {if $area_id eq $ak}
+                            <option value="{$ak}" selected="selected">{$av['title']}</option>
+                            {else}
+                            <option value="{$ak}">{$av['title']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">商品：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="commditylist" class="selectmenu" id="commditylist">
+                            <option value="">商品</option>
+                            {foreach $commodityData as $value} 
+                            {if $commoditysn eq $value['commoditysn']}
+                            <option value="{$value['name']}|{$value['norm_id']}|{$value['commoditysn']}|{$value['type']}" selected="selected">
+                                {if $value['type'] eq 1}
+                                {$value['name']}{$bottleTypeData[$value['norm_id']]['bottle_name']}
+                                {else}
+                                {$value['name']}{$porductTypeData[$value['norm_id']]['name']}
+                                {/if}
+                            </option>
+                            {else}
+                            <option value="{$value['name']}|{$value['norm_id']}|{$value['commoditysn']}|{$value['type']}">
+                                {if $value['type'] eq 1}
+                                {$value['name']}{$bottleTypeData[$value['norm_id']]['bottle_name']}
+                                {else}
+                                {$value['name']}{$porductTypeData[$value['norm_id']]['name']}
+                                {/if}
+                            </option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">零售价格：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="retail_price" value="{$retail_price}" id="retail_price" style="width:150px;">-<input type="text" id="retail_price_business" name="retail_price_business" value="{$retail_price_business}" style="width:150px;">-<input type="text" id="retail_price_industry" name="retail_price_industry" value="{$retail_price_industry}" style="width:150px;">
+                        <b>*加盟价(居民-商业-工业)</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">直营价：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="direct_price" value="{$direct_price}" id="direct_price" style="width:150px;">
+                        <b>*直营价</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">加盟价：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="affiliate_price" value="{$affiliate_price}" id="affiliate_price" style="width:150px;">
+                        <b>*加盟价</b>
+                    </div>
+                </div>
+            </div> 
+            {if $type eq 1}
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">区域押金：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="deposit_price" value="{$deposit_price}" id="deposit_price" style="width:150px;">-<input type="text" id="deposit_price_business" name="deposit_price_business" value="{$deposit_price_business}" style="width:150px;">-<input type="text" id="deposit_price_industry" name="deposit_price_industry" value="{$deposit_price_industry}" style="width:150px;">
+                        <b>* 区域押金(居民-商业-工业)</b>
+                    </div>
+                </div>
+            </div>
+           {/if}
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <input type="hidden" name="commoditysn" id="commoditysn" value="{$commoditysn}">
+                                <input type="hidden" name="id" id="cid" value="{$id}">
+                                <input type="hidden" name="type" id="ctype" value="{$type}" />
+                                <input type="hidden" name="istype" id="istype" value="area" />
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shangpinzhongleiManage.js"></script>{/block}

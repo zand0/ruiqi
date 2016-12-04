@@ -1,0 +1,157 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}客户钢瓶{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        客户钢瓶
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">钢印号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="number" value="{$param['number']}" style="width:90px;">
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">芯片号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="xinpian" value="{$param['xinpian']}" style="width:130px;">
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    {if isset($is_show_shop) && !empty($is_show_shop)}
+                    <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                    {else}
+                    <label class="fl">所属门店：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu" style="width:170px;">
+                                <option value="0">请选择</option>
+                                {foreach $shopObject as $k=>$v}
+                                {if $param['shop_id'] eq $v['shop_id']}
+                                <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                                {else}
+                                <option value="{$k}" >{$v['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">送气工：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shipper_id" class="selectmenu"  style="width:170px;">
+                                <option selected="selected" value="">选择送气工</option>
+                                {foreach $shipperData as $k => $val}
+                                {if $param['shipper_id'] eq $k}
+                                <option value="{$k}" selected="selected">{$val['shipper_name']}</option>
+                                {else}
+                                <option value="{$k}">{$val['shipper_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">钢瓶规格：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="type" class="selectmenu" style="width:170px;">
+                                <option selected="selected" value="">选择钢瓶规格</option>
+                                {foreach $bottleTypeData as $k => $value}
+                                {if $param['type'] eq $value['id']}
+                                <option value="{$value['id']}" selected="selected">{$value['bottle_name']}</option>
+                                {else}
+                                <option value="{$value['id']}">{$value['bottle_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">发布时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:148px;" name="time_end" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        客户钢瓶
+        <span></span>
+    </div>
+    <div class="contRList gangpList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>钢印号</th>
+                        <th>芯片号</th>
+                        <th>瓶规格</th>
+                        <th>客户</th>
+                        <th>门店</th>
+                        <th>送气工</th>
+                        <th>日期</th>
+                    </tr>
+                </thead>
+                {if $ext['list'] neq ''}
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['number']}</td>
+                    <td>{$value['xinpian']}</td>
+                    <td>{$bottleTypeData[$value['type']]['bottle_name']}</td>
+                    <td>{$value['user_name']}</td>
+                    <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                    <td>{$shipperData[$value['shipper_id']]['shipper_name']}</td>
+                    <td>{date('m-d H:i',$value['time_created'])}</td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr><td colspan="6">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

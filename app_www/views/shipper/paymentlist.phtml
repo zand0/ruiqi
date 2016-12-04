@@ -1,0 +1,121 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工财务来源{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工财务来源
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="tpData">
+            <ul class="clearfix">
+                {if $dataTotal neq ''}
+                {foreach $dataTotal as $tVal}
+                <li>
+                    <p>{$typeObject[$tVal['type']]}</p>
+                    <span>{$tVal['total']}</span>
+                </li>
+                {/foreach}
+                {/if}
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工财务来源
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    {if isset($is_show_shop) && !empty($is_show_shop)}
+                    <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                    {else}
+                    <label class="fl">配送站点：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu"  style="width:144px;">
+                                <option value="">选择站点</option>
+                                {foreach $shopObject as $k=>$v}
+                                {if $k eq $param['shop_id']}
+                                <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                                {else}
+                                <option value="{$k}">{$v['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">订单时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="time_start" style="width:152px;" id="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" name="time_end" id="time_end" style="width:152px;" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>送气工</th>
+                        <th>门店</th>
+                        <th>项目</th>
+                        <th>订单金额</th>
+                        <th>时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) > 0}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['shipper_name']}</td>
+                        <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                        <td>{$typeObject[$value['type']]}</td>
+                        <td>{$value['money']}</td>
+                        <td>{date('Y-m-d',$value['time_created'])}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="6">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

@@ -1,0 +1,29 @@
+{extends file='main.phtml'}
+{block name=rtitle}供应商管理{/block}
+{block name=operate}<a href="/supplier/add?type=1">创建供应商</a>{/block}
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>供应商编号</td>
+            <td>供应商</td>
+            <td>联系人</td>
+            <td>联系方式</td>
+            <td>地址</td>
+            <td>操作</td>
+        </tr>
+        {if $ext['list'] neq ''}
+        {foreach $ext['list'] as $value}
+        <tr>
+            <td>{$value['supplier_no']}</td>
+            <td>{$value['name']}</td>
+            <td>{$value['username']}</td>
+            <td>{$value['tel']}</td>
+            <td>{$value['address']}</td>
+            <td><a href="/supplier/edit?id={$value['id']}&type={$value['type']}">修改</a></td>
+        </tr>
+        {/foreach}
+        {/if}
+    </table>
+</div>
+{/block}

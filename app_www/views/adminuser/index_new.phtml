@@ -1,0 +1,121 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}人员管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery.circliful.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title">
+        <div class="fl mr200">
+            <h3>人员管理</h3>
+            <p>人员 > 所有人员</p>
+        </div>	
+        <div class="fr pt10">
+            <a href="/adminuser/add" class="blueBtn3 mt10">+添加人员</a>
+        </div>
+    </div>
+    <!-- 数据统计 -->
+    <div class="dataMenu mb40 renyuanMenu pl190">
+        <div class="bgBtn">
+            <p>所有人员</p>
+            <strong>{$ext['count']}</strong>
+        </div>
+        <ul class="clearfix">
+            <li class="first">
+                <p>组织架构</p>
+                <strong>{$organizationNum}</strong>个部门
+            </li>
+            <li>
+                <p>在职人员</p>
+                <strong>{$adminUserData[0]}</strong>
+            </li>
+            <li>
+                <p>送气工</p>
+                <strong>{$shipperNum}</strong>
+            </li>
+            <li>
+                <p>离职人员</p>
+                <strong>{$ext['count']-$adminUserData[0]}</strong>
+            </li>
+        </ul>	
+    </div>
+    <div class="border-bottom mb30 pb20">
+        <div class="clearfix lineData lineData2">
+            <div class="fl mr46">
+                <label class="fl">所属部门：</label>
+                <select class="fl" name="quarters_id" id="quarters_id" style="width:157px;">
+                    <option value="" selected="selected">选择部门岗位</option>
+                    {foreach $ext['quarters'] as $qVal}
+                    <option value="{$qVal['id']}">{$qVal['title']}</option>
+                    {/foreach}
+                </select>
+            </div>
+            <div class="fl mr46">
+                <label class="fl">姓名：</label>
+                <input type="text" style="width:135px" placeholder="输入姓名" name="username" value="{$param['username']}" class="fl">
+            </div>
+            <div class="fl mr46">
+                <label class="fl">手机号：</label>
+                <input type="text" style="width:135px" placeholder="输入手机号" name="mobile_phone" value="{$param['mobile_phone']}" class="fl">
+            </div>
+            <a href="javascript:void(0);" id="searchBtn" class="fl">搜索</a>
+        </div>
+    </div>
+    <!-- 订单查询结果 -->
+    <div class="result">
+        <div class="title mb10">
+            <p>人员查找结果：</p>
+        </div>
+        <div class="table2 mb34">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="borderRight">ID</th>
+                        <th>姓名</th>
+                        <th>岗位</th>
+                        <th>手机号</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['user_id']}</td>
+                        <td>{$value['username']}</td>
+                        <td>{(isset($ext['quarters'][$value['quarters_id']])) ? $ext['quarters'][$value['quarters_id']]['title'] : ''}</td>
+                        <td>{$value['mobile_phone']}</td>
+                        <td>{if $value['status'] eq '0'}在职{else}离职{/if}</td>
+                        <td class="operate">
+                            <a href="/adminuser/quarters?user_id={$value['user_id']}" class="fenbeiBtn">分配岗位</a><span>|</span>
+                            {if $value['user_id'] gt 1}<a href="/adminuser/edite?id={$value['user_id']}" class="modBtn">修改</a><span>|</span><a href="/adminuser/del?id={$value['user_id']}">删除</a>{/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="6">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom mb50">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/renyuanguanliCtrl.js"></script>
+{/block}

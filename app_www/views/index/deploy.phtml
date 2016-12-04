@@ -1,0 +1,91 @@
+{extends file='main_new.phtml'}
+{block name=body}
+{literal}
+<style type="text/css">
+    body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+    #allmap{width:100%;height:500px;}
+    p{margin-left:5px; font-size:14px;}
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GGzsVgy3Ra6GWd6n3Sww2Kdx"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+{/literal}
+<div id="content">
+    <!-- 地图 -->
+    <div id="allmap" style="width:100%;height:647px;overflow:hidden;"></div>
+    <!-- 全国气站 -->
+    <div class="all">
+        <h2>全国门店{count($shopData)}<a href="javascript:void(0);">申请加入智慧燃气平台</a></h2>
+        <div class="qizhan">
+            <div class="item clearfix">
+                <div class="fl province">
+                    <h3 class="fl">河北</h3>
+                    <p class="fl"><span>{count($shopData)}</span><br>气站/门店</p>
+                </div>
+                <div class="fr area">
+                    <div class="city clearfix">
+                        <a href="javascript:void(0);" class="active">沧州</a>
+                    </div>
+                    <div class="site">
+                        <ul class="clearfix">
+                            {if $shopData neq ''}
+                            {foreach $shopData as $value}
+                            <li>
+                                <h4><a href="javascript:;">{$value['shop_name']}</a></h4>
+                                <p>{$value['address']}</p>
+                                <div class="star">
+                                    <span></span>4.8
+                                </div>
+                            </li>
+                            {/foreach}
+                            {/if}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 行业动态 安全常识 -->
+    {include file='main_new_dynamic.phtml'}
+</div>
+{literal}
+<script type="text/javascript">
+    // 百度地图API功能	
+    map = new BMap.Map("allmap");
+    map.centerAndZoom('北京', 15);
+    var data_info = [[116.417854, 39.921988, "地址：北京市东城区王府井大街88号乐天银泰百货八层"],
+        [116.406605, 39.921585, "地址：北京市东城区东华门大街"],
+        [116.412222, 39.912345, "地址：北京市东城区正义路甲5号"]
+    ];
+    
+    setTimeout(function(){
+        map.setZoom(14);   
+    }, 2000);  //2秒后放大到14级
+    map.enableScrollWheelZoom(true);    
+        
+    //var data_info =[{/literal}{$maplist}{literal}];
+    var opts = {
+        width: 250, // 信息窗口宽度
+        height: 80, // 信息窗口高度
+        title: "门店相关信息", // 信息窗口标题
+        enableMessage: true//设置允许信息窗发送短息
+    };
+    for (var i = 0; i < data_info.length; i++) {
+        var marker = new BMap.Marker(new BMap.Point(data_info[i][0], data_info[i][1]));  // 创建标注
+        var content = data_info[i][2];
+        map.addOverlay(marker);               // 将标注添加到地图中
+        addClickHandler(content, marker);
+    }
+    function addClickHandler(content, marker) {
+        marker.addEventListener("click", function(e) {
+            openInfo(content, e)
+        });
+    }
+    function openInfo(content, e) {
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象 
+        map.openInfoWindow(infoWindow, point); //开启信息窗口
+    }
+</script>
+{/literal}
+{/block}

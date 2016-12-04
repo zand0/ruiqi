@@ -1,0 +1,34 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+出库管理
+{/block}
+{block name=operate}
+<a href="/outstock/add">添加出库详情</a>
+{/block}
+
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>单据编号</td>
+            <td>经办人</td>
+            <td>经办站点</td>
+            <td>经办时间</td>
+            <td>生效人</td>
+            <td>生效时间</td>
+            <td>操作</td>
+        </tr>
+        {foreach $list as $value}
+        <tr>
+            <td>{$value['documentsn']}</td>
+            <td>{$value['admin_user']}</td>
+            <td>{if $value['shop_id'] eq 0}气站{else}{$shop_list[$value['shop_id']]['shop_name']}{/if}</td>
+            <td>{date('Y-m-d H:i:s',$value['time'])}</td>
+            <td>{if $value['effective_user'] neq 0}{$value['effective_user']}{/if}</td>
+            <td>{if $value['effective_time'] neq 0}{date('Y-m-d H:i:s',$value['effective_time'])}{/if}</td>
+            <td><a href="/outstock/info?id={$value['documentsn']}">详情</a></td>
+        </tr>
+        {/foreach} 
+    </table>
+</div>
+{/block}

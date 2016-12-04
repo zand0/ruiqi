@@ -1,0 +1,98 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}燃气采购计划单{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        燃气采购计划单
+        <span></span>
+        <a href="javascript:;" class="blueBtn8 addCaigou">添加采购计划单</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">单号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="plan_no" value="{$param['plan_no']}" style="width:148px;">
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">采购时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:148px;" name="time_end" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>单号</th>
+                        <th>产品类型</th>
+                        <th>采购内容</th>
+                        <th>采购时间</th>
+                        <th>经办人</th>
+                        <th>审批状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['plan_no']}</td>
+                        <td>燃气</td>
+                        <td>
+                            <a href="/gastj/planinfo?sno={$value['plan_no']}">详情</a>
+                        </td>
+                        <td>{date('Y-m-d',$value['ctime'])}</td>
+                        <td>
+                            {$value['user_name']}
+                        </td>
+                        <td class="tableBtn">
+                            {if $value['status'] eq 0}
+                            <a href="javascript:;">待审批</a>
+                            {else if $value['status'] eq 1}
+                            已同意
+                            {else}
+                            已拒绝
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="6">暂时没有采购数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/ranqicaigoujihua.js"></script>{/block}

@@ -1,0 +1,60 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+用户管理
+{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/order/addinfo">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">气罐类型：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="bottle_id[]" class="selectmenu">
+                            <option value="">钢瓶类型编号</option>
+                            {if $bottleTypeObject neq ''}
+                            {foreach $bottleTypeObject as $value}
+                            <option value="{$value['id']}">{$value['bottle_name']}</option>
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">气罐数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="bottle_num[]" style="width:150px;">
+                    <span>气罐数量</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">配件类型：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="product_id[]" class="selectmenu">
+                            <option value="">配件类型</option>
+                            {if $productsObject neq ''}
+                            {foreach $productsObject as $value}
+                            <option value="{$value['id']}">{$value['products_name']}</option>
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">配件数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="product_num[]" style="width:150px;">
+                    <span>配件数量</span>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="ordersn" value="{$ordersn}">
+    </form>
+</div>
+{/block}

@@ -1,0 +1,53 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}订单状态设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        订单状态设置
+        <span></span>
+        <a href="/orderstatus/add" class="blueBtn8 addShangpin">添加订单状态</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>编号</td>
+                    <td>项目</td>
+                    <td>备注</td>
+                    <td>操作</td>
+                </tr>
+                {if $ext['list'] neq ''}
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['typemanagersn']}</td>
+                    <td>{$value['typemanagername']}</td>
+                    <td>{$value['comment']}</td>
+                    <td>
+                        <a href="/orderstatus/edite?id={$value['id']}">修改</a>|
+                        <a href="/orderstatus/del?id={$value['id']}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr><td colspan="4">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

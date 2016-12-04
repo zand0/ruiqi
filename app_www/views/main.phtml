@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{block name=title}瑞气科技管理系统{/block}</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        {include file='staticpage.phtml'}
+        {block name=head}{/block}
+    </head>
+    <body>
+        <div class="wrap">
+            {include file='staticpage_header.phtml'}
+            <div class="content">
+                {include file='staticpage_top.phtml'}
+                <div class="contCent clearfix">
+                    {block name=right}{include file='ztemp/staticpage_right.phtml'}{/block}
+                    <div class="contRight fr">
+                        <div class="contRItem">
+                            <div class="contRTitle">
+                                {block name=rtitle}{/block}
+                                <span></span>
+                                {block name=operate}{/block}
+                            </div>
+                            {block name=body}{/block}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {include file='staticpage_footer.phtml'}
+        </div>
+        {literal}
+        <script type="text/javascript">
+            var time;
+            var getTopRight = function (type) {
+                $.getJSON('/tank/bottlerefresh',{type:type}, function (result) {
+                    if(result.code>0){
+                        time = result.time;
+                        if(type ==0){
+                            tbBottleFilling();
+                        }else{
+                            tbBottle();
+                        }
+                    }
+                });
+            }
+            var tbBottle = function (){
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/tank/bottletb",
+                    data:{start_time:time},
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                    }
+                });
+            }
+            var tbBottleFilling = function (){
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/tank/bottlefilling",
+                    data:{start_time:time},
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                    }
+                });
+            }
+            var newlist = function () {
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/news/isshow",
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        $("#newsTotal").html('消息（'+preview.total+')');
+                    }
+                });
+            }
+            //window.setInterval('getTopRight(0)', 1000*60*5); //5min刷新一次充装记录
+            //window.setInterval('getTopRight(1)', 1000*60*10); //10min刷新一次钢瓶初始化
+            //window.setInterval('newlist()',1000*10); //刷新一次消息提醒
+        </script>
+        {/literal}
+        <script type="text/javascript" src="{$_PUBLIC}/js/common.js"></script>
+        <script type="text/javascript" src="/webim/index.php?action=boot"></script>
+    </body>
+</html>

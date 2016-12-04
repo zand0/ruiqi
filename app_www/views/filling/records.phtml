@@ -1,0 +1,124 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}充装计划单{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        气站充装计划单
+        <span></span>
+        <a href="javascript:;" class="blueBtn8 blueBtn9 addFilling">添加充装计划单</a>
+        <span></span>
+        <a href="/filling/recordscount" class="blueBtn6" target="_blank">数据汇总</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine">
+                <div class="rqOption fl clearfix">
+                    <label class="fl">充装单号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="filling_no" value="{$param['filling_no']}" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">状态：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="status" class="selectmenu"  style="width:104px;">
+                                <option value="">选择状态</option>
+                                {if $param['status'] eq 1}
+                                <option value="1" selected="selected">已处理</option>
+                                <option value="2">已入库</option>
+                                <option value="3">未处理</option>
+                                {else if $param['status'] eq 2}
+                                <option value="1">已处理</option>
+                                <option value="2" selected="selected">已入库</option>
+                                <option value="3">未处理</option>
+                                {else if $param['status'] eq 3}
+                                <option value="1">已处理</option>
+                                <option value="2">已入库</option>
+                                <option value="3" selected="selected">未处理</option>
+                                {else}
+                                <option value="1">已处理</option>
+                                <option value="2">已入库</option>
+                                <option value="3">未处理</option>
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">充装时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:148px;" name="time_end" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>单号</th>
+                        <th>规格</th>
+                        <th>数量</th>
+                        <th>充装时间</th>
+                        <th>充装工</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) neq 0}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td rowspan="{$value['num']}">{$value['filling_no']}</td>
+                        {$value['list1']}
+                        <td rowspan="{$value['num']}">{$value['time']}</td>
+                        <td rowspan="{$value['num']}">{$value['cz_user_name']}</td>
+                        <td rowspan="{$value['num']}" class="tableBtn">
+                            {if $value['status'] eq 0}
+                            <a href="javascript:;" fno="{$value['filling_no']}" class="pfbtn">派发</a><span>|</span>
+                            {else if $value['status'] eq 1}
+                            <a href="javascript:;" fno="{$value['filling_no']}" class="qrbtn">确认入库</a><span>|</span>
+                            {/if}
+                            <a href="javascript:;" fno="{$value['filling_no']}" class="btnPrint">打单</a>
+                        </td>
+                    </tr>
+                    {$value['list2']}
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="6">暂时还没有充装数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/chongzhuangjihuadan.js"></script>{/block}

@@ -1,0 +1,79 @@
+@charset "utf-8";
+/* 通用样式 */
+*{ -webkit-tap-highlight-color: rgba(0,0,0,0);}
+html{-webkit-text-size-adjust:none; } 
+body, div, ol, ul, h1, h2, h3, h4, h5, h6, p, th, td, dl, dd, form, iframe, input, textarea, select, label, article, aside, footer, header, menu, nav, section, time, audio, video {margin:0; padding:0;}
+article, aside, footer, header, hgroup, nav, section, audio, canvas, video {display:block;}
+body { font-family: Microsoft YaHei, Helvetica Neue, Helvetica, STHeiTi, sans-serif; font-size:100%;color: #282828;}
+textarea {resize:none;}
+iframe, img {border:0 none;}
+ul, ol {list-style:none;outside none;}
+input, select, textarea {outline:0 none;}
+.clear{ clear:both;}
+.clearfix:before, .clearfix:after {
+    content: ".";
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+}
+.clearfix:after {
+    clear: both;
+}
+a{ text-decoration: none; color:#333;}
+input,input:focus,input:active{ -webkit-appearance:none; user-select: text; border:none; list-style:none;}
+.fl{ float:left;}
+.fr{ float:right;}
+img{display:block;}
+/*自定义样式*/
+/*公共样式*/
+.wrap{background:#fff;}
+.dqwrap{width:100%;background: #f4f4f4;position: absolute;left: 0;top: 0;bottom: 0;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-scrolling:touch; }
+
+/*.classify{margin-bottom: 15px;}
+.classify ul li{position:relative;border-bottom: 1px solid #e2e2e2;height: 36px;background: #fff;padding: 12px 68px 12px 110px;}
+.dqName{position: absolute;left: 38px;top: 12px;font-size: 15px;color: #444;line-height: 36px;}
+.isChecked{position: absolute;right: 20px;top: 50%;margin-top:-11px;width: 22px;height: 22px;background: url(../images/icon_wx.png) no-repeat 0 -22px;background-size: 65px 114px;}
+.isChecked.active{background-position: 0 2px;}
+.dqNum{position:relative;border: 1px solid #d4d4d4;border-radius: 3px;padding: 0 35px;}
+.dqNum input{width: 100%;height:;font-size: 15px;color: #333;height: 16px;padding: 9px 0;text-align: center;font-weight: bold;}
+.dqNum strong{position: absolute;top:0;width:35px;height: 34px;text-align: center;line-height: 36px;color: #333;font-size: 18px;}
+.subtract{left: 0;border-right: 1px solid #d4d4d4;}
+.add{right: 0;border-left: 1px solid #d4d4d4;}
+.line{position:absolute;right:58px;top:50%;margin-top:-15px;width:1px;height:30px;background: #eaeaea;}*/
+.dqTop{padding: 20px 20px 20px 14px;}
+.chooseArea{position:relative;margin-bottom: 10px;padding-left: 90px;}
+.chooseArea label{position: absolute;left: 0;top: 0;width: 80px;text-align: right;color: #666;font-size: 14px;line-height:42px;height: 42px;}
+.classifyName .selectBox select{width: 100%;}
+.chooseArea .inputText{border: 1px solid #ccc;padding: 0px 10px;height: 40px;background: #fff; }
+.chooseArea input{width: 100%;font-size: 14px;color: #333;padding: 12px 0;height:16px;line-height: 16px;}
+
+
+
+.selectBox select{border: 1px solid #ccc;}
+.dqBottom{padding: 0 14px;}
+.inputarea{position:relative;border: 1px solid #ccc;border-radius: 3px;background: #fff;padding-left: 36px;height: 40px;margin-bottom: 10px;}
+.inputarea i{position: absolute;left: 12px;top: 50%;width: 14px;height: 16px;margin-top: -8px;background: url(../images/icon_wx.png) no-repeat -24px -2px;background-size:65px 114px; }
+.inputarea input{font-size:14px;color: #333;height: 16px;padding: 12px 0;line-height: 16px;}
+.areaInput{padding: 12px 10px 0 36px;height:144px; }
+.areaInput textarea{width:100%;border: none;font-size:14px;line-height: 20px;height: 100px; }
+.areaInput i{top: 16px;background-position: -24px -26px;margin-top: 0;}
+.loginBtn{display:block;width: 100%;height: 50px;line-height: 50px;text-align: center;background:#1abc9c;color: #fff;font-size: 17px;border-radius: 3px;margin: 24px 0;}
+.dqMenu{padding-top: 70px;}
+.dqMenu ul{width: 222px;margin: 0 auto;}
+.dqMenu li{margin-bottom: 20px;}
+.dqMenu li a{position:relative;display: block;width: 222px;height: 46px;background: url(../images/icon2_wx.png) no-repeat;background-size: 221px 175px;font-size: 16px;color: #fff;font-weight: bold;text-align: center;line-height:46px; }
+.dqMenu li a span{position: absolute;left:15px;top:50%;margin-top:-12px;width: 24px;height: 26px;background:url(../images/icon_wx.png) no-repeat 0 -53px;background-size: 65px 114px;}
+.dqMenu li.dqTousu a{background-position: 0 -64px;}
+.dqMenu li.dqBaoxiu a{background-position: 0 -130px;}
+.dqMenu li.dqTousu a span{background-position: -46px -55px;}
+.dqMenu li.dqBaoxiu a span{background-position: -2px -92px;}
+/*成功弹层*/
+.layer{position: absolute;left: 0;top: 0;width: 100%;background: rgba(0,0,0,0.6);}
+.successPop{position: fixed;left: 50%;top: 15%;margin-left:-105px;width: 220px;height: 250px;background:#fff url(../images/che.png) no-repeat center 140px;background-size:175px 80px;border-radius: 5px;}
+.successPop h2{font-size: 22px;color: #1abc9c;padding-top: 50px;text-align: center;margin-bottom: 8px;}
+.successPop p{font-size: 12px;color: #999;text-align: center;}
+.successPop span{position: absolute;left: 50%;bottom:-50px;margin-left:-11px;width: 22px;height: 22px;background: url(../images/icon_wx.png) no-repeat -33px -87px;background-size: 65px 114px; }

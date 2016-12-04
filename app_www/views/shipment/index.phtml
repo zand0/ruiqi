@@ -1,0 +1,33 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+出库管理
+{/block}
+{block name=operate}
+<a href="/shipment/add">添加出库详情</a>
+{/block}
+
+{block name=body}
+<div class="orderList contRList">
+<table>
+    <tr>
+        <td>单据编号</td>
+        <td>送气工</td>
+        <td>经办站点</td>
+        <td>经办时间</td>
+        <td>领取配件</td>
+        <!--<td>操作</td>-->
+    </tr>
+
+    {foreach $list as $value}
+    <tr>
+        <td>{$value['documentsn']}</td>
+        <td>{$shipper_list[$value['shipper_id']]['shipper_name']}</td>
+        <td>{if $value['shop_id'] eq 0}气站{else}{$shop_list[$value['shop_id']]['shop_name']}{/if}</td>
+        <td>{date('Y-m-d H:i:s',$value['time'])}</td>
+        <td>{$value['product']}</td>
+        <!--<td><a href="/shipment/edite?id={$value['id']}">编辑</a>|<a href="/shipment/del?id={$value['id']}">删除</a></td>-->
+    </tr>
+    {/foreach} 
+</table>
+</div>
+{/block}

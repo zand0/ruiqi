@@ -1,0 +1,147 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}区域管理{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+<script type="text/javascript" src="/statics/js/region_select.js"></script>
+<script>
+    $(function ($) {
+        var sheng = "{/literal}{$sheng}{literal}";
+        var shi = "{/literal}{$shi}{literal}";
+        var shi_name = "{/literal}{$shi_name}{literal}";
+        var xian = "{/literal}{$xian}{literal}";
+        var xian_name = "{/literal}{$xian_name}{literal}";
+        var qu = "{/literal}{$qu}{literal}";
+        var qu_name = "{/literal}{$qu_name}{literal}";
+        region_util({
+            v1_select: '.region_1',
+            v2_select: '.region_2',
+            v3_select: '.region_3',
+            v4_select: '.region_4',
+            request_param: {
+                opt_cat: 'list',
+            },
+            r_param:{
+                sheng:sheng,
+                shi:shi,
+                shi_name:shi_name,
+                xian:xian,
+                xian_name:xian_name,
+                qu:qu,
+                qu_name:qu_name
+            }
+        });
+    });
+</script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        区域管理
+        <span></span>
+    </div>
+    <div class=" contRList">
+        <form name="form" method="POST" action="/regionmanage/addlist"> 
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">省/市：</label>
+                    <div class="selectBox fl placeholder">
+                        <select name="region_1" class="selectmenu region_1"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">区县：</label>
+                    <div class="selectBox fl">
+                        <select name="region_2" class="selectmenu region_2"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">乡镇：</label>
+                    <div class="selectBox fl">
+                        <select name="region_3" class="selectmenu region_3"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">添加街道：</label>
+                    <div class="inputBox fl">
+                        <textarea name="region_name" style="width:410px;">{$regionData['region_name']}</textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">所属片区：</label>
+                    <div class="selectBox fl">
+                        <select name="area_id" class="selectmenu area_id">
+                            <option value="">选择所属片区</option>
+                            {if count($areaData) gt 0}
+                            {foreach $areaData as $akey => $aVal}
+                            {if $regionData['area_id'] eq $akey}
+                            <option value="{$akey}" selected="selected">{$aVal['title']}</option>
+                            {else}
+                            <option value="{$akey}">{$aVal['title']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">送气工：</label>
+                    <div class="selectBox fl">
+                        <select name="shipper_id" class="selectmenu shipper_id">
+                            <option value="">选择负责送气工</option>
+                            {if count($shipperData) gt 0}
+                            {foreach $shipperData as $sKey => $sVal}
+                            {if $regionData['shipper_id'] eq $sKey}
+                            <option value="{$sKey}" selected="selected">{$sVal['shipper_name']}</option>
+                            {else}
+                            <option value="{$sKey}">{$sVal['shipper_name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div> 
+            <input type='hidden' name='pid' value='{$pid}' style="width:150px;"/>
+            <input type='hidden' name='tid' value='{$tid}' style="width:150px;"/>
+            <input type='hidden' name='page' value='{$page}' style="width:150px;"/>
+        </form> 
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

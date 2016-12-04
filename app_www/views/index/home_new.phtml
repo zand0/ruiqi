@@ -1,0 +1,917 @@
+{extends file='znewtemp/main_home.phtml'}
+{block name=title}统计汇总{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery.circliful.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GGzsVgy3Ra6GWd6n3Sww2Kdx"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div id="content">
+    <div class="w1170">
+        <!-- 头部 -->
+        <div class="clearfix title mb30">
+            <div class="fl mr200">
+                <h3>综合看板</h3>
+                <p>简报 > 统计汇总</p>
+            </div>	
+            <div class="fl chooseDate pt16">
+                <span class="fl">选择时段：</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="start" style="width:80px;">
+                </div>
+                <span class="fl plr8">到</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="end" style="width:80px;">
+                </div>
+                <a href="javascript:void(0);" class="fl">确定</a>
+            </div>
+            <div class="fr pt8">
+                <a href="javascript:void(0);" class="redBtn2 fl mr10">6条新消息</a>
+                <a href="javascript:void(0);" class="orangeBtn2 fl">审批申请</a>
+            </div>
+        </div>
+        <!-- 选项卡-->
+        <div class="tabContrl clearfix myDate mb40">
+            <a href="javascript:void(0);" class="active">今日</a>
+            <a href="javascript:void(0);">本周</a>
+            <a href="javascript:void(0);">本月</a>
+            <a href="javascript:void(0);">本季度</a>
+            <a href="javascript:void(0);">上半年</a>
+            <a href="javascript:void(0);">下半年</a>
+            <a href="javascript:void(0);">全年</a>
+        </div>
+        <div class="tabItem">
+            <!-- 今日 -->
+            <div class="listItem" style="display:block;">
+                <div class="clearfix flowChart">
+                    <div class="fl posR">
+                        <div class="li li_1 fl">
+                            采购<br>16.2万
+                            <span></span>
+                            <i></i>
+                        </div>
+                        <div class="li li_2 fl">
+                            库存<br>16.2万
+                            <span></span>
+                            <i></i>
+                        </div>
+                        <div class="li li_3 fl">
+                            灌装<br>16.2万瓶
+                            <span></span>
+                            <i></i>
+                        </div>
+                        <div class="classify classify_1">
+                            <span>生产</span>
+                        </div>
+                    </div>
+                    <div class="fl posR">
+                        <div class="li li_4 fl">
+                            订单<br>16.2万单
+                            <span></span>
+                            <i></i>
+                        </div>
+                        <div class="li li_5 fl">
+                            配送<br>16.2万单
+                            <span></span>
+                            <i></i>
+                        </div>
+                        <div class="classify classify_2">
+                            <span>销售</span>
+                        </div>
+                    </div>
+                    <div class="fl posR">
+                        <div class="li li_6 fl">
+                            客户<br>16.2万人
+                            <span></span>
+                            <i></i>
+                        </div>
+                        <div class="li li_7 fl">
+                            呼叫中心<br>16.2万通
+                            <span></span>
+                        </div>
+                        <div class="classify classify_3">
+                            <span>服务</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dataList">
+                    <ul class="clearfix">
+                        <li class="li_1">
+                            <div class="chart mb10" >
+                                <div id="myStat" data-dimension="112" data-text="89%" data-percent="89" data-info="完成" data-width="10" data-fontsize="20" data-fgcolor="#ffc2e1" data-bgcolor="#fdeeeb" data-fill="#fff"></div>
+                            </div>
+                            <div class="data">
+                                <p class="clearfix">
+                                    <label>钢瓶瓶:</label>
+                                    <span>6.7万瓶</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>燃气:</label>
+                                    <span>12.5万kg</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>配件:</label>
+                                    <span>0.6万件</span>
+                                </p>
+                            </div>
+                            <div class="member">
+                                <h4>采购员5人</h4>
+                                <div class="headImg clearfix">
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_3.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                </div>
+                                <a href="#" class="more">更多人员</a>
+                            </div>
+                        </li>
+                        <li class="li_2">
+                            <div class="chart mb10">
+                                <div class="box" id="gzChart">
+                                    <div class="liquid">
+                                        <div class="bgImg"></div>
+                                        <div class="bgColor"></div>
+                                    </div>
+                                    <div class="text">
+                                        <p>占比</p>
+                                        <strong>42.3%</strong>
+                                    </div>
+                                </div>
+                                <div class="bg"></div>
+                            </div>
+                            <div class="data">
+                                <p class="clearfix">
+                                    <label>钢瓶瓶:</label>
+                                    <span>6.7万瓶</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>燃气:</label>
+                                    <span>12.5万kg</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>配件:</label>
+                                    <span>0.6万件</span>
+                                </p>
+                            </div>
+                            <div class="member">
+                                <h4>库管员4人</h4>
+                                <div class="headImg clearfix">
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_3.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                </div>
+                                <a href="#" class="more">更多人员</a>
+                            </div>
+                        </li>
+                        <li class="li_3">
+                            <div class="chart mb10">
+                                <div class="box" id="gzChart2">
+                                    <div class="liquid">
+                                        <div class="bgImg"></div>
+                                        <div class="bgColor"></div>
+                                    </div>
+                                    <div class="text">
+                                        <p>已灌装</p>
+                                        <strong>88%</strong>
+                                    </div>
+                                </div>
+                                <div class="bg"></div>
+                            </div>
+                            <div class="data">
+                                <p class="clearfix">
+                                    <label>5KG:</label>
+                                    <span>6.7万瓶</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>15KG:</label>
+                                    <span>6.7万瓶</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>50KG:</label>
+                                    <span>6.7万瓶</span>
+                                </p>
+                            </div>
+                            <div class="member">
+                                <h4>灌装员5人</h4>
+                                <div class="headImg clearfix">
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_3.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                </div>
+                                <a href="#" class="more">更多人员</a>
+                            </div>
+                        </li>
+                        <li class="li_4">
+                            <div class="chart mb10">
+                                <div id="myStat4" data-dimension="112" data-text="98.3%" data-percent="98.3" data-info="已处理" data-width="10" data-fontsize="20"  data-fgcolor="#fadf0c" data-bgcolor="#fef7cd" data-fill="#fff" style="color:#84750d;"></div>
+                            </div>
+                            <div class="data">
+                                <p class="clearfix">
+                                    <label>5KG:</label>
+                                    <span>6.7万件</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>15KG:</label>
+                                    <span>6.7万单</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>50KG:</label>
+                                    <span>6.7万单</span>
+                                </p>
+                            </div>
+                            <div class="member">
+                                <h4>营业员22人</h4>
+                                <div class="headImg clearfix">
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_3.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                </div>
+                                <a href="#" class="more">更多人员</a>
+                            </div>
+                        </li>
+                        <li class="li_5">
+                            <div class="chart mb10"></div>
+                            <div class="data">
+                                <p class="clearfix p_1">
+                                    <label>5KG:</label>
+                                    <span>6.7万件</span>
+                                </p>
+                                <p class="clearfix p_2">
+                                    <label>15KG:</label>
+                                    <span>6.7万单</span>
+                                </p>
+                                <p class="clearfix p_3">
+                                    <label>50KG:</label>
+                                    <span>6.7万单</span>
+                                </p>
+                            </div>
+                            <div class="member">
+                                <h4>送气工879人</h4>
+                                <div class="headImg clearfix">
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_3.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                </div>
+                                <a href="#" class="more">更多人员</a>
+                            </div>
+                        </li>
+                        <li class="li_6">
+                            <div class="chart mb10">
+                                <div id="myStat6" data-dimension="112" data-text="75%" data-percent="75" data-info="活跃" data-width="10" data-fontsize="20"  data-fgcolor="#67824d" data-bgcolor="#dcf4c4" data-fill="#fff" style="color:#67824d"></div>
+                            </div>
+                            <div class="data">
+                                <p class="clearfix p_1">
+                                    <label>新开户:</label>
+                                    <span>6.7万人</span>
+                                </p>
+                                <p class="clearfix p_2">
+                                    <label>活跃:</label>
+                                    <span>12.5万人</span>
+                                </p>
+                                <p class="clearfix p_3">
+                                    <label>未活跃:</label>
+                                    <span>0.6万人</span>
+                                </p>
+                            </div>
+                            <div class="member">
+                                <h4>推广员36</h4>
+                                <div class="headImg clearfix">
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_3.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                </div>
+                                <a href="#" class="more">更多人员</a>
+                            </div>
+                        </li>
+                        <li class="li_7">
+                            <div class="chart mb10">
+                                <div id="myStat7" data-dimension="112" data-text="85%" data-percent="85" data-info="满意度" data-width="10" data-fontsize="20"  data-fgcolor="#12cefc" data-bgcolor="#d7f5ff" data-fill="#fff" style="color:#12cefc;"></div>
+                            </div>
+                            <div class="data">
+                                <p class="clearfix">
+                                    <label>退瓶:</label>
+                                    <span>10件</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>投诉:</label>
+                                    <span>10件</span>
+                                </p>
+                                <p class="clearfix">
+                                    <label>维修:</label>
+                                    <span>10件</span>
+                                </p>
+                            </div>
+                            <div class="member">
+                                <h4>客服20人</h4>
+                                <div class="headImg clearfix">
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_3.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_1.png" title="张三">
+                                    </a>
+                                    <a href="#">
+                                        <img src="/statics/znewhome/images/head_2.png" title="张三">
+                                    </a>
+                                </div>
+                                <a href="#" class="more">更多人员</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--本周  -->
+            <div class="listItem"></div>
+            <!--本月  -->
+            <div class="listItem"></div>
+            <!--本季度  -->
+            <div class="listItem"></div>
+            <!--上半年  -->
+            <div class="listItem"></div>
+            <!--下半年  -->
+            <div class="listItem"></div>
+            <!--全年  -->
+            <div class="listItem"></div>
+        </div>
+    </div>
+    <!--财务-->
+    <div class="caiwu_section">
+        <h3 class="subTitle">财务</h3>
+        <div class="w1170 hz-zichan">
+            <div class="clearfix income mb10">
+                <ul class="fl">
+                    <li class="li_1"><span></span>销售收入<i>+</i></li>
+                    <li class="li_2"><span></span>回流资产<i>+</i></li>
+                    <li class="li_3"><span></span>应收账款<i>+</i></li>
+                    <li class="li_4"><span></span>库存资产<i>-</i></li>
+                    <li class="li_5"><span></span>采购支出<i>-</i></li>
+                    <li class="li_6"><span></span>其他费用</li>
+                </ul>
+                <div class="fr">
+                    <strong>=<i>￥136,987,988</i></strong>
+                </div>
+            </div>
+            <div class="ratio clearfix" style="width:100%;">
+                <span style="width:40%;background:#5bb85d;border-radius:5px;border-top-right-radius:0;border-bottom-right-radius:0;" title="40%"></span>
+                <span style="width:20%;background:#f2b96a;" title="20%"></span>
+                <span style="width:10%;background:#d9544f;" title="10%"></span>
+                <span style="width:30%;background:#e4e4e4;border-radius:5px;border-top-left-radius:0;border-bottom-left-radius:0;"  title="30%"></span>
+            </div>
+            <div class="chart">
+                <span class="text_1">+收入</span>
+                <span class="text_2">-支出</span>
+                <div id="container" style="width:100%;height:380px;"></div>
+            </div>
+            <a href="javascript:void(0);" class="borderBtn">管理财务</a>
+        </div>
+    </div>
+    <!-- 门店排行 -->
+    <div class="paihang">
+        <div class="w1170">
+            <h3>门店排行（126）</h3>
+            <div class="cont">
+                <div class="overf clearfix">
+                    <div class="col">
+                        <!-- 燃气库存 -->
+                        <dl class="pb20 mb30">
+                            <dt class="clearfix ">
+                            <h4 class="fl">燃气库存</h4>
+                            <strong class="fr">45.55</strong>
+                            </dt>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>东光致远店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>沧县李天木店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                        </dl>
+                        <!-- 钢瓶库存 -->
+                        <dl class="pb20 mb30">
+                            <dt class="clearfix ">
+                            <h4 class="fl">钢瓶库存</h4>
+                            <strong class="fr">45.55</strong>
+                            </dt>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>东光致远店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>沧县李天木店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                        </dl>
+                        <!-- 配件库存 -->
+                        <dl class="last pb20">
+                            <dt class="clearfix ">
+                            <h4 class="fl">配件库存</h4>
+                            <strong class="fr">45.55</strong>
+                            </dt>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>东光致远店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>沧县李天木店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col">
+                        <!-- 收入金额 -->
+                        <dl class="pb30 mb40">
+                            <dt class="clearfix ">
+                            <h4 class="fl">收入金额</h4>
+                            <strong class="fr">￥74245.55</strong>
+                            </dt>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>东光致远店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>沧县李天木店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                        </dl>
+                        <!-- 支出金额 -->
+                        <dl class="last pb30">
+                            <dt class="clearfix ">
+                            <h4 class="fl">支出金额</h4>
+                            <strong class="fr">￥7445.55</strong>
+                            </dt>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>东光致远店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>沧县李天木店</p>
+                                <span><i style="width:100%"></i></span>
+                                <strong>100%</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:80%"></i></span>
+                                <strong>80%</strong>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col">
+                        <!-- 总客户数 -->
+                        <dl class="pb30 mb40">
+                            <dt class="clearfix ">
+                            <h4 class="fl">总客户数</h4>
+                            <strong class="fr">2000</strong>
+                            </dt>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>开发区朱庄子店</p>
+                                <span><i style="width:40%"></i></span>
+                                <strong>40</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:30%"></i></span>
+                                <strong>30</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>东光致远店</p>
+                                <span><i style="width:20%"></i></span>
+                                <strong>20</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:10%"></i></span>
+                                <strong>6</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:8%"></i></span>
+                                <strong>5</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>沧县李天木店</p>
+                                <span><i style="width:7%"></i></span>
+                                <strong>4</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:6%"></i></span>
+                                <strong>3</strong>
+                            </dd>
+                        </dl>
+                        <!-- 新增客户数 -->
+                        <dl class="last pb30">
+                            <dt class="clearfix ">
+                            <h4 class="fl">新增客户数</h4>
+                            <strong class="fr">55</strong>
+                            </dt>
+                            <dd class="clearfix">
+                                <p>未分配门店</p>
+                                <span><i style="width:50%"></i></span>
+                                <strong>50</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>开发区朱庄子店</p>
+                                <span><i style="width:40%"></i></span>
+                                <strong>40</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:30%"></i></span>
+                                <strong>30</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>东光致远店</p>
+                                <span><i style="width:20%"></i></span>
+                                <strong>20</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:10%"></i></span>
+                                <strong>6</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头宏祥店</p>
+                                <span><i style="width:8%"></i></span>
+                                <strong>5</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>沧县李天木店</p>
+                                <span><i style="width:7%"></i></span>
+                                <strong>4</strong>
+                            </dd>
+                            <dd class="clearfix">
+                                <p>泊头建北店</p>
+                                <span><i style="width:6%"></i></span>
+                                <strong>3</strong>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 门店位置分布 -->
+    <div class="position">
+        <div class="w1170">
+            <h3 class="mb30">门店位置分布</h3>
+            <div id="allmap" style="width:100%;height:600px;"></div>
+            <a href="javascript:void(0);" class="borderBtn">管理门店</a>
+        </div>
+    </div>
+    <!-- 供应商 -->
+    <div class="supplier">
+        <div class="w1170">
+            <h3>供应商(36)</h3>
+            <div class="clearfix overf">
+                <div class="col">
+                    <h4>燃气供应商（12）</h3>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                        </ul>
+                </div>
+                <div class="col">
+                    <h4>钢瓶供应商（6）</h3>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                        </ul>
+                </div>
+                <div class="col">
+                    <h4>配件供应商（18）</h3>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src="/statics/znewhome/images/img_1.jpg" alt="logo">
+                                </a>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="borderBtn">管理供应商</a>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/zongheCtrl.js"></script>
+{literal}
+<script type="text/javascript">
+    // 百度地图API功能	
+    map = new BMap.Map("allmap");
+    map.centerAndZoom('北京', 15);
+    var data_info = [[116.417854, 39.921988, "地址：北京市东城区王府井大街88号乐天银泰百货八层"],
+        [116.406605, 39.921585, "地址：北京市东城区东华门大街"],
+        [116.412222, 39.912345, "地址：北京市东城区正义路甲5号"]
+    ];
+    setTimeout(function(){
+        map.setZoom(14);   
+    }, 2000);  //2秒后放大到14级
+    map.enableScrollWheelZoom(true);    
+        
+    //var data_info =[{/literal}{$maplist}{literal}];
+    var opts = {
+        width: 250, // 信息窗口宽度
+        height: 80, // 信息窗口高度
+        title: "门店相关位置", // 信息窗口标题
+        enableMessage: true//设置允许信息窗发送短息
+    };
+    for (var i = 0; i < data_info.length; i++) {
+        var myIcon = new BMap.Icon("/statics/images/md.png",new BMap.Size(36,36));
+    
+        var marker = new BMap.Marker(new BMap.Point(data_info[i][0], data_info[i][1]),{icon:myIcon});  // 创建标注
+        var content = data_info[i][2];
+        map.addOverlay(marker);               // 将标注添加到地图中
+        addClickHandler(content, marker);
+    }
+    function addClickHandler(content, marker) {
+        marker.addEventListener("click", function(e) {
+            openInfo(content, e)
+        });
+    }
+    function openInfo(content, e) {
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        var infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象 
+        map.openInfoWindow(infoWindow, point); //开启信息窗口
+    }
+</script>
+{/literal}
+{/block}

@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="/ruiqi/css/base/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="/ruiqi/css/style.css">
+        <script type="text/javascript" src="/ruiqi/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/ruiqi/js/jquery-ui.js"></script>
+        <script type="text/javascript" src="/ruiqi/js/pages.js"></script>
+    </head>
+    <object id="XEnroll" classid="clsid:127698e4-e730-4e5c-a2b1-21490a70c8a1" codebase="xenroll.dll"></object>
+    {literal}
+    <script language="javascript">
+        function InstallCertForXP() {
+            var enroll = document.getElementById("XEnroll");
+            var cer = "-----BEGIN CERTIFICATE----- \n"
+                    + "MIICHTCCAYagAwIBAgIQqf4RtM3qz4VC6vygLwt4KjANBgkqhkiG9w0BAQQFADAh\n"
+                    + "MR8wHQYDVQQDHhZt8VczXgKWxmX2kBqLr2cJllBRbFP4MB4XDTEzMDkxNzA3MjE1\n"
+                    + "NVoXDTM5MTIzMTIzNTk1OVowITEfMB0GA1UEAx4WbfFXM14ClsZl9pAai69nCZZQ\n"
+                    + "UWxT+DCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA2Tf5J7rKpRybWlRN9vzT\n"
+                    + "/sBQ0v4SKRK1n663DqZtnHPrm5mERlYCCw9EcZu/EIM+tzbfBYZXTkbI6b5/wjxN\n"
+                    + "qk/ITxLxm9iaPYWHZBpH7R33ohQYIShHEhqybP9/2SDU4EyKiDoTuNPmGLoH0naA\n"
+                    + "4GhdEH6kf7CydhdyoYaQOmUCAwEAAaNWMFQwUgYDVR0BBEswSYAQivD7ygfY4pr/\n"
+                    + "fgjZoTDaBaEjMCExHzAdBgNVBAMeFm3xVzNeApbGZfaQGouvZwmWUFFsU/iCEKn+\n"
+                    + "EbTN6s+FQur8oC8LeCowDQYJKoZIhvcNAQEEBQADgYEAGVtc3XDONG4oIlwl9VjH\n"
+                    + "az8SQF9USk7MlzVMNTbY2EGllyduEf8/gUlifdACSkEEKxQOn0ApBFI0S/XSoaIx\n"
+                    + "BCfqdRRIvybGJTD8f1Gg1DEjBzdF4zxcPLKMacz8YqWaViNIv7b9Xw5FQ+5Tr8Rx\n"
+                    + "CKrp0u7GZlPR6W6fc6J+BSI=\n"
+                    + "-----END CERTIFICATE-----";
+            enroll.InstallPKCS7(cer);
+            SetCookie("justcall", "5");
+        }
+
+        //写cookies函数
+        function SetCookie(name, value)//两个参数，一个是cookie的名字，一个是值
+        {
+            var Days = 356; //此 cookie 将被保存 356 天
+            var exp = new Date();    //new Date("December 31, 9998");
+            exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+            document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+        }
+        function getCookie(name)//取cookies函数        
+        {
+            var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+            if (arr != null)
+                return unescape(arr[2]);
+            return null;
+        }
+        function delCookie(name)//删除cookie
+        {
+            var exp = new Date();
+            exp.setTime(exp.getTime() - 1);
+            var cval = getCookie(name);
+            if (cval != null)
+                document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+        }
+
+        function chkcookies()
+        {
+            var NameOfCookie = "justcall";
+            var c = document.cookie.indexOf(NameOfCookie + "=");
+            if (c != -1)
+            {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+
+        if (chkcookies() == false) {
+            //InstallCertForXP();			
+        }
+        //delCookie("justcall");
+    </script>
+    <!-------------------------- Call control function -------------------------->
+    <script language="JavaScript">
+        function DialingPageInit()
+        {
+            // phone.Initial("192.168.18.156", 6059);
+            phone.Initial("123.57.159.30", 6059);
+            phone.SetAgentInfo("<?php echo $result['user_no']; ?>", "<?php echo $_POST['password']; ?>", "<?php echo $result['device']; ?>");
+        }
+
+        function ShowProgress(msg)
+        {
+            logger.text.innerText += "\n" + msg;
+        }
+
+        //获取呼叫数据
+        function GetCallInfo()
+        {
+            var call;
+            call = phone.GetCallData();
+            var reg = /(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})/;
+            arr = reg.exec(call);
+            //logger.text.innerText += "\n来电/呼出数据：" + call;
+            document.getElementById("phoneno").value = arr[0];
+        }
+
+        //获取中国银联IVR客户确认结果
+        function GetIVRPayConfirm()
+        {
+            var res;
+            res = phone.GetPayConfirmResult();
+            logger.text.innerText += "\n中国银联IVR客户确认结果:" + res;
+        }
+
+        //外呼
+        function MakeCall()
+        {
+            var telnum = document.getElementById("MakeCallTxt").value;
+            var ret;
+            ret = phone.MakeCall(telnum);
+            logger.text.innerText += "\n外呼调用返回值：" + ret;
+        }
+
+        //显示座席状态
+        function ShowAgentStatus()
+        {
+            var status = "";
+
+            status = phone.GetAgentStatus();
+            //AgentStatus.text.innerText = status;
+            document.getElementById("AgentStatus").value = status;
+            logger.text.innerText += "\nAgent Status: " + status;
+        }
+
+        //设置监听分机
+        function SetMonitorExten()
+        {
+            var MonitorExten = document.getElementById("MonitorCallTxt").value;
+            phone.SetMonitorExten(MonitorExten);
+        }
+
+        //监听指定分机
+        function MonitorCall()
+        {
+            var ret;
+            var MonitorExten = document.getElementById("MonitorCallTxt").value;
+            phone.SetMonitorExten(MonitorExten);
+            ret = phone.MonitorCall();
+            logger.text.innerText += "\n监听调用返回值：" + ret;
+        }
+
+        //转移呼叫到指定分机或外线
+        function CallTransfer()
+        {
+            var ret;
+            var CTransfer = document.getElementById("CallTransferTxt").value;
+            ret = phone.TransToAgent(CTransfer);
+            logger.text.innerText += "\n转移呼叫调用返回值：" + ret;
+        }
+
+        //转快钱
+        function Trans99Bilingcall()
+        {
+            var ret;
+            ret = phone.TransTo99BilleIVR();
+            logger.text.innerText += "\n转快钱调用返回值：" + ret;
+        }
+
+        //转免回签
+        function TransToBackSignCall()
+        {
+            var ret;
+            //ret = phone.TransToBackSignIVR();
+            ret = phone.TransToElectronicPolicyIVR();
+            logger.text.innerText += "\n转免回签调用返回值：" + ret;
+        }
+
+        //设置转银联数据
+        function SetTransUnionPayData()
+        {
+            var CardNum = document.getElementById("CardNumTxt").value;
+            var Price = document.getElementById("PriceTxt").value;
+
+            phone.SetUnionPayInfo(CardNum, Price);
+        }
+
+        //转银联
+        function TransUnionPaycall()
+        {
+            var ret;
+            var CardNum = document.getElementById("CardNumTxt").value;
+            var Price = document.getElementById("PriceTxt").value;
+
+            ret = phone.TransToUnionPayIVREx(CardNum, Price);
+            logger.text.innerText += "\n转银联调用返回值：" + ret;
+        }
+
+        //设置支付结果
+        function SetTransUnionPayResult()
+        {
+            var result = document.getElementById("resultTxt").value;
+
+            phone.SetUnionPayResult(result);
+        }
+
+        //转支付结果
+        function TransUnionPaycallResult(result)
+        {
+            var ret;
+            var result = document.getElementById("resultTxt").value;
+
+            ret = phone.TransToPayResultIVREx(result);
+            logger.text.innerText += "\n转支付结果调用返回值：" + ret;
+        }
+
+        //设置座席信息
+        function SetAgentInfo()
+        {
+            var WorkNo = document.getElementById("AgentNo").value;
+            var Pwd = document.getElementById("AgentPassword").value;
+            var Exten = document.getElementById("AgentExten").value;
+
+            phone.SetAgentInfo(WorkNo, Pwd, Exten);
+        }
+
+        //签入
+        function SignIn()
+        {
+            var ret;
+
+            ret = phone.SignIn();
+            logger.text.innerText += "\n签入调用返回值：" + ret;
+        }
+
+        //签出
+        function SignOut()
+        {
+            var ret;
+            ret = phone.SignOut();
+            logger.text.innerText += "\n签出调用返回值：" + ret;
+        }
+
+        //保持
+        function HoldCall()
+        {
+            var ret;
+            ret = phone.HoldCall();
+            logger.text.innerText += "\n保持呼叫调用返回值：" + ret;
+        }
+
+        //恢复
+        function UnHoldCall()
+        {
+            var ret;
+            ret = phone.UnHoldCall();
+            logger.text.innerText += "\n恢复呼叫调用返回值：" + ret;
+        }
+
+        //挂断
+        function HangupCall()
+        {
+            var ret;
+            ret = phone.HangupCall();
+            logger.text.innerText += "\n挂断呼叫调用返回值：" + ret;
+        }
+
+        //示闲
+        function SayFree()
+        {
+            var ret;
+            ret = phone.SayFree();
+            logger.text.innerText += "\n示闲调用返回值：" + ret;
+        }
+
+        //示忙
+        function SayBusy()
+        {
+            var ret;
+            ret = phone.SayBusy();
+            logger.text.innerText += "\n示忙调用返回值：" + ret;
+        }
+
+        //获取错误码
+        function Get99BillConfCode()
+        {
+            var code;
+            code = phone.Get99BillCode();
+            logger.text.innerText += "\n转快钱确认码：" + code;
+        }
+
+        //获取转免回签客户确认结果
+        function GetBackSignIVRRes()
+        {
+            var code;
+            code = phone.GetBackSignIVRResult();
+            logger.text.innerText += "\n转免回签客户确认结果：" + code;
+        }
+
+        function GetElectronicPolicyIVRRes()
+        {
+            var code;
+            code = phone.GetElectronicPolicyIVRResult();
+            logger.text.innerText += "\n转免回签客户确认结果：" + code;
+        }
+
+        //获取错误码
+        function GetLastCode()
+        {
+            var code;
+            code = phone.GetLastErrCode();
+            logger.text.innerText += "\n错误码：" + code;
+        }
+
+    </script>
+    <SCRIPT for=phone event="OnCallData()">
+        ShowProgress("-----CallInfo-----");
+        GetCallInfo();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnIVRPayConfirm()">
+        ShowProgress("-----OnIVRPayConfirm-----");
+        GetIVRPayConfirm();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnHangupSuccess()">
+        ShowProgress("-----OnHangupSuccess-----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSayBusySuccess()">
+        ShowProgress("-----OnSayBusySuccess-----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSayBusyFailure()">
+        ShowProgress("-----OnSayBusyFailure-----");
+        GetLastCode();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSignInSuccess()">
+        ShowProgress("----OnSignInSuccess----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSignInFailure()">
+        ShowProgress("----OnSignInFailure----");
+        GetLastErrCode();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSignOutSuccess()">
+        ShowProgress("----OnSignOutSuccess----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSignOutSuccess()">
+        ShowProgress("----OnSignOutSuccess----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSignOutFailure()">
+        ShowProgress("----OnSignOutFailure----");
+        GetLastErrCode();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnCallSuccess()">
+        ShowProgress("----OnCallSuccess----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnCallFailure()">
+        ShowProgress("----OnCallFailure----");
+        GetLastErrCode();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSayFreeSuccess()">
+        ShowProgress("----OnSayFreeSuccess----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnSayFreeFailure()">
+        ShowProgress("----OnSayFreeFailure----");
+        GetLastErrCode();
+    </SCRIPT>
+    <SCRIPT for=phone event="On99BillCode()">
+        ShowProgress("----On99BillCode----");
+        Get99BillConfCode();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnHangupSuccess()">
+        ShowProgress("----OnHangupSuccess----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnHangupFailure()">
+        ShowProgress("----OnHangupFailure----");
+    </SCRIPT>
+    <SCRIPT for=phone event="OnAgentStatusNoify()">
+        ShowAgentStatus();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnBackSignIVRResult()">
+        ShowProgress("----OnBackSignIVRResult----");
+        GetBackSignIVRRes();
+    </SCRIPT>
+    <SCRIPT for=phone event="OnElectronicPolicyIVRResult()">
+        ShowProgress("----OnElectronicPolicyIVRResult----");
+        GetElectronicPolicyIVRRes();
+    </SCRIPT>
+    {/literal}
+    {literal}
+    <script>
+        $(function(){
+            //查询当前用户
+            $(".searchUserBtn").click(function(){
+                var mobile_phone = $("#search_mobile_phone").val();
+                var user_name = $("#search_user_name").val();
+                var address = $("#search_address");
+                if(mobile_phone != ''){
+                    getUserInfo(mobile_phone);
+                }
+            });
+            
+            //保存修改
+            $("#saveUser").click(function(){
+                var formdata = $('#formUser').serialize();
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/callcenter/ajaxuser",
+                    data:formdata,
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        if(preview.code == 1){
+                            alert('更新成功');
+                        }else{
+                            alert('更新失败');
+                        }
+                    }
+                });
+            });
+            //创建新用户
+            $("#addUser").click(function(){
+                var formdata = $('#formUser').serialize();
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/callcenter/ajaxuser",
+                    data:formdata,
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        if(preview.code >= 1){
+                            alert('创建成功');
+                        }else{
+                            alert('创建失败');
+                        }
+                    }
+                });
+            });
+            
+            //下订单选中列表显示
+            $("#addbottleTable").click(function(){
+                var bottleType = $("#bottleType").val();
+                var bottleName = $("#bottleType option:selected").text();
+                var bottleNum = $("#bottleNum").val();
+                
+                if(bottleName != ''){
+                    var bArr = bottleType.split('|');
+                    var bottleList = "<tr><td>"+bottleName+"</td>";
+                        bottleList += "<td>"+bottleNum+"</td>";
+                        bottleList += "<td>"+bArr[1]+"</td>";
+                        bottleList += "<td></td>";
+                        bottleList += "<td></td>";
+                        bottleList += "<td>"+parseInt(bottleNum)*parseInt(bArr[1])+"</td>";
+                        bottleList += "</tr>";
+                        
+                        $("#orderTablelist").append(bottleList);
+                        
+                        var order_bottle = $("#order_bottle").val();
+                        var show_bottle = bottleType +"|"+bottleNum+"|"+bottleName;
+                        if(order_bottle != ''){
+                            $("#order_bottle").val(order_bottle+'*'+show_bottle);
+                        }else{
+                            $("#order_bottle").val(show_bottle);
+                        }
+                }else{
+                    alert('请选择');
+                }
+                
+            });
+            $("#addproductTable").click(function(){
+                var productType = $("#productType").val();
+                var productName = $("#productType option:selected").text();
+                var productNum = $("#productNum").val();
+                
+                var bArr = productType.split('|');
+                var bottleList = "<tr><td>"+productName+"</td>";
+                    bottleList += "<td>"+productNum+"</td>";
+                    bottleList += "<td>"+bArr[1]+"</td>";
+                    bottleList += "<td></td>";
+                    bottleList += "<td></td>";
+                    bottleList += "<td>"+parseInt(productNum)*parseInt(bArr[1])+"</td>";
+                    bottleList += "</tr>";
+
+                    $("#orderTablelist").append(bottleList);
+                    
+                    var order_product = $("#order_product").val();
+                    var show_product = productType +"|"+productNum+"|"+productName;
+                    if(order_product != ''){
+                        $("#order_product").val(order_product+'*'+show_product);
+                    }else{
+                        $("#order_product").val(show_product);
+                    }
+            });
+            
+            //创建订单
+            $("#addorder").click(function(){
+                var formdata = $('#formorder').serialize();
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/callcenter/ajaxorder",
+                    data:formdata,
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        if(preview.code >= 1){
+                            alert('创建成功');
+                        }else{
+                            alert('创建失败');
+                        }
+                    }
+                });
+            });
+            //取消订单
+            $("#clearorder").click(function(){
+                $("#order_bottle").val('');
+                $("#order_product").val('');
+                $("#order_comment").val('');
+                $("#orderTablelist").html('');
+            });
+            
+            //订单查询
+            $("#cx_dd").click(function(){
+                var formdata = $('#cx_order').serialize();
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/callcenter/ajaxxorder",
+                    data:formdata,
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        if(preview.code = 1){
+                            var list = '';
+                            var data = preview.data;
+                            for (var k in data) {
+                                list +='<tr><td class="checkList"><a href="javascript:;"></a></td>';
+                                list +='<td>'+data[k].order_sn+'</td>';
+                                list +='<td>'+data[k].otime+'</td>';
+                                list +='<td>'+data[k].status+'</td>'; 
+                                list +='<td>'+data[k].shipper_name+'</td>';                       
+                                list +='<td>'+data[k].shipper_mobile+'</td>';                      
+                                list +='<td>'+data[k].shop_name+'</td></tr>';                                           
+                            }
+                            $("#cx_order_list").html(list);
+                        }else{
+                            alert('未找到相应订单s');
+                        }
+                    }
+                });
+            });
+            
+            //保修添加
+            $("#addrepair").click(function(){
+                var formdata = $('#formrepair').serialize();
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/callcenter/ajaxbaoxiu",
+                    data:formdata,
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        if(preview.code >= 1){
+                            alert('创建成功');
+                        }else{
+                            alert('创建失败');
+                        }
+                    }
+                });
+            });
+            //取消保修
+            $("#clearrepair").click(function(){
+                $("#repair_comment").val('');
+            });
+            
+            //添加投诉
+            $("#addtousu").click(function(){
+                var formdata = $('#formtousu').serialize();
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/callcenter/ajaxtousu",
+                    data:formdata,
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        if(preview.code >= 1){
+                            alert('创建成功');
+                        }else{
+                            alert('创建失败');
+                        }
+                    }
+                });
+            });
+            //取消投诉
+            $("#cleartousu").click(function(){
+                $("#comment").val();
+            });
+            
+            //申请退瓶
+            $("#addback").click(function(){
+                var formdata = $('#formback').serialize();
+                $.ajax({
+                    type :"POST",
+                    async: false,
+                    url : "/callcenter/ajaxback",
+                    data:formdata,
+                    success: function(result){
+                        var preview = eval("("+ result+")");
+                        if(preview.code >= 1){
+                            alert('创建成功');
+                        }else{
+                            alert('创建失败');
+                        }
+                    }
+                });
+            });
+            //取消腿瓶
+            $("#clearback").click(function(){
+                $("#comment").val('');
+            });
+            
+            //通话记录列表
+            $("#phonelist").live('click',function(){
+                var mobile_phone = $("#show_mobile_phone").val();       
+                if(mobile_phone != ''){
+                    $.ajax({
+                        type :"POST",
+                        async: false,
+                        url: "/callcenter/ajaxphonelist",
+                        data: {'mobile_phone': mobile_phone},
+                        success: function (result) {
+                            var preview = eval("(" + result + ")");
+                            if (preview.code == 1) {
+                                var pData = preview.data;
+                                var plist = '';
+                                if(pData != ''){
+                                    for (var k in pData) {
+                                        plist += "<tr><td>"+pData[k].mobile_phone+"</td>";
+                                        plist += "<td>2015/09/11</td>";           
+                                        plist += "<td>09:12:15</td>";         
+                                        plist += "<td>"+pData[k].operator+"</td>"           
+                                        plist += "<td>"+pData[k].comment+"</td></tr>";
+                                    }
+                                    $("#uphonelist").html(plist);
+                                }
+
+                            } else {
+                                alert('当前通话信息不存在');
+                            }
+                        }
+                  });
+                }else{
+                    alert('还没有用户');
+                }
+            });
+            
+            //报修列表
+            $("#bxlist").live('click',function(){
+                var kid = $("#order_kid").val();       
+                if(kid != ''){
+                    $.ajax({
+                        type :"POST",
+                        async: false,
+                        url: "/callcenter/ajaxbxlist",
+                        data: {'kid': kid},
+                        success: function (result) {
+                            var preview = eval("(" + result + ")");
+                            if (preview.code == 1) {
+                                var pData = preview.data;
+                                var plist = '';
+                                if(pData != ''){
+                                    for (var k in pData) {
+                                        plist += "<td>2015/09/11</td>";           
+                                        plist += "<td></td>";
+                                        plist += "<tr><td></td>";
+                                        plist += "<td>"+pData[k].comment+"</td></tr>";
+                                    }
+                                    $("#ubxlist").html(plist);
+                                }
+
+                            } else {
+                                alert('当前通话信息不存在');
+                            }
+                        }
+                  });
+                }else{
+                    alert('还没有用户');
+                }
+            });
+            //投诉
+            $("#tousulist").live('click',function(){
+                var kid = $("#order_kid").val();     
+                if(kid != ''){
+                    $.ajax({
+                        type :"POST",
+                        async: false,
+                        url: "/callcenter/ajaxtousulist",
+                        data: {'kid': kid},
+                        success: function (result) {
+                            var preview = eval("(" + result + ")");
+                            if (preview.code == 1) {
+                                var pData = preview.data;
+                                var plist = '';
+                                if(pData != ''){
+                                    for (var k in pData) {
+                                        plist += "<td>2015/09/11</td>"; 
+                                        plist += "<tr><td>"+pData[k].kname+"</td>";
+                                        plist += "<td></td>";
+                                        plist += "<td></td>"; 
+                                        plist += "<td>"+pData[k].comment+"</td></tr>";
+                                    }
+                                    $("#utslist").html(plist);
+                                }
+
+                            } else {
+                                alert('当前通话信息不存在');
+                            }
+                        }
+                  });
+                }else{
+                    alert('还没有用户');
+                }
+            });
+            
+            //监控电话
+            $("#phoneno").focus();
+            var barcodeMark = true;
+            $("#phoneno").keydown(function(e) {
+                var mobile = $('#phoneno').val();
+                var e = e || event, code = e.keyCode || e.which;
+                if (barcodeMark == true) {
+                    $("#phoneno").val("");
+                    barcodeMark = false;
+                }
+                if (code == 13) {
+                    barcodeMark = true;
+                    var mobile = $('#phoneno').val();
+                    getUserInfo(mobile);
+                }
+            });
+        });
+        
+        //获取当前用户基础信息根据手机号
+        function getUserInfo(mobile){
+            $.ajax({
+              type :"POST",
+              async: false,
+                url: "/callcenter/ajaxuinfo",
+                data: {'mobile_phone': mobile},
+                success: function (result) {
+                    var preview = eval("(" + result + ")");
+                    if (preview.code == 1) {
+                        $("#show_mobile_phone").val(preview.data.mobile_phone);
+                        $("#show_user_name").val(preview.data.user_name);
+                        $("#show_address").val(preview.data.address);
+                        $("#show_comment").html(preview.data.comment);
+                        $("#show_kehu_sn").html(preview.data.kehu_sn);
+                        $("#show_kid").val(preview.data.kid);
+                        $("#order_kid").val(preview.data.kid);
+                        $("#order_shop_id").val(preview.data.shop_id);
+                        $("#repair_kid").val(preview.data.kid);
+                        $("#tousu_kid").val(preview.data.kid);
+                        $("#back_kid").val(preview.data.kid);
+                        
+                        var shop_id = preview.data.shop_id;
+                        $("#shop_id option[value="+shop_id+"]").attr("selected", true);
+                        $("#shop_id").selectmenu().selectmenu('refresh',true);
+                        var ktype = preview.data.ktype;
+                        $("#ktype option[value="+ktype+"]").attr("selected", true);
+                        $("#ktype").selectmenu().selectmenu('refresh',true);
+                        var paytype = preview.data.paytype;
+                        $("#paytype option[value="+paytype+"]").attr("selected", true);
+                        $("#paytype").selectmenu().selectmenu('refresh',true);
+                        
+                        var bData = preview.btype;
+                        var blist = '';
+                        if (bData != '') {
+                            for (var key in bData) {
+                                blist += "<option value='"+bData[key].id+"|"+bData[key].price+"'>"+bData[key].bottle_name+"</option>";
+                            }
+                            $("#bottleType").html(blist);
+                        }
+                        
+                        var pData = preview.ptype;
+                        var plist = '';
+                        if(pData != ''){
+                            for (var k in pData) {
+                                plist += "<option value='"+pData[k].id+"|"+pData[k].products_price+"'>"+pData[k].products_name+"</option>";
+                            }
+                            $("#productType").html(plist);
+                        }
+                        
+                    } else {
+                        alert('当前用户不存在');
+                    }
+                }
+            });
+        }
+        
+        //通话记录
+        function phonelog(mobile,type){
+            $.ajax({
+              type :"POST",
+              async: false,
+                url: "/callcenter/ajaxaddphone",
+                data: {'mobile': mobile,'type':type},
+                success: function (result) {
+                    var preview = eval("(" + result + ")");
+                    if (preview.code == 1) {
+                        //alert('储通话记录');
+                    } else {
+                        //alert('未存储通话记录');
+                    }
+                }
+            });
+        }
+    </script>
+    {/literal}
+    <body onload="DialingPageInit()">
+        <p>
+            <OBJECT hidden=true ID="phone" name="phone" classid="CLSID:597352DB-1F78-4B92-B7FB-501C35424B92" width=0 height=0> 
+                <!--<OBJECT height="1" width="1" ID="phone" name="phone" classid="CLSID:597352DB-1F78-4B92-B7FB-501C35424B92" codebase="phone.cab#version=1,0,0,1">-->
+            </OBJECT> 
+        </p>
+        <div class="wrap">
+            <div class="header">
+                <div class="headCont clearfix" style="width:1200px;">
+                    <div class="fl headLeft">
+                        <a href="javascript:;" class="fl"><img src="images/logo.png"></a>
+                        <p class="cc_title fl">呼叫中心</p>
+                    </div>
+                    <div class="fr headRight">
+                        <span>2015年11月11日</span>&nbsp;
+                        <span>星期二</span>
+                        <font>Hi!玥与跃</font>
+                        <a href="javascript:;">帮助</a>
+                        <i>|</i>
+                        <a href="javascript:;">退出</a>  
+                    </div>
+                </div>
+            </div>
+            <div class="content content2">
+                <div class="clearfix">
+                    <div class="contRItem fl">
+                        <div class="contRTitle">
+                            来电显示<input type="text" id="AgentStatus" class="show_tel"/>
+                            <span></span>
+                        </div>
+                        <div class="contRList comingMsg clearfix">
+                            <ul class="fl">
+                                <li>电话号码:<input type="text" id="phoneno" /></li>
+                            </ul>
+                            <div class="comingBtn fl">
+                                <a href="javascript:SignIn();" class="blueBtn">签入</a>
+                                <a href="javascript:SignOut();" class="blueBtn">签出</a>
+                                <a href="javascript:SayBusy();" class="blueBtn">示忙</a>
+                                <a href="javascript:SayFree();" class="blueBtn">示闲</a>
+                                <!--<a href="javascript:HangupCall();" class="blueBtn">挂断</a>-->
+                            </div>
+                        </div>
+                        <div class="contRList comingMsg clearfix">
+                            <ul class="fl">
+                                <li>呼出号码:<input type="text" id="MakeCallTxt" /></li>
+                            </ul>
+                            <div class="comingBtn fl">
+                                <a href="javascript:MakeCall();" class="blueBtn">呼出</a>
+                                <a href="javascript:HangupCall();" class="blueBtn">挂断</a>
+                            </div>
+                        </div>
+                        <div class="contRTitle">
+                            客户资料
+                            <span></span>
+                        </div>
+                        <div class="rqLine clearfix rqLine3">
+                            <div class="rqOption fl">
+                                <label class="fl">电话：</label>
+                                <div class="inputBox fl">
+                                    <input type="text" id="search_mobile_phone" style="width:90px;" name='mobile_phone' value="">
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">姓名：</label>
+                                <div class="inputBox fl">
+                                    <input type="text" id="search_user_name" style="width:90px;" name="user_name" value="">
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">地址：</label>
+                                <div class="inputBox fl">
+                                    <input type="text" id="search_address" style="width:130px;" name="address" value="">
+                                </div>
+                            </div>
+                            <a href="javascript:;" class="addBtn fl searchUserBtn">查询</a>
+                        </div>
+                        <div class="contRList">
+                            <form action="" method="post" id="formUser">
+                            <div class="rqLine clearfix">
+                                <div class="rqOption fl">
+                                    <label class="fl">客户姓名：</label>
+                                    <div class="inputBox fl">
+                                        <input type="text" style="width:90px;" id="show_user_name" name="user_name" value="">
+                                    </div>
+                                </div>
+                                <div class="rqOption fl">
+                                    <label class="fl">电话：</label>
+                                    <div class="inputBox fl">
+                                        <input type="text" style="width:60px;" id="show_mobile_phone" name="mobile_phone" value="">
+                                    </div>
+                                </div>
+                                <div class="rqOption fl">
+                                    <label class="fl">站点：</label>
+                                    <div class="selectBox fl">
+                                        <div class="mySelect">
+                                            <select name="shop_id" id="shop_id" class="selectmenu" style="width:112px;">
+                                                <option value="" selected="selected">选择门店</option>
+                                                {if $shopObject neq ''}
+                                                {foreach $shopObject as $value}
+                                                <option value="{$value['shop_id']}">{$value['shop_name']}</option>
+                                                {/foreach}
+                                                {/if}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqLine clearfix">
+                                <div class="rqOption fl">
+                                    <label class="fl">客户类型：</label>
+                                    <div class="selectBox fl">
+                                        <div class="mySelect">
+                                            <select name="ktype" class="selectmenu" id="ktype" style="width:112px;">
+                                                <option value="1" selected="selected">个人</option>
+                                                <option value="2">商铺</option>
+                                                <option value="3">其它</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rqOption fl">
+                                    <label class="fl">付款方式：</label>
+                                    <div class="selectBox fl">
+                                        <div class="mySelect">
+                                            <select name="paytype" id="paytype" class="selectmenu" style="width:112px;">
+                                                <option value="1" selected="selected">现金</option>
+                                                <option value="2">网上支付</option>
+                                                <option value="3">其它</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rqOption fl">
+                                    <label class="fl">编号：</label>
+                                    <p class="fl rqTxt" id="show_kehu_sn"></p>
+                                </div>
+                                <!--<div class="rqOption fl">
+                                        <label class="fl">安检：</label>
+                                        <p class="fl rqTxt">2015-11-15</p>
+                                </div>-->
+                            </div>
+                            <div class="rqLine">
+                                <div class="rqOption clearfix">
+                                    <label class="fl">客户地址：</label>
+                                    <div class="inputBox fl">
+                                        <input type="text" style="width:280px;" id="show_address" name="address" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqLine clearfix">
+                                <div class="rqOption fl">
+                                    <label class="fl">客户备注：</label>
+                                    <textarea name="comment" id="show_comment" rows=10 cols=67></textarea>
+                                </div>
+                                <div class="rqLine fl rqLine2">
+                                    <div class="rqOption">
+                                        <input type="hidden" name="kid" id="show_kid" value="0" />
+                                        <a href="javascript:;" class="blueBtn" id="saveUser">保存修改</a>
+                                    </div>
+                                    <div class="rqOption">
+                                        <!--a href="javascript:;" class="grayBtn" id="createClient">创建新客户</a-->
+                                        <a href="javascript:;" class="grayBtn" id="addUser">创建新客户</a>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="contRItem fr historyRecord">
+                        <div class="contRTitle">
+                            历史记录
+                            <span></span>
+                        </div>
+                        <div class="contRList">
+                            <div class="rq_tab">
+                                <ul class="tabBtnbox clearfix rq_btnbox">
+                                    <li class="tabBtn active" id="phonelist">通话记录<span></span></li>
+                                    <li class="tabBtn" id="tousulist">投诉记录<span></span></li>
+                                    <li class="tabBtn" id="bxlist">报修记录<span></span></li>
+                                </ul>
+                                <ul class="tabItembox">
+                                    <li class="tabItem rqTabItem" style="display:block;">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>电话号码</th>
+                                                    <th>来电日期</th>
+                                                    <th>来电时间</th>
+                                                    <th>接线员</th>
+                                                    <th class="w400">备注</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="uphonelist">
+                                            </tbody>
+                                        </table>
+                                    </li>
+                                    <li class="tabItem rq_table2">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>投诉时间</th>
+                                                    <th>被投诉人员</th>
+                                                    <th>应答人</th>
+                                                    <th>解决与否</th>
+                                                    <th class="w160">备注</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="utslist">
+                                            </tbody>
+                                        </table>
+                                    </li>
+                                    <li class="tabItem rq_table2">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>报修时间</th>
+                                                    <th>维修人员</th>
+                                                    <th>解决与否</th>
+                                                    <th class="w160">备注</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ubxlist">
+                                            </tbody>
+                                        </table>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contRItem">
+                    <div class="contRTitle">
+                        相关操作
+                        <span></span>
+                    </div>
+                    <div class="contRList">
+                        <div class="rq_tab">
+                            <ul class="tabBtnbox clearfix rq_btnbox">
+                                <li class="tabBtn active">下单<span></span></li>
+                                <li class="tabBtn">订单跟踪<span></span></li>
+                                <!--li class="tabBtn">询价<span></span></li-->
+                                <li class="tabBtn">报修<span></span></li>
+                                <li class="tabBtn">投诉<span></span></li>
+                                <li class="tabBtn">退瓶<span></span></li>
+                            </ul>
+                            <ul class="tabItembox rqOperation">
+                                <li class="tabItem"  style="display:block;">
+                                    <div class="rqLine clearfix">
+                                        <!--div class="rqOption fl">
+                                            <label class="fl">商品种类：</label>
+                                            <div class="selectBox fl">
+                                                <div class="mySelect">
+                                                    <select name="" class="selectmenu" style="width:132px;">
+                                                        <option selected="selected">液化气</option>
+                                                        <option>Slow</option>
+                                                        <option>Medium</option>
+                                                        <option>Fast</option>
+                                                        <option>Faster</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div-->
+                                        <div class="rqOption fl">
+                                            <label class="fl">瓶子规格：</label>
+                                            <div class="selectBox fl">
+                                                <div class="mySelect">
+                                                    <select name="bottleType" id="bottleType" class="selectmenu" style="width:112px;">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rqOption fl">
+                                            <label class="fl">商品数量：</label>
+                                            <div class="selectBox fl">
+                                                <div class="inputBox fl">
+                                                    <input type="text" id="bottleNum" style="width:90px;" name='bottleNum' value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="javascript:;" class="addBtn fl" id="addbottleTable">增加</a>
+                                    </div>
+                                    <div class="rqLine clearfix">
+                                        <div class="rqOption fl">
+                                            <label class="fl">配件种类：</label>
+                                            <div class="selectBox fl">
+                                                <div class="mySelect">
+                                                    <select name="productType" id="productType" class="selectmenu" style="width:132px;">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rqOption fl">
+                                            <label class="fl">配件数量：</label>
+                                            <div class="selectBox fl">
+                                                <div class="inputBox fl">
+                                                    <input type="text" id="productNum" style="width:90px;" name='productNum' value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--div class="rqOption fl">
+                                            <label class="fl">商品数量：</label>
+                                            <div class="selectBox fl">
+                                                <div class="mySelect">
+                                                    <select name="" class="selectmenu" style="width:112px;">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option selected="selected">3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div-->
+                                        <a href="javascript:;" class="addBtn fl" id="addproductTable">增加</a>
+                                    </div>
+                                    <div class="rqTabItem">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>规格</th>
+                                                    <th>数量</th>
+                                                    <th>单价</th>
+                                                    <th>运送费</th>
+                                                    <th>优惠</th>
+                                                    <th>总金额</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="orderTablelist">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="rqLine clearfix rqOrder">
+                                        <form action="/callcenter/ajaxorder" method="post" id="formorder">
+                                            <div class="rqOption fl">
+                                                <label class="fl">订单备注：</label>
+                                                <textarea class="fl" name="order_comment" id="order_comment" style="width:300px;height:40px;"></textarea>
+                                                <input type="hidden" name="order_bottle" id="order_bottle" value="" />
+                                                <input type="hidden" name="order_product" id="order_product" value="" />
+                                                <input type="hidden" name="order_kid" id ="order_kid" value="" />
+                                                <input type="hidden" name="order_shop_id" id="order_shop_id" value="" />
+                                            </div>
+                                            <div class="checkList fl mt20">
+                                                <a href="javascript:;">紧急订单</a>
+                                                <a href="javascript:;">押金开户</a>
+                                            </div>
+                                            <a href="javascript:;" class="blueBtn fl" id="addorder">下单</a>
+                                            <a href="javascript:;" class="grayBtn fl" id="clearorder">取消</a>
+                                        </form>
+                                    </div>
+                                </li>
+                                <li class="tabItem orderTrace">
+                                    <div class="rqItem">
+                                        <form action="" method="post" id="cx_order">
+                                            <div class="rqLine clearfix">
+                                                <div class="rqOption fl">
+                                                    <label class="fl">客户姓名：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" name="cx_user_name" id="cx_user_name" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <label class="fl">手机号码：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" name="cx_mobile_phone" id="cx_mobile_phone" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine clearfix">
+                                                <div class="rqOption fl">
+                                                    <label class="fl">订单号：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" name="cx_order_sn" id="cx_order_sn" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <a href="javascript:;" class="blueBtn" id="cx_dd">搜索</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="rqItem">
+                                        <div class="rqTabItem">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>订单号</th>
+                                                        <th>下单日期</th>
+                                                        <th>订单状态</th>
+                                                        <th>送气工</th> 
+                                                        <th>送气工电话</th>
+                                                        <th>隶属站点</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="cx_order_list">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="tabItem">
+                                    <div class="rqItem">
+                                        <div class="rqLine">
+                                            <div class="rqOption clearfix">
+                                                <label class="fl">报修时间：</label>
+                                                <p class="fl rqTxt">{date('Y-m-d')}</p>
+                                            </div>
+                                        </div>
+                                        <form method="post" action="" id="formrepair">
+                                            <div class="rqLine mycheckList">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">报修项目：</label>
+                                                    <div class="checkList fl">
+                                                        {if $repairData != ''}
+                                                        {foreach $repairData as $rVal}
+                                                        <input type="checkbox" name="repair[]" value="{$rVal['id']}" id="repair" />{$rVal['title']}
+                                                        {/foreach}
+                                                        {/if}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">信息备注：</label>
+                                                    <textarea class="fl" name="repair_comment" id="repair_comment"></textarea>
+                                                </div>
+                                            </div>
+                                            <!--div class="rqLine clearfix">
+                                                <div class="rqOption fl">
+                                                    <label class="fl">客户姓名：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <label class="fl">座机号码：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <label class="fl">手机号码：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">详细地址：</label>
+                                                    <div class="inputBox fl placeholder">
+                                                        <input type="text" style="width:435px;">
+                                                        <span>输入详细地址</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine clearfix">
+                                                <div class="rqOption fl">
+                                                    <label class="fl">维修站点：</label>
+                                                    <div class="selectBox fl">
+                                                        <div class="mySelect">
+                                                            <select name="" class="selectmenu" style="width:132px;">
+                                                                <option selected="selected">站点列表</option>
+                                                                <option>Slow</option>
+                                                                <option>Medium</option>
+                                                                <option>Fast</option>
+                                                                <option>Faster</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">维修人员：</label>
+                                                    <div class="selectBox fl">
+                                                        <div class="mySelect">
+                                                            <select name="" class="selectmenu" style="width:132px;">
+                                                                <option selected="selected">人员列表</option>
+                                                                <option>Slow</option>
+                                                                <option>Medium</option>
+                                                                <option>Fast</option>
+                                                                <option>Faster</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine clearfix rqLineBtn">
+                                                <div class="rqOption fl">
+                                                    <a href="javascript:;" class="blueBtn">保存</a>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <a href="javascript:;" class="grayBtn">取消</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="tabItem tousuOption">
+                                        <div class="rqItem">
+                                            <div class="rqLine">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">投诉时间：</label>
+                                                    <p class="fl rqTxt">2015-11-12</p>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine mycheckList">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">投诉原因：</label>
+                                                    <div class="checkList fl">
+                                                        <a href="javascript:;">送气工态度差</a>
+                                                        <a href="javascript:;">送气速度慢</a>
+                                                        <a href="javascript:;">维修工态度差</a>
+                                                        <a href="javascript:;">抢修不及时</a>
+                                                        <a href="javascript:;">燃气质量差</a>
+                                                        <a href="javascript:;">不是原厂配件</a>
+                                                        <a href="javascript:;">客服态度差</a>
+                                                        <a href="javascript:;">乱收费</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">信息备注：</label>
+                                                    <textarea class="fl"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine clearfix">
+                                                <div class="rqOption fl">
+                                                    <label class="fl">客户姓名：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <label class="fl">座机号码：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <label class="fl">手机号码：</label>
+                                                    <div class="inputBox fl">
+                                                        <input type="text" style="width:120px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">详细地址：</label>
+                                                    <div class="inputBox fl placeholder">
+                                                        <input type="text" style="width:435px;">
+                                                        <span>输入详细地址</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="rqLine clearfix">
+                                                <div class="rqOption fl">
+                                                    <label class="fl">被投诉站点：</label>
+                                                    <div class="selectBox fl">
+                                                        <div class="mySelect">
+                                                            <select name="" class="selectmenu" style="width:132px;">
+                                                                <option selected="selected">站点列表</option>
+                                                                <option>Slow</option>
+                                                                <option>Medium</option>
+                                                                <option>Fast</option>
+                                                                <option>Faster</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">被投诉人员：</label>
+                                                    <div class="selectBox fl">
+                                                        <div class="mySelect">
+                                                            <select name="" class="selectmenu"  style="width:132px;">
+                                                                <option selected="selected">人员列表</option>
+                                                                <option>Slow</option>
+                                                                <option>Medium</option>
+                                                                <option>Fast</option>
+                                                                <option>Faster</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div-->
+                                            <div class="rqLine clearfix rqLineBtn">
+                                                <div class="rqOption fl">
+                                                    <input type="hidden" name="kid" id="repair_kid" value="" />
+                                                    <a href="javascript:;" class="blueBtn" id="addrepair">保存</a>
+                                                </div>
+                                                <div class="rqOption fl">
+                                                    <a href="javascript:;" class="grayBtn" idd="clearrepair">取消</a>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>
+                                <li class="tabItem tousu">
+                                    <form action="/callcenter/ajaxtousu" method="post" id="formtousu">
+                                        <div class="rqItem">
+                                            <div class="rqLine">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">信息备注：</label>
+                                                    <textarea class="fl" name="comment" id="comment"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rqLine clearfix rqLineBtn">
+                                            <div class="rqOption fl">
+                                                <input type="hidden" name="tousu_kid" id ="tousu_kid" value="" />
+                                                <a href="javascript:;" class="blueBtn" id="addtousu">保存</a>
+                                            </div>
+                                            <div class="rqOption fl">
+                                                <a href="javascript:;" class="grayBtn" id="cleartousu">取消</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>
+                                <li class="tabItem tuiping">
+                                    <form action="/callcenter/ajaxback" method="post" id="formback">
+                                        <div class="rqItem">
+                                            <div class="rqLine">
+                                                <div class="rqOption clearfix">
+                                                    <label class="fl">信息备注：</label>
+                                                    <textarea class="fl" name="comment" id="comment"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="rqLine clearfix rqLineBtn">
+                                            <div class="rqOption fl">
+                                                <input type="hidden" name="back_kid" id ="back_kid" value="" />
+                                                <a href="javascript:;" class="blueBtn" id="addback">保存</a>
+                                            </div>
+                                            <div class="rqOption fl">
+                                                <a href="javascript:;" class="grayBtn" id="clearback">取消</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">瑞气配送管理系统  1.0版</div>
+            <div class="layer" style="display:none;"></div>
+            <!-- 创建新客户 -->
+            <div class="pop_cont createNewClient" style="display:none;">
+                <div class="contRTitle2">
+                    创建新客户
+                    <span></span>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"><span>*</span>客户姓名：</label>
+                        <div class="inputBox fl">
+                            <input type="text" style="width:190px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">座机号码：</label>
+                        <div class="inputBox fl">
+                            <input type="text" style="width:190px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"><span>*</span>手机号码：</label>
+                        <div class="inputBox fl">
+                            <input type="text" style="width:190px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">编号：</label>
+                        <p class="rqTxt fl">BA102131</p>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"><span>*</span>所属站点：</label>
+                        <div class="selectBox fl" style="width:210px;">
+                            <div class="mySelect">
+                                <select name="" class="selectmenu">
+                                    <option selected="selected">站点列表</option>
+                                    <option>Slow</option>
+                                    <option>Medium</option>
+                                    <option>Fast</option>
+                                    <option>Faster</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"><span>*</span>客户类型：</label>
+                        <div class="selectBox fl" style="width:210px;">
+                            <div class="mySelect">
+                                <select name="" class="selectmenu">
+                                    <option selected="selected">个人</option>
+                                    <option>Slow</option>
+                                    <option>Medium</option>
+                                    <option>Fast</option>
+                                    <option>Faster</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"><span>*</span>付款方式：</label>
+                        <div class="selectBox fl" style="width:210px;">
+                            <div class="mySelect">
+                                <select name="" class="selectmenu">
+                                    <option selected="selected">现金</option>
+                                    <option>Slow</option>
+                                    <option>Medium</option>
+                                    <option>Fast</option>
+                                    <option>Faster</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">客户备注：</label>
+                        <textarea class="fl"></textarea>
+                    </div>
+                </div>
+                <div  class="rqLine rqLineBtn clearfix">
+                    <div class="rqOption fl">
+                        <a href="javascript:;" class="blueBtn">保存</a>
+                    </div>
+                    <div class="rqOption fl">
+                        <a href="javascript:;" class="grayBtn closeBtn">取消</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="/ruiqi/js/common.js"></script>
+    </body>
+</html>

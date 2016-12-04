@@ -1,0 +1,171 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}用户充值记录{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRItem">
+    <div class="contRTitle">
+        用户充值记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="tpData">
+            <ul class="clearfix">
+                <li>
+                    <p>今日订单数量-金额</p>
+                    <span>{$nowTj['number']}-{$nowTj['total']}</span>
+                </li>
+                <li  class="greenBg">
+                    <p>累计订单数量-金额</p>
+                    <span>{$allTj['number']}-{$allTj['total']}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        用户充值记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">充值方式：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="paytype" class="selectmenu"  style="width:144px;">
+                                <option value="">充值方式</option>
+                                {if $paytypeObject neq ''}
+                                {foreach $paytypeObject as $oKey => $otVal}
+                                {if $oKey eq $param['paytype']}
+                                <option value="{$oKey}" selected="selected">{$otVal}</option>
+                                {else}
+                                <option value="{$oKey}">{$otVal}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    {if isset($is_show_shop) && !empty($is_show_shop)}
+                    <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                    {else}
+                    <label class="fl">门店：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu"  style="width:144px;">
+                                <option value="">选择门店</option>
+                                {if $shopObject neq ''}
+                                {foreach $shopObject as $ukey => $usVal}
+                                {if $ukey eq $param['shop_id']}
+                                <option value="{$ukey}" selected="selected">{$usVal['shop_name']}</option>
+                                {else}
+                                <option value="{$ukey}">{$usVal['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">送气工：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shipper_id" class="selectmenu"  style="width:144px;">
+                                <option value="">选择送气工</option>
+                                {if $shipperObject neq ''}
+                                {foreach $shipperObject as $skey => $sVal}
+                                {if $skey eq $param['shipper_id']}
+                                <option value="{$skey}" selected="selected">{$sVal['shipper_name']}</option>
+                                {else}
+                                <option value="{$skey}">{$sVal['shipper_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">充值时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="time_start" style="width:152px;" id="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" name="time_end" id="time_end" style="width:152px;" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>单号</th>
+                        <th>充值时间</th>
+                        <th>用户</th>
+                        <th>门店</th>
+                        <th>送气工</th>
+                        <th>充值方式</th>
+                        <th>充值金额</th>
+                        <th>当前余额</th>
+                        <th>状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) > 0}
+                    {foreach $ext['list'] as $value}
+                    {assign var=paytype value=$value['paytype']}
+                    {assign var=shipper_id value=$value['shipper_id']}
+                    <tr>
+                        <td>{$value['balance_sn']}</td>
+                        <td>{date('Y-m-d H:i',$value['time'])}</td>
+                        <td>{$value['user_name']}</td>
+                        <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                        <td>{(isset($shipperObject[$shipper_id])) ? $shipperObject[$shipper_id]['shipper_name'] : ''}</td>
+                        <td>{$paytypeObject[$paytype]}</td>
+                        <td>{$value['money']}</td>
+                        <td>{$value['balance']}</td>
+                        <td>{($value['status'] eq 1) ? '成功' : '失败'}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="10">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

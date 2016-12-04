@@ -1,0 +1,93 @@
+{extends file='layouts\main.phtml'}
+{block name=body}
+<div class="content clearfix">
+    {include file='layouts\left.phtml'}
+    <div class="fr" style="width:904px;">
+        <div class="contRItem">
+            <div class="contRTitle">
+                我要报修
+                <span></span>
+            </div>
+            <form name="form" method="POST" action="/my/home/baoxiu">
+            <div class="contRList baoxiu">
+                <div class="rqLine mycheckList">
+                    <div class="rqOption clearfix mycheckbox">
+                        <label class="fl">报修原因：</label>
+                        <div class="checkList fl">
+                            {if $repairData neq ''}
+                            {foreach $repairData as $rVal}
+                            <input type="checkbox" name="repairType[]" value="{$rVal['id']}" />{$rVal['title']}
+                            {/foreach}
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">报修备注：</label>
+                        <textarea class="fl" style="height:100px;" name="comment"></textarea>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl riliInputBox">
+                        <label class="fl">预约日期：</label>
+                        <div class="fl riliInput">
+                            <input type="text" class="datepicker" name="ctime" style="width:130px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine rqLineBtn">
+                    <div class="rqOption">
+                        <a href="javascript:document.form.submit();" class="blueBtn">提交报修</a>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="contRItem">
+            <div class="contRTitle">
+                报修记录
+                <span></span>
+                <p>共 <font>{$ext['count']}</font> 条记录</p>
+            </div>
+            <div class="contRList">
+                <div class="rqTabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>报修时间</th>
+                                <th>报修内容</th>
+                                <th>维修人员</th>
+                                <th>维修时间</th>
+                                <th>解决与否</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($ext['list']) neq 0}
+                            {foreach $ext['list'] as $value}
+                            <tr>
+                                <td>{$value['encode_id']}</td>
+                                <td>{date('Y-m-d',$value['ctime'])}</td>
+                                <td>{$value['comment']}</td>
+                                <td></td>
+                                <td></td>
+                                {if $value['status'] eq 0}
+                                <td>未处理</td>
+                                {else}
+                                <td>已处理</td>
+                                {/if}
+                            </tr>
+                            {/foreach}
+                            {else}
+                            <tr><td colspan="6">暂时还没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-pages pageNav clearfix" id="pageNav">	</div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,107 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}销售额简报{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title">
+        <div class="fl">
+            <h3>销售状况</h3>
+            <p>运营简报 > 销售状况</p>
+        </div>	
+        <div class="fr chooseDate">
+            <span class="fl">选择时段：</span>
+            <div class="doubleRili fl">
+                <input type="text" id="start" style="width:80px;">
+            </div>
+            <span class="fl plr8">到</span>
+            <div class="doubleRili fl">
+                <input type="text" id="end" style="width:80px;">
+            </div>
+            <a href="javascript:void(0);" class="fl">确定</a>
+        </div>
+    </div>
+    <!-- 选项卡-->
+    <div class="tabContrl clearfix myDate mb34">
+        <a href="javascript:void(0);" class="active">最近7天</a>
+        <a href="javascript:void(0);">最近14天</a>
+        <a href="javascript:void(0);">最近30天</a>
+        <a href="javascript:void(0);">今日</a>
+        <a href="javascript:void(0);">全部</a>
+    </div>
+    <div class="tabItem">
+        <!-- 最近7天 -->
+        <div class="listItem" style="display:block;">
+            <div class="dataMenu mb40 saleMenu pl190">
+                {$listAllTable}	
+            </div>
+            <!-- 图表 -->
+            {literal}
+            <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+            <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+            <script>
+                $(function () {
+                    var categorieslist = {/literal}{$titleShow}{literal};
+                    var serieslist = {/literal}{$dataShow}{literal};
+                    $('#container').highcharts({
+                        title: {
+                            text: '销售额统计',
+                            x: -20 //center
+                        },
+                        credits: {
+                            enabled: false // 禁用版权信息
+                        },
+                        xAxis: {
+                            categories: categorieslist
+                        },
+                        yAxis: {
+                            title: {
+                                text: '销售额'
+                            },
+                            plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                    color: '#808080'
+                                }]
+                        },
+                        legend: {
+                            title: {
+                                style: {'fontWeight': 'normal', 'color': '#545454'}
+                            }
+                        },
+                        tooltip: {
+                            valueSuffix: '元'
+                        },
+                        series: serieslist
+                    });
+                });
+            </script>
+            {/literal} 
+            <div id="container" style="height:330px;" class="mb34"></div>
+            <div class="table2 mb34">
+                <table>
+                    {$listTable}
+                </table>
+            </div>
+        </div>
+        <!-- 最近14天 -->
+        <div class="listItem"></div>
+        <!-- 最近30天 -->
+        <div class="listItem"></div>
+        <!-- 今日 -->
+        <div class="listItem"></div>
+        <!-- 全部 -->
+        <div class="listItem"></div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/xiaoshoujianbaoCtrl.js"></script>
+{/block}

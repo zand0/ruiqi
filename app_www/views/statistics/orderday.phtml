@@ -1,0 +1,93 @@
+{extends file='main.phtml'}
+{block name=rtitle}每天订单统计{/block}
+{block name=operate}
+<div class="operateBtn">
+    <a href="/statistics/orderday">按照天统计</a>
+    <font>|</font>
+    <a href="/statistics/orderday?type=m">按照月统计</a>
+    <font>|</font>
+    <a href="/statistics/order">订单统计</a>
+</div>
+{/block}
+{block name=body}
+{literal}
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+    $(function () {
+        $('#container').highcharts({
+            title: {
+                text: '订单统计',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Source: WorldClimate.com',
+                x: -20
+            },
+            xAxis: {
+                categories: {/literal}{$title}{literal}
+            },
+            yAxis: {
+                title: {
+                    text: 'Temperature (个)'
+                },
+                plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+            },
+            tooltip: {
+                valueSuffix: '个'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: {/literal}{$show}{literal}
+        });
+    });
+</script>
+{/literal}
+<div id="container" style="min-width:700px;height:400px"></div>
+<div class="orderList contRList">
+    <form name="form" method="POST">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">时间：</label>
+                <div class="riliInputBox fl">
+                    <div class="riliInput fl">
+                        <input type="text" style="width:150px;" name="start_time" id="time_start">
+                    </div>
+                    <span class="fl">至</span>
+                    <div class="riliInput fl">
+                        <input type="text" id="time_end" name="end_time" style="width:150px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fr">
+                <a href="javascript:document.form.submit();" class="blueBtn">搜索</a>
+            </div>
+        </div>
+    </form>
+    <table>
+        <tr>
+            <td>充装日期</td>
+            <td>订单数量</td>
+        </tr>
+
+        {if $data neq ''}
+        {foreach $data as $value}
+        <tr>
+            <td>{$value['time']}</td>
+            <td>{$value['total']}</td>
+        </tr>
+        {/foreach} 
+        {/if}
+
+    </table>
+</div>
+{/block}

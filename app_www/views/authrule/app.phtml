@@ -1,0 +1,33 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}app规则管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        app规则管理
+        <span></span>
+        <a href="/authrule/addapp" class="blueBtn6">添加规则</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>编号</td>
+                    <td>规则名称</td>
+                    <td>标记</td>
+                    <td>排序</td>
+                    <td>状态</td>  
+                    <td>操作</td>
+                </tr>
+                {$list}
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

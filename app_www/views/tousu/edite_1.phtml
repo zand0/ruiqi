@@ -1,0 +1,32 @@
+{extends file='main.phtml'}
+{block name=rtitle}投诉管理{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/tousu/edite"> 
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">审核内容：</label>
+                <div class="inputBox fl placeholder">
+                    <textarea type="text" name="treatment">{$treatment}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl"></label>
+                <div class="fl">
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$id}" id="updateID">
+    </form>
+</div>
+{/block}

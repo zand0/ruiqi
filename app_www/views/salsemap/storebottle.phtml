@@ -1,0 +1,81 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+门店气瓶销售
+{/block}
+
+{block name=body}
+  <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+  <script>
+    $(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: [{$shops}]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: '数量'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: 0,
+            verticalAlign: 'top',
+            y: 0,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function() {
+                return '<b>'+ this.x +'</b><br/>'+
+                    this.series.name +': '+ this.y +'<br/>'+
+                    'Total: '+ this.point.stackTotal;
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                }
+            }
+        },
+        series: [{$type}]
+    });
+});				
+</script>
+<div id="container" style="min-width:700px;height:400px"></div>
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>门店</td>
+            <td>气瓶类型</td>
+            <td>数量</td>
+        </tr>
+        {foreach $shop_tj as $value}
+        <tr>
+            <td>{$shop_list[$value['shop_id']]['shop_name']}</td>
+            <td>{$value['goods_name']}</td>
+            <td>{$value['num']}</td>
+        </tr>
+        {/foreach} 
+    </table>
+</div>
+{/block}

@@ -1,0 +1,181 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店配件库存{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        配件库存
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>配件类别</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $dataTotal neq ''}
+                    {foreach $dataTotal as $val}
+                    <tr>
+                        <td>{$val['fs_name']}</td>
+                        <td>{$val['total']}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr>
+                        <td colspan="2">暂时没有数据</td>
+                    </tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        出入库记录 
+        <span></span>
+        <a href="javascript:;" class="blueBtn6 addChuku">添加出库</a>
+        <a href="javascript:;" class="blueBtn6 blueBtn9 addRuku">添加入库</a>
+    </div>
+    <div class="contRList">
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <a href="/stock/sproduct?pagetype=log" target="_blank"><li class="tabBtn active">出入库记录<span></span></li></a>
+            </ul>
+            <ul class="tabItembox rqOperation">
+                <li class="tabItem" style="display:block;">
+                    <form name="form" method="POST">
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqRadio rqOption2">
+                                <label class="fl">出入库状态：</label>
+                                <div class="myradio fl">
+                                    <div class="radiobox clearfix">
+                                        <input type="radio" name="type" value ="1" class="active" />入库
+                                        <input type="radio" name="type" value ="2" class="active" />出库
+                                        <input type="radio" name="type" value ="" class="active" />全部
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                {if isset($is_show_shop) && !empty($is_show_shop)}
+                                <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                                {else}
+                                <label class="fl">配送站点：</label>
+                                <div class="selectBox fl">
+                                    <div class="mySelect">
+                                        <select name="shop_id" class="selectmenu"  style="width:144px;">
+                                            <option value="">选择站点</option>
+                                            {foreach $shopObject as $k=>$v}
+                                            {if $k eq $param['shop_id']}
+                                            <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                                            {else}
+                                            <option value="{$k}">{$v['shop_name']}</option>
+                                            {/if}
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                                {/if}
+                            </div>
+                            <div class="rqOption clearfix rqOption2">
+                                <label class="fl">产品类别：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="goods_id" class="selectmenu">
+                                            <option value="0" >请选择</option>
+                                            {if $productsObject neq ''}
+                                            {foreach $productsObject as $key => $value}
+                                            {if $param['goods_id'] eq $value['id']}
+                                            <option value="{$value['id']}" selected="selected">{$value['name']}-{$value['typename']}</option>
+                                            {else}
+                                            <option value="{$value['id']}" >{$value['name']}-{$value['typename']}</option>
+                                            {/if}
+                                            {/foreach}
+                                            {/if}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="rqLine clearfix">
+                            <div class="rqOption fl rqOption2">
+                                <label class="fl">出入库时间：</label>
+                                <div class="riliInputBox fl">
+                                    <div class="riliInput fl">
+                                        <input type="text" style="width:150px;" name="start_time" value="{$param['start_time']}" id="time_start">
+                                    </div>
+                                    <span class="fl">至</span>
+                                    <div class="riliInput fl">
+                                        <input type="text" id="time_end" name="end_time" value="{$param['end_time']}" style="width:150px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                                <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="rqTabItem">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>单号</th>
+                                    <th>产品类别</th>
+                                    <th>产品规格</th>
+                                    <th>数量</th>
+                                    <th>门店</th>
+                                    <th>单价</th>
+                                    <th>出入库对象</th>
+                                    <th>状态</th>
+                                    <th>时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if $ext['list'] neq ''}
+                                {foreach $ext['list'] as $value}
+                                <tr>
+                                    <td>{$value['documentsn']}</td>
+                                    <td>{$productsObject[$value['goods_id']]['name']}</td>
+                                    <td>{$productsObject[$value['goods_id']]['typename']}</td>
+                                    <td>{$value['goods_num']}</td>
+                                    <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                                    <td>{$value['goods_price']}</td>
+                                    <td>{$value['for_name']}</td>
+                                    <td>{if $value['type'] ==1}入库{else}出库{/if}</td>
+                                    <td>{date('Y-m-d',$value['ctime'])}</td>
+                                </tr>
+                                {/foreach}
+                                {else}
+                                <tr><td colspan="9">暂时没有出入库数据</td></tr>
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix sqspBottom">
+                        <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                        <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                        <input type="hidden" class="currentPage" value="{$page}">
+                    	<input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                    	<input type="hidden" class="paramlist" value="{$getparamlist}" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/mdpeijiankucun.js"></script>{/block}

@@ -1,0 +1,193 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}商品种类设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        商品种类设置
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/commodity/add">
+            <div class="rqLine">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">类型：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            {if $type eq 2}
+                            <input type="radio" name="type" value="1" class='typeID'><label for='s1'>燃气</label>
+                            <input type="radio" name="type" value="2" class='typeID' checked="checked"><label for='s2'>配件</label>
+                            <input type="radio" name="type" value="4" class='typeID'><label for='s1'>体验套餐</label>
+                            <input type="radio" name="type" value="5" class='typeID'><label for='s1'>优惠套餐</label>
+                            <input type="radio" name="type" value="3" class='typeID'><label for='s1'>其它</label>
+                            {else if $type eq 3}
+                            <input type="radio" name="type" value="1" class='typeID'><label for='s1'>燃气</label>
+                            <input type="radio" name="type" value="2" class='typeID'><label for='s2'>配件</label>
+                            <input type="radio" name="type" value="4" class='typeID'><label for='s1'>体验套餐</label>
+                            <input type="radio" name="type" value="5" class='typeID'><label for='s1'>优惠套餐</label>
+                            <input type="radio" name="type" value="3" class='typeID' checked="checked"><label for='s1'>其它</label>
+                            {else if $type eq 4}
+                            <input type="radio" name="type" value="1" class='typeID'><label for='s1'>燃气</label>
+                            <input type="radio" name="type" value="2" class='typeID'><label for='s2'>配件</label>
+                            <input type="radio" name="type" value="4" class='typeID' checked="checked"><label for='s1'>体验套餐</label>
+                            <input type="radio" name="type" value="5" class='typeID'><label for='s1'>优惠套餐</label>
+                            <input type="radio" name="type" value="3" class='typeID'><label for='s1'>其它</label>
+                            {else if $type eq 5}
+                            <input type="radio" name="type" value="1" class='typeID'><label for='s1'>燃气</label>
+                            <input type="radio" name="type" value="2" class='typeID'><label for='s2'>配件</label>
+                            <input type="radio" name="type" value="4" class='typeID'><label for='s1'>体验套餐</label>
+                            <input type="radio" name="type" value="5" class='typeID' checked="checked"><label for='s1'>优惠套餐</label>
+                            <input type="radio" name="type" value="3" class='typeID'><label for='s1'>其它</label>
+                            {else}
+                            <input type="radio" name="type" value="1" class='typeID' checked="checked"><label for='s1'>燃气</label>
+                            <input type="radio" name="type" value="2" class='typeID'><label for='s2'>配件</label>
+                            <input type="radio" name="type" value="4" class='typeID'><label for='s1'>体验套餐</label>
+                            <input type="radio" name="type" value="5" class='typeID'><label for='s1'>优惠套餐</label>
+                            <input type="radio" name="type" value="3" class='typeID'><label for='s1'>其它</label>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">商品名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" value="{$name}" style="width:150px;">
+                        <span>商品名称</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix sptype">
+                <div class="rqOption fl">
+                    <label class="fl">商品规格：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="norm_id" class="selectmenu" id="norm_id">
+                            <option value="">商品规格</option>
+                            {if $type eq 2}
+                            {if $porductTypeData neq ''}
+                            {foreach $porductTypeData as $bVal}
+                            {if $norm_id eq $bVal['id']}
+                            <option value="{$bVal['id']}" selected="selected">{$bVal['name']}</option>
+                            {else}
+                            <option value="{$bVal['id']}">{$bVal['name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                            {else}
+                            {if $bottleTypeData neq ''}
+                            {foreach $bottleTypeData as $bVal}
+                            {if $norm_id eq $bVal['id']}
+                            <option value="{$bVal['id']}" selected="selected">{$bVal['bottle_name']}</option>
+                            {else}
+                            <option value="{$bVal['id']}">{$bVal['bottle_name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tcnum" {if $type neq 4 && $type neq 5} style="display: none" {/if}>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">套餐数量：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="num" value="{$num}" style="width:150px;">
+                            <span>套餐数量</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix tcnum">
+                    <div class="rqOption fl">
+                        <label class="fl">套餐单价：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="price" value="{$price}" style="width:150px;">
+                            <span>套餐单价</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix tcnum">
+                    <div class="rqOption fl">
+                        <label class="fl">套餐总价：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="money" value="{$money}" style="width:150px;">
+                            <span>套餐总价</span>
+                        </div>
+                    </div>
+                </div>
+                 <div class="rqLine clearfix tcnum">
+                    <div class="rqOption fl">
+                        <label class="fl">套餐押金：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="deposit" value="{$deposit}" style="width:150px;">
+                            <span>套餐押金</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">生产厂家：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="manufacturer_id" class="selectmenu">
+                            <option value="">选择厂家</option>
+                            {if $manufacturerData neq ''}
+                            {foreach $manufacturerData as $mVal}
+                            {if $manufacturer_id eq $mVal['id']}
+                            <option value="{$mVal['id']}" selected="selected">{$mVal['name']}</option>
+                            {else}
+                            <option value="{$mVal['id']}">{$mVal['name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">品牌：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="brands" value="{$brands}" style="width:150px;">
+                        <span>品牌</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">备注：</label>
+                    <div class="inputBox fl">
+                        <textarea type="text" name="comment">{$comment}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shangpinzhongleiManage.js"></script>{/block}

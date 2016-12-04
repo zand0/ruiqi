@@ -1,0 +1,101 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}app规则管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        app规则管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/authrule/addapp">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">规则名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="title" value="{$title}" style="width:200px;">
+                        <span>输入规则名称</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">标记：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" value="{$name}" style="width:200px;">
+                        <span>输入标记</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">上级菜单：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="pid" id="pid" class="selectmenu"style="width:200px" >
+                                <option value="0">请选择上级</option>
+                                {$list}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">图标：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="code_num" id="list_sort" value="{$code_num}" style="width:200px;">
+                        <span>输入图标</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">排序：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="list_sort" id="list_sort" value="{$list_sort}" style="width:200px;">
+                        <span>输入标记</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:;" onclick="change_menu()" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="level" id="level" value="{$level}">
+            <input type="hidden" name="id" value="{$id}" id="updateID">
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function change_menu() {
+        var menu_type = $('#pid').find('option:selected');
+        var level = parseInt(menu_type.attr('level'));
+        var id = parseInt($('#updateID').val());
+        $('#level').val(level + 1);
+        if (level > 0 && id < 1) {
+            $('#list_sort').val(menu_type.attr('list _ sort') + $('#list_sort').val());
+        }
+        document.form.submit();
+    }
+</script>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

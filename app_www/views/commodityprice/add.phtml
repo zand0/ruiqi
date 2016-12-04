@@ -1,0 +1,116 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}商品种类设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <form name="form" method="POST" action="/commodityprice/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">商品名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" value="{$name}" style="width:150px;" readonly="readonly">
+                        <span>商品名称</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">商品规格：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="norm_id" class="selectmenu" id="norm_id" disabled="disabled">
+                            <option value="">商品规格</option>
+                            {if $type eq 2}
+                            {if $porductTypeData neq ''}
+                            {foreach $porductTypeData as $bVal}
+                            {if $norm_id eq $bVal['id']}
+                            <option value="{$bVal['id']}" selected="selected">{$bVal['name']}</option>
+                            {else}
+                            <option value="{$bVal['id']}">{$bVal['name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                            {else}
+                            {if $bottleTypeData neq ''}
+                            {foreach $bottleTypeData as $bVal}
+                            {if $norm_id eq $bVal['id']}
+                            <option value="{$bVal['id']}" selected="selected">{$bVal['bottle_name']}</option>
+                            {else}
+                            <option value="{$bVal['id']}">{$bVal['bottle_name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">零售价格：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="retail_price" value="{$retail_price}" style="width:150px;">-<input type="text" name="retail_price_business" value="{$retail_price_business}" style="width:150px;">-<input type="text" name="retail_price_industry" value="{$retail_price_industry}" style="width:150px;">
+                        <b>*零售价格(居民-商业-工业)</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">直营价：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="direct_price" value="{$direct_price}" style="width:150px;">
+                        <b>*直营价</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">加盟价：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="affiliate_price" value="{$affiliate_price}" style="width:150px;">
+                        <b>*加盟价</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">是否显示：</label>
+                    <div class="inputBox fl placeholder">
+                        {if $is_app eq 1}
+                        <input type="radio" name="is_app" value="1" checked="checked">显示app端
+                        <input type="radio" name="is_app" value="0">不显示app端
+                        {else}
+                        <input type="radio" name="is_app" value="1">显示app端
+                        <input type="radio" name="is_app" value="0" checked="checked">不显示app端
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <input type="hidden" name="id" value="{$id}">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shangpinzhongleiManage.js"></script>{/block}

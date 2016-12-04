@@ -1,0 +1,114 @@
+{extends file='main.phtml'}
+{block name=rtitle}回库确认单{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/filling/addconfirmback">
+        
+        <div class="rqLine clearfix bottlerecords">
+            <div class="rqOption fl">
+                <label class="fl">空瓶：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="btype[]" class="selectmenu">
+                        <option value="">请选择</option>
+                        {foreach $btypes as $k=>$v}
+                        <option value="{$k}">{$v}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="bnum[]" value="{$num}" style="width:180px;">
+                </div>
+            </div>
+            <div class="rqOption fl"><a href="javascript:;" class="add">+</a></div>
+        </div>
+        <div class="rqLine clearfix bottlerecords" id="product">
+            <div class="rqOption fl">
+                <label class="fl">废瓶：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="ftype[]" class="selectmenu">
+                        <option value="">请选择</option>
+                        {foreach $btypes as $k=>$v}
+                        <option value="{$k}">{$v}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="fnum[]" value="{$num}" style="width:180px;">
+                </div>
+            </div>
+            <div class="rqOption fl"><a href="javascript:;" class="add">+</a></div>
+        </div>
+        <div class="rqLine clearfix bottlerecords" id="comment">
+            <div class="rqOption fl">
+                <label class="fl">车牌号：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="license_plate" value="{$license_plate}" style="width:180px;">
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">押运员：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="guards" value="{$guards}" style="width:180px;">
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix bottlerecords">
+            <div class="rqOption fl">
+                <div class="rqOption fl">
+                    <label class="fl">门店：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="shop_id" class="selectmenu">
+                            <option value="0">选择门店</option>
+                            {foreach $shopObject as $k=>$v}
+                            <option value="{$v['shop_id']}">{$v['shop_name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl">备注</label>
+                <div class="fl">
+                    <textarea name="comment"></textarea>
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:if(confirm('提交后不可更改，确定提交？')){ document.form.submit(); }" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="confirme_no" value="{$confirme_no}" />
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.add').live('click', function () {
+            var pt = $(this).parents("div .bottlerecords"), bottle = pt.clone();
+            bottle.find('select').show().removeAttr('id').selectmenu().next().next().remove();
+            bottle.find('select').selectmenu('refresh').next().attr('style',pt.find('.ui-selectmenu-button').attr('style'));
+            bottle.find('div:last>a').removeClass('add').addClass('del').html('-');
+            bottle.find('input:first').val('');
+            if (pt.attr('id') == 'product') {
+                $('#comment').before(bottle);
+            } else {
+                $('#product').before(bottle);
+            }
+        });
+        $('.del').live('click', function () {
+            $(this).parents('.rqLine').remove();
+        });
+    });
+</script>
+{/block}

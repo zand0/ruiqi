@@ -1,0 +1,30 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}岗位管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        岗位管理
+        <span></span>
+        <a href="/quarters/add" class="blueBtn6">添加岗位</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>岗位名称</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+                {$list}
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

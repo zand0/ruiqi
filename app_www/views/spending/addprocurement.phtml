@@ -1,0 +1,109 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}采购支出{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        采购支出
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/spending/addprocurement">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">产品类型：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="type" id="typelist" class="selectmenu">
+                                <option value="0" >请选择</option>
+                                {foreach $type as $k => $v}
+                                <option value="{$k}" {if $param['type'] eq $k}selected="selected"{/if}>{$v}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">规格：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="goods_type" id="goods_type" class="selectmenu">
+                                <option value="0" >请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">供应商：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" value="{$name}" style="width:150px;">
+                        <span>供应商</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">数量：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="goods_num" value="{$goods_num}" id='ztnum' style="width:150px;">
+                        <span>数量</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">单价：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="goods_price" id="ztprice" value="{$goods_price}" style="width:150px;">
+                        <span>单价</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">总价：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="money" value="{$money}" id='res' disabled="disabled" style="width:150px;">
+                        <span>总价</span>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    var ztprice = document.getElementById('ztprice'),
+                        ztnum = document.getElementById('ztnum'),
+                        res = document.getElementById('res');
+                    ztprice.onblur=function()
+                    {
+                        if( ztprice.value != '' && ztnum.value != '' ){
+                                reval = eval(parseInt(ztprice.value) * parseInt(ztnum.value));
+                                res.value=reval;
+                            }
+                    }
+                </script>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption clearfix">
+                    <label class="fl">备注：</label>
+                    <div class="fl">
+                        <textarea name="comment">{$comment}</textarea>
+                        <div  class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">提交</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}" />
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/caigouzhichu.js"></script>{/block}

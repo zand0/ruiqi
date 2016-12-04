@@ -1,0 +1,205 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店管理{/block}
+{block name=head}
+{literal}
+
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRTitle">
+        门店管理
+        <span></span>
+    </div>
+    <div class="contRItem">
+        <div class="contRList">
+            <form name="form" method="POST" action="/shop/add"> 
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">店名：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="shop_name" value="{$shop_name}" style="width:150px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">店等级：</label>
+                        <div class="selectBox fl">
+                            <select name="level" class="selectmenu" id="level">
+                                <option value="">请选择</option>
+                                {if $shopLevelMap neq ''}
+                                {foreach $shopLevelMap as $k => $v}
+                                {if $level eq $k}
+                                <option value="{$k}" selected="selected">{$v}</option>
+                                {else}
+                                <option value="{$k}">{$v}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption clearfix rqRadio">
+                        <label class="fl">店类型：</label>
+                        <div class="myradio fl">
+                            <div class="radiobox clearfix">
+                                {if $shop_type eq 2}
+                                <input type="radio" name="shop_type" value="1" id="st1"><label for='st1'>自营</label>
+                                <input type="radio" name="shop_type" value="2" checked="checked" id="st2"><label for='st2'>加盟</label>
+                                {else}
+                                <input type="radio" name="shop_type" value="1" checked="checked" id="st1"><label for='st1'>自营</label>
+                                <input type="radio" name="shop_type" value="2" id="st2"><label for='st2'>加盟</label>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">门店经理：</label>
+                        <div class="selectBox fl" style="width:172px;">
+                            <select name="admin_id" class="selectmenu" id="admin_id">
+                                <option value="0">请选择</option>
+                                {if $userdata neq ''}
+                                {foreach $userdata as $k=>$v}
+                                {if $v['user_id'] eq $admin_id}
+                                <option value="{$v['user_id']}|{$v['real_name']}|{$v['mobile_phone']}" selected="selected">{$v['real_name']}</option>
+                                {else}
+                                <option value="{$v['user_id']}|{$v['real_name']}|{$v['mobile_phone']}">{$v['real_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">座机：</label>
+                        <div class="inputBox fl">
+                            <input type="text" name="tel_phone" value="{$tel_phone}" style="width:150px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">省/市：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_province" name="region_1" style="width:150px;" class="selectmenu region_1"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">区县：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_city" name="region_2" style="width:150px;" class="selectmenu region_2"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">街道：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select id="loc_town" name="region_3" style="width:150px;" class="selectmenu region_3"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">村：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select id="loc_town" name="region_4" style="width:150px;" class="selectmenu region_4"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqLine clearfix">
+                        <div class="inputBox fl">
+                            <input type="text" name="address" value="{$address}" style="width:250px;" id="address">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">所属区域：</label>
+                        <div class="selectBox fl">
+                            <select name="area_id" class="selectmenu" id="area_id">
+                                <option value="">请选择</option>
+                                {if $areaData neq ''}
+                                {foreach $areaData as $ak => $av}
+                                {if $area_id eq $ak}
+                                <option value="{$ak}" selected="selected">{$av['title']}</option>
+                                {else}
+                                <option value="{$ak}">{$av['title']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">地址坐标：</label>
+                        <div class="inputBox fl">
+                            <input type="text" name="coordinate" value="{$coordinate}" style="width:150px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">上级门店：</label>
+                        <div class="selectBox fl" style="width:172px;">
+                            <select name="parent_shop_id" class="selectmenu" id="parent_shop_id">
+                                <option value="0">请选择</option>
+                                {if count($shopObject)>0}
+                                {foreach $shopObject as $sk=>$sv}
+                                {if $sv['shop_id'] eq $parent_shop_id}
+                                <option value="{$sv['shop_id']}" selected="selected">{$sv['shop_name']}</option>
+                                {else}
+                                <option value="{$sv['shop_id']}">{$sv['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">备注：</label>
+                        <div class="inputBox fl placeholder">
+                            <textarea type="text" name="comment">{$comment}</textarea>
+                            <span>输入备注</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"></label>
+                        <div class="fl">
+                            <div class="rqLine">
+                                <div class="rqOption fl">
+                                    <input type="hidden" name="shop_id" value="{$shop_id}" />
+                                    <input type="hidden" id="xid" value="{$region_2}" />
+                                    <input type="hidden" id="pid" value="{$region_3}" />
+                                    <input type="hidden" id="cid" value="{$region_4}" />
+                                    <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                                </div>
+                                <div class="rqOption fl">
+                                    <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </form> 
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/quyuManage.js"></script>{/block}

@@ -1,0 +1,96 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}订单详情{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb24">
+        <div class="fl">
+            <h3>订单详情</h3>
+            <p>销售管理 > 订单管理 > 订单详情</p>
+        </div>	
+        <div class="fr">
+            <a href="javascript:void(0);" class="backBtn mt10">&lt; 返回</a>
+        </div>
+    </div>
+    <!-- 订单详情 -->
+    <div class="detailCont mb34">
+        <div class="clearfix mb10">
+            <p class="fl p1"><label>订单号：</label><strong>{$orderData['order_sn']}</strong></p>
+            <p class="fr p2" style="width:180px;"><label>订单状态：</label>{(isset($orderStatus[$orderData['status']])) ? $orderStatus[$orderData['status']] : ''}</p>
+        </div>
+        <div class="clearfix mb10">
+            <p class="fl" style="width:340px;"><label>订单时间：</label>{date('Y-m-d H:i:s',$orderData['ctime'])}</p>
+            <p class="fl" style="width:340px;"><label>订单来源：</label>{(isset($ordersource[$orderData['ordertype']])) ? $ordersource[$orderData['ordertype']] : '订单来源'}</p>
+            <p class="fr" style="width:180px;"><label>订单类型：</label>紧急订单</p>
+        </div>
+        <p class="mb34"><label>客户类型：</label>{(isset($userType[$orderData['kehu_type']])) ? $userType[$orderData['kehu_type']]['typemanagername'] : '客户类型'}</p>
+        <div class="clearfix cols mb34">
+            <div class="fl" style="width:412px;margin-right:64px;">
+                <p class="p1 mb10"><label>客户姓名：</label>{$orderData['username']}</p>
+                <p class="mb10"><label>客户电话：</label>{$orderData['mobile']}></p>
+                <p><label>详细地址：</label>{$orderData['address']}</p>
+            </div>
+            <div class="fl">
+                <p class="mb10"><label>送气工：</label>{$orderData['shipper_name']}</p>
+                <p class="mb10"><label>配送电话：</label>{$orderData['shipper_mobile']}></p>
+                <p><label>配送站点：</label>{$shopObject[$orderData['shop_id']]['shop_name']}</p>
+            </div>
+            <span></span>
+        </div>
+        <p class="p3 mb10">
+            <label>应收金额：</label><strong>￥{$orderData['money']}</strong>
+        </p>
+        <p class="p3">
+            <label>实收金额：</label><strong>￥{$orderData['pay_money']}</strong>
+        </p>
+    </div>
+    <!-- 订单查询结果 -->
+    <div class="table2 mb34">
+        <table>
+            <thead>
+                <tr>
+                    <th>商品名称</th>
+                    <th>规格</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>运送费</th>
+                    <th>押金</th>
+                    <th>折旧</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                {if $orderInfo neq ''}
+                {foreach $orderInfo as $key => $value}
+                <tr>
+                    <td>{$value['goods_name']}</td>
+                    {if $value['goods_type'] eq 1}
+                    <td>{$bottleTypeData[$value['goods_kind']]['bottle_name']}</td>
+                    {else}
+                    <td>{$porductTypeData[$value['goods_kind']]['name']}</td>
+                    {/if}
+                    <td>{$value['goods_num']}</td>
+                    <td class="redColor"><strong>￥{$value['goods_price']}</strong></td>
+                    <td class="redColor"><strong>0</strong></td>
+                    <td class="redColor"><strong>￥{$orderData['deposit']}</strong></td>
+                    <td class="redColor"><strong>￥{$orderData['depreciation']}</strong></td>
+                    <td class="w150">{$orderData['comment']}</td>
+                </tr>
+                {/foreach} 
+                {/if}
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/dingdanguanliCtrl.js"></script>
+{/block}

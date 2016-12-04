@@ -1,0 +1,52 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}添加客户状态{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <form name="form" method="POST" action="/customerstatus/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">客户来源：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="typemanagername" value="{$typemanagername}" style="width:150px;">
+                        <span>客户来源</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">备注：</label>
+                    <div class="inputBox fl">
+                        <textarea type="text" name="comment">{$comment}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

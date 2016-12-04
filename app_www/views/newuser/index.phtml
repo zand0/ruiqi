@@ -1,0 +1,30 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+用户销售额统计
+{/block}
+{block name=operate}
+{/block}
+
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>用户联系方式</td>
+            <td>门店</td>
+            <td>数量</td>
+            <td>价格</td>
+        </tr>
+
+        {if $data neq ''}
+        {foreach $data as $value}
+        <tr>
+            <td>{$value['mobile_phone']}</td>
+            <td>{$value['shop_name']}</td>
+            <td>{$value['num']}</td>
+            <td>{$value['money']}</td>
+        </tr>
+        {/foreach} 
+        {/if}
+    </table>
+</div>
+{/block}

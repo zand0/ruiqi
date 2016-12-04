@@ -1,0 +1,69 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}钢瓶押金设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        钢瓶押金设置
+        <span></span>
+        <!--a href="javascript:;" class="blueBtn8 addYajin">添加钢瓶押金</a-->
+        <a href="/cylinderdeposit/add" class="blueBtn8">添加钢瓶押金</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">编号</th>
+                        <th rowspan="2">规格</th>
+                        <th colspan="3">客户押金</th>
+                        <th rowspan="2">直营押金</th>
+                        <th rowspan="2">加盟押金</th>
+                        <th rowspan="2">操作</th>
+                    </tr>
+                    <tr>
+                        <th>居民</th>
+                        <th>商业</th>
+                        <th>工业</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['depositsn']}</td>
+                        <td>{$bottleData[$value['bottle_id']]['bottle_name']}</td>
+                        <td>{$value['suggested_price']}</td>
+                        <td>{$value['suggested_price_business']}</td>
+                        <td>{$value['suggested_price_industry']}</td>
+                        <td>{$value['other_price']}</td>
+                        <td>{$value['price']}</td>
+                        <td class="tableBtn">
+                            <a href="/cylinderdeposit/add?id={$value['id']}">修改</a>|
+                            <a href="/cylinderdeposit/del?id={$value['id']}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach} 
+                    {else}
+                    <tr><td colspan="6">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/gangpingyajinSet.js"></script>{/block}

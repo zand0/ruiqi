@@ -1,0 +1,134 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}钢瓶管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        钢瓶管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/bottle/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">瓶类型：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="type" class="selectmenu">
+                            {foreach $btypes as $k=>$v}
+                            {if $type eq $k}
+                            <option value="{$k}" selected="selected">{$v}</option>
+                            {else}
+                            <option value="{$k}">{$v}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">瓶状态：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="status" class="selectmenu">
+                            {foreach $typeObject as $k=>$v}
+                            {if $status eq $k}
+                            <option value="{$k}" selected="selected">{$v}</option>
+                            {else}
+                            <option value="{$k}">{$v}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">使用年限：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <select name="use_date" class="selectmenu">
+                            <option value="0">全部</option>
+                            {foreach $buse_date as $v}
+                            {if $use_date eq $v}
+                            <option value="{$v}" selected="selected">{$v}</option>
+                            {else}
+                            <option value="{$v}">{$v}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">出厂日期：</label>
+                    <div class="inputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="production_date" value="{$production_date}" style="width:200px;" id="time_date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">送检日期：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="check_date" value="" style="width:200px;" id="time_start">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl" style="width:120px;">下次送检日期：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="check_date_next" value="" style="width:200px;" id="time_end">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">芯片号：</label>
+                    <div class="inputBox fl">
+                        <textarea type="text" name="xinpian">{$xinpian}</textarea>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">钢印号：</label>
+                    <div class="inputBox fl">
+                        <textarea type="text" name="number">{$number}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">条形码：</label>
+                    <div class="inputBox fl">
+                        <textarea type="text" name="bar_code">{$bar_code}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$gp_id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

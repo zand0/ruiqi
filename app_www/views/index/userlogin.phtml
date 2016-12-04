@@ -1,0 +1,31 @@
+{extends file='main_new.phtml'}
+{block name=body}
+<div id="content">
+    <div class="loginBox">
+        <form name="login" method="post" id="loginuser" action='/my/passport/login'>
+            <div class="clearfix title">
+                <h3 class="fl">欢迎回来</h3>
+                <p class="fr">还没有账号？<a href="/register/index">立即注册</a></p>
+            </div>
+            <div class="inputArea">
+                <label>
+                    <i></i>
+                    <input type="text" name="username" id="username" placeholder="请输入用户名/邮箱">
+                </label>
+                <label class="psd">
+                    <i></i>
+                    <input type="password" name="password" id="password" placeholder="请输入密码">
+                </label>
+            </div>
+            <a href="javascript:void(0);" id="loginBtn">登录</a>
+        </form>
+        <div class="log-msg clearfix">
+            <p>如登录出现异常，请清理浏览器缓存后再试。</p>
+            <a href="/resetpassword/index">忘记密码？</a>
+        </div>
+
+    </div>
+    <!-- 行业动态 安全常识 -->
+    {include file='main_new_dynamic.phtml'}
+</div>
+{/block}

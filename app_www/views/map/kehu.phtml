@@ -1,0 +1,67 @@
+{extends file='znewtemp/main_home.phtml'}
+{block name=title}客户当前地址{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery.circliful.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GGzsVgy3Ra6GWd6n3Sww2Kdx"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="content">
+    <div id="allmap" style="width:100%;height:800px;overflow:hidden;"></div>
+</div>
+{/block}
+{block name=fjs}
+{literal}
+<script type="text/javascript">
+    map = new BMap.Map("allmap");
+    map.centerAndZoom('沧州', 15);
+    //map.centerAndZoom(new BMap.Point(105.000, 38.000), 5);     // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom();                        //启用滚轮放大缩小
+    if (document.createElement('canvas').getContext) {  // 判断当前浏览器是否支持绘制海量点
+        var points = [];  // 添加海量点数据
+        
+        var mapdata = {/literal}{$mapList}{literal};
+        var mapArr = [{/literal}{$mapArr}{literal}];
+        for (var i = 0; i < mapdata.length; i++) {
+            points.push(new BMap.Point(mapdata[i][0], mapdata[i][1]));
+        }
+        var options = {
+            size: BMAP_POINT_SIZE_SMALL,
+            shape: BMAP_POINT_SHAPE_STAR,
+            color: '#d340c3'
+        }
+        var pointCollection = new BMap.PointCollection(points, options);  // 初始化PointCollection
+        pointCollection.addEventListener('click', function (e) {
+            var Name = "";
+            for (var i = 0;i < mapArr.length;i++) {
+                var Name = "";
+                points.push(new BMap.Point(mapArr[i][0],mapArr[i][1]));
+                if (mapArr[i][0] == e.point.lng && mapArr[i][1] == e.point.lat){//经度==点击的,维度
+                    Name = mapArr[i][2];
+                    break;
+                }
+            }
+            var point = new BMap.Point(e.point.lng, e.point.lat);
+            var opts = {
+                width: 250, // 信息窗口宽度
+                height: 90, // 信息窗口高度
+                title:"", // 信息窗口标题
+                enableMessage: false //设置允许信息窗发送短息
+            }
+            var infowindow = new BMap.InfoWindow("用户:" + Name, opts);
+            map.openInfoWindow(infowindow, point);
+        });
+        map.addOverlay(pointCollection);  // 添加Overlay
+    } else {
+        alert('请在chrome、safari、IE8+以上浏览器查看本示例');
+    }
+</script>
+{/literal}
+{/block}

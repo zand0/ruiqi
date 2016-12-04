@@ -1,0 +1,42 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}配送回库确认单{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        回库确认单详情
+        <span></span>
+        <p>回库时间：{$data['time']}</p>
+    </div>
+    <div class="contRList">
+        <div class="path">
+            <a href="/filling/confirmback">回库确认单列表</a>&nbsp;
+            <i></i>&nbsp;
+            <a href="javascript:void(0);" class="active">回库确认单详情</a>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <tr class="h60">
+                    <td>车牌号码</td>
+                    <td colspan="2">{$data['license_plate']}</td>
+                    <td colspan="2">押运员</td>
+                    <td colspan="2">{$data['guards']}</td>
+                </tr>
+                {$list}
+                <tr class="h100">
+                    <td>备注：</td>
+                    <td colspan="6">{$data['comment']}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/huikuquerendan.js"></script>{/block}

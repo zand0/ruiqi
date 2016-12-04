@@ -1,0 +1,165 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}业务收入{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb30">
+        <div class="fl mr200">
+            <h3>业务收入</h3>
+            <p>财务 > 业务收入 > 销售收入</p>
+        </div>	
+        <div class="fl chooseDate pt16">
+            <span class="fl">选择时段：</span>
+            <div class="doubleRili fl">
+                <input type="text" id="start" id="time_start" name="time_start" value="{$param['time_start']}" style="width:80px;">
+            </div>
+            <span class="fl plr8">到</span>
+            <div class="doubleRili fl">
+                <input type="text" id="end" id="time_end" name="time_end" value="{$param['time_end']}" style="width:80px;">
+            </div>
+            <a href="javascript:void(0);" class="fl">确定</a>
+        </div>
+        <div class="fr total-data pt16">
+            <strong>总收入：￥{$pay_money}</strong>
+        </div>
+    </div>
+    <!-- 收入数据 -->
+    <div class="dataMenu mb40 caiwuMenu pl290">
+        <div class="bgBtn">
+            <p>销售收入</p>
+            <strong>￥{$pay_money}</strong>
+        </div>
+        <ul class="clearfix">
+            <li>
+                <p>押金收入</p>
+                <strong>￥{$deposit}</strong>
+            </li>
+            <li>
+                <p>液化气配件收入</p>
+                <strong>￥{$pay_money - $deposit}</strong>
+            </li>
+            <li>
+                <p>其他收入</p>
+                <strong>￥0</strong>
+            </li>
+        </ul>	
+    </div>
+    <!-- 套餐种类 -->
+    <div class="allTc mb30">
+        <ul class="clearfix">
+            <li class="first">
+                <h4>全部</h4>
+                <p>{$totalAllData['total_num']}瓶</p>
+                <strong>￥{$totalAllData['total']}</strong>
+                <span></span>
+            </li>
+            {if $staticsBottleType neq ''}
+            {foreach $staticsBottleType as $sVal}
+            <li class="active">
+                <h4>{$bottleTypeData[$sVal['goods_kind']]['bottle_name']}<br><strong>液化气</strong></h4>
+                <p>{$sVal['total']}瓶</p>
+                <strong>￥{$sVal['total_money']}</strong>
+                <span></span>
+            </li>
+            {/foreach}
+            {/if}
+        </ul>
+    </div>
+    <!--搜索条件 -->
+    <div class="searchArea mb40">
+        <div class="clearfix lineData">
+            {if isset($is_show_shop) && !empty($is_show_shop)}
+            <div class="fl mr20"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+            {else}
+            <div class="fl mr20">
+                <label class="fl">所属站点：</label>
+                <select class="fl" name="shop_id" id="shop_id" style="width:157px;">
+                    <option value="">请选择</option>
+                    {foreach $shopObject as $k=>$v}
+                    {if $k eq $param['shop_id']}
+                    <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                    {else}
+                    <option value="{$k}">{$v['shop_name']}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+            {/if}
+            <div class="fl mr20">
+                <label class="fl">客户类型：</label>
+                <select class="fl" name="kehu_type" id="kehu_type" style="width:157px;">
+                    <option value="">请选择</option>
+                    {foreach $kehuType as $key=>$kv}
+                    {if $key eq $param['kehu_type']}
+                    <option value="{$key}" selected="selected">{$kv['typemanagername']}</option>
+                    {else}
+                    <option value="{$key}">{$kv['typemanagername']}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+            <div class="fl mr20">
+                <label class="fl">客户名称：</label>
+                <input type="text" style="width:135px" placeholder="输入客户名称" name="username" value="{$param['username']}" class="fl">
+            </div>
+            <a href="javascript:void(0);" id="searchBtn" class="fl">搜索</a>
+        </div>
+    </div>
+    <!-- 查询结果 -->
+    <div class="result">
+        <div class="title mb10">
+            <p>查询结果：</p>
+        </div>
+        <div class="table2 mb34">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="borderRight">下单时间</th>
+                        <th>订单号</th>
+                        <th>门店名称</th>
+                        <th>订单金额</th>
+                        <th>订单来源</th>
+                        <th>订单状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td class="borderRight">{date('Y-m-d',$value['ctime'])}</td>
+                        <td>{$value['order_sn']}</td>
+                        <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                        <td class="redColor"><strong>￥{$value['pay_money']}</strong></td>
+                        <td>{(isset($ordersource[$value['ordertype']])) ? $ordersource[$value['ordertype']] : '订单来源'}</td>
+                        <td>{(isset($orderStatus[$value['status']])) ? $orderStatus[$value['status']] : ''}</td>
+                        <td class="operate"><a href="/order/info?ordersn={$value['order_sn']}&shop_id={$value['shop_id']}" target="_blank">订单详情 &gt;</a></td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="7">暂时没有投诉数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom mb50">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/yewushouruCtrl.js"></script>
+{/block}

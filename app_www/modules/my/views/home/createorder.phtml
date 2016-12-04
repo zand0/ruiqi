@@ -1,0 +1,280 @@
+{extends file='layouts\main.phtml'}
+{block name=body}
+{literal}
+<script>
+    $(function () {
+
+        $(".typeID").click(function(){
+            var typeID = $(this).val();
+            if(typeID == 4){
+                $(".ptbottle").hide();
+                $(".tybottle").show();
+                $(".yhbottle").hide();
+            }else if(typeID == 5){
+                $(".ptbottle").hide();
+                $(".tybottle").hide();
+                $(".yhbottle").show();
+            }else{
+                $(".ptbottle").show();
+                $(".tybottle").hide();
+                $(".yhbottle").hide();
+            }
+            $("#orderTablelist").html('');
+        });
+
+        //下订单选中列表显示
+        $(".addbottleBtn").click(function () {
+            var typeID = $("input[type='radio']:checked").val();
+            
+            var bottleType = $(this).parent('div').find("#goodType").val();
+            var bottleName = $(this).parent('div').find("#goodType option:selected").text();
+            var bottleNum = $(this).parent('div').find("#goodNum").val();
+            if (bottleType != 0 && bottleName != '') {
+                var bArr = bottleType.split('|');
+                
+                if(typeID == 4 || typeID == 5){
+                    var numTotal = bArr[5] * bottleNum;
+                    var moneyTotal = bottleNum * bArr[4];
+                }else{
+                    var numTotal = bottleNum;
+                    var moneyTotal = bArr[4];
+                }
+                var bottleList = "<tr><td>" + bottleName + "</td>";
+                bottleList += "<td>" + numTotal + "</td>";
+                bottleList += "<td>" + bArr[4] + "</td>";
+                bottleList += "<td></td>";
+                bottleList += "<td></td>";
+                bottleList += "<td>" + parseInt(bottleNum) * parseInt(bArr[4]) + "</td>";
+                bottleList += "</tr>";
+
+                $("#orderTablelist").append(bottleList);
+
+                var order_bottle = $("#order_bottle").val();
+                var show_bottle = bottleType + "|" + bottleNum;
+                if (order_bottle != '') {
+                    $("#order_bottle").val(order_bottle + '*' + show_bottle);
+                } else {
+                    $("#order_bottle").val(show_bottle);
+                }
+            } else {
+                alert('请选择');
+            }
+        });
+        //创建订单
+        $("#addorder").click(function () {
+            var plist = $("#orderTablelist").html();
+            if(plist == ''){
+                alert('请添加数据');
+                return false;
+            }
+            var typeID = $("input[type='radio']:checked").val();
+            $("#order_type").val(typeID);
+            var formdata = $('#formorder').serialize();
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/my/home/ajaxorder",
+                data: formdata,
+                success: function (result) {
+                    var preview = eval("(" + result + ")");
+                    if (preview.code >= 1) {
+                        alert('创建成功');
+                    } else {
+                        alert('创建失败');
+                    }
+                }
+            });
+        });
+    });
+</script>
+{/literal}
+<div class="content clearfix">
+    {include file='layouts\left.phtml'}
+    <div class="fr" style="width:904px;">
+        <div class="contRItem myorder">
+            <div class="contRTitle">
+                下单订气
+                <span></span>
+            </div>
+            <div class="contRList">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">类型：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            <input type="radio" name="type" value="1" class='typeID' checked="checked"><label for='s1'>燃气</label>
+                            <input type="radio" name="type" value="4" class='typeID'><label for='s1'>体验套餐</label>
+                            <input type="radio" name="type" value="5" class='typeID'><label for='s1'>优惠套餐</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix ptbottle">
+                    <div class="rqOption fl">
+                        <label class="fl">商品：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="goodType" id="goodType" class="selectmenu" style="width:130px;">
+                                    <option value="0">选择商品</option>
+                                    {if $goodData neq ''}
+                                    {foreach $goodData as $value}
+                                    {if $value['type'] eq 1}
+                                    <option value="{$value['id']}|{$value['type']}|{$value['name']}|{$value['norm_id']}|{$value['retail_price']}">{$value['name']}-{$bottlTypeData[$value['norm_id']]['bottle_name']}</option>
+                                    {else}
+                                    <option value="{$value['id']}|{$value['type']}|{$value['name']}|{$value['norm_id']}|{$value['retail_price']}">{$value['name']}-{$productTypeData[$value['norm_id']]['name']}</option>
+                                    {/if}
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">数量：</label>
+                        <div class="inputBox fl">
+                            <input type="text" name="goodNum" id="goodNum" value="1" style="width:65px;">
+                        </div>
+                    </div>
+                    <a href="javascript:;" class="blueBtn5 fl addbottleBtn" id="addbottleTable">添加</a>
+                </div>
+                <div class="rqLine clearfix tybottle" style="display: none;">
+                    <div class="rqOption fl">
+                        <label class="fl">体验套餐：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="goodType" id="goodType" class="selectmenu" style="width:130px;">
+                                    <option value="0">选择套餐</option>
+                                    {if $tcData['ty'] neq ''}
+                                    {foreach $tcData['ty'] as $value}
+                                    <option value="{$value['id']}|4|{$value['name']}|{$value['norm_id']}|{$value['money']}|{$value['num']}|{$value['deposit']}">{$value['name']}</option>
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">套餐数量：</label>
+                        <div class="inputBox fl">
+                            <input type="text" name="goodNum" id="goodNum" value="1" style="width:65px;">
+                        </div>
+                    </div>
+                    <a href="javascript:;" class="blueBtn5 fl addbottleBtn" id="addbottleTable">添加</a>
+                </div>
+                <div class="rqLine clearfix yhbottle" style="display: none;">
+                    <div class="rqOption fl">
+                        <label class="fl">优惠套餐：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="goodType" id="goodType" class="selectmenu" style="width:130px;">
+                                    <option value="0">优惠套餐</option>
+                                    {if $tcData['yh'] neq ''}
+                                    {foreach $tcData['yh'] as $value}
+                                    <option value="{$value['id']}|5|{$value['name']}|{$value['norm_id']}|{$value['money']}|{$value['num']}|{$value['deposit']}">{$value['name']}</option>
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">套餐数量：</label>
+                        <div class="inputBox fl">
+                            <input type="text" name="goodNum" id="goodNum" value="1" style="width:65px;">
+                        </div>
+                    </div>
+                    <a href="javascript:;" class="blueBtn5 fl addbottleBtn" id="addbottleTable">添加</a>
+                </div>
+                <div class="rqTabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>规格</th>
+                                <th>数量</th>
+                                <th>单价</th>
+                                <th>运送费</th>
+                                <th>优惠</th>
+                                <th>总金额</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTablelist"></tbody>
+                    </table>
+                </div>
+                <dl>
+                    <dt>客户详细信息：</dt>
+                    <dd>
+                        姓名：<span>{$userRow['user_name']}</span>
+                        电话：<span>{$userRow['mobile_phone']}</span>
+                    </dd>
+                    <dd>详细地址：<span>{$userRow['address']}</span></dd>
+                </dl>
+                <div class="rqLine">
+                    <div class="rqOption">
+                        <label>订单备注：</label>
+                        <div class="clearfix">
+                            <form action="" method="post" id="formorder">
+                                <div class="rqOption fl">
+                                    <textarea style="width:400px;height:110px;" name="order_comment" id="order_comment"></textarea>
+                                </div>
+                                <div class="rqOption fl mycheckList remark mycheckbox">
+                                    <div class="checkList" style="width:90px;">
+                                        <a href="javascript:;">押金用户</a>
+                                        <a href="javascript:;">紧急订单</a>
+                                    </div>
+                                    <input type="hidden" name="order_bottle" id="order_bottle" value="" />
+                                    <input type="hidden" name="order_product" id="order_product" value="" />
+                                    <input type="hidden" name="order_type" id="order_type" value="" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption">
+                        <a href="javascript:;" class="blueBtn" id="addorder">提交订单</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contRItem">
+            <div class="contRTitle">
+                历史订单记录
+                <span></span>
+            </div>
+            <div class="contRList">
+                <div class="rqTabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>订单号</th>
+                                <th>运送费</th>
+                                <th>送气工</th>
+                                <th>送气工电话</th>
+                                <th>总金额</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if $data['ext']['list'] neq ''}
+                            {foreach $data['ext']['list'] as $value}
+                            <tr>
+                                <td>{$value['order_sn']}</td>
+                                <td>{$value['shipment']}</td>
+                                <td>{$value['shipper_name']}</td>
+                                <td>{$value['shipper_mobile']}</td>
+                                <td>{$value['money']}</td>
+                                <td class="tableBtn">
+                                    <a href="javascript:;">投诉</a>
+                                    <span>|</span>
+                                    <a href="javascript:;">评价</a>
+                                </td>
+                            </tr>
+                            {/foreach}
+                            {/if}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

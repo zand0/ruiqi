@@ -1,0 +1,47 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}折旧瓶回收价格设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        折旧瓶回收价格管理
+        <span></span>
+        <a href="/raffinate/create" class="blueBtn8">折旧瓶价格管理</a>
+    </div>
+    <div class="contRList">
+
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>钢瓶类型</th>
+                        {foreach $years as $v}
+                        <th>{$v}</th>
+                        {/foreach}
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($priceData) > 0}
+                    {foreach $priceData as $key=>$value}
+                    <tr>
+                        <td>{$bottleTypeData[$key]['bottle_name']}</td>
+                        {foreach $years as $k=>$v}
+                        <td class="tableBtn">{$value[$k]}</td>
+                        {/foreach}
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="{count($years)+1}">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

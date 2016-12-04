@@ -1,0 +1,25 @@
+<div id="header" class="clearfix">
+    <h1 class="fl">
+        <a href="/index/index">
+            <img src="/statics/images/logo.png">
+        </a>
+    </h1>
+    <div class="nav fl">
+        <a href="/index/index" class="active">首页<span></span></a>
+        <a href="/my/home/createorder">我要订气<span></span></a>
+        <a href="/index/deploy">气站门店分布<span></span></a>
+        <a href="/ruiqi/login.html">呼叫中心<span></span></a>
+        <a href="/index/login">后台管理<span></span></a>
+        <a href="#">政府监控<span></span></a>
+    </div>
+    <div class="fr login"> 
+        {if $smarty.session.kehu_info neq ''}
+        您好，
+        <a href="/my/home/index">{$smarty.session.kehu_info.user_name}</a>
+        <span>|</span>
+        <a href="/my/passport/logout">退出</a>
+        {else}
+        <a href="/index/userlogin">登陆</a>
+        {/if}
+    </div>
+</div>

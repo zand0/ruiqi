@@ -1,0 +1,103 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}储罐管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <form name="form" method="POST" action="/tank/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl" style="display: none;">
+                    <label class="fl" style="width:100px">储罐编号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="tanksn" value="{$tanksn}" style="width:150px;">
+                        <span>储罐编号</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl" style="width:100px">储罐名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="tank_name" value="{$tank_name}" style="width:150px;">
+                        <span>储罐名称</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl" style="width:100px">存储地点：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="address" value="{$address}" style="width:150px;">
+                        <span>存储地点</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl" style="width:100px">存储量：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="stock" value="{$stock}" style="width:150px;">
+                        <span>存储量</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rqOption fl">
+                <label class="fl">存储气种：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="gas_id" class="selectmenu">
+                            <option value="0">选择气种</option>
+                            {if $gasObject neq ''}
+                            {foreach $gasObject as $gVal}
+                            {if $gas_id eq $gVal['gid']}
+                            <option value="{$gVal['gid']}" selected="selected">{$gVal['gas_name']}</option>
+                            {else}
+                            <option value="{$gVal['gid']}">{$gVal['gas_name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">使用日期：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="work_time" value="{$work_time}" style="width:200px;" id="time_start">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rqLine clearfix pd">
+                <div class="rqOption clearfix">
+                    <label class="fl" style="width:100px">备注：</label>
+                    <div class="fl">
+                        <textarea name="comment">{$comment}</textarea>
+                        <div  class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">提交</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <input type="hidden" name="id" value="{$id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

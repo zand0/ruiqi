@@ -1,0 +1,124 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/shipper/add">
+            {if $shop_id>0}
+            <input type="hidden" name="shop_id" value="{$shop_id}" />
+            {else}
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">店铺等级：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select class="selectmenu" id='shop_level'>
+                                <option>请选择</option>
+                                {foreach $shop_levels as $k=>$level}
+                                {if $shop_level && $k == $shop_level}
+                                <option value="{$k}" selected>{$level}</option>
+                                {else}
+                                <option value="{$k}">{$level}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">所属门店：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <select name="shop_id" class="selectmenu" id="shop_id">
+                            <option value="0">全部</option>
+                            {foreach $shop_list as $k=>$v}
+                            {if $shop_id == $v['shop_id']}
+                            <option value="{$v['shop_id']}" selected="seleccted">{$v['shop_name']}</option>
+                            {else}
+                            <option value="{$v['shop_id']}">{$v['shop_name']}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {/if}
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">姓名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="shipper_name" value="{$shipper_name}" style="width:200px;">
+                        <span>输入姓名</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">电话：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="mobile_phone" value="{$mobile_phone}" style="width:200px;">
+                        <span>输入电话</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">类型：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            {if $shipper_type eq 1}
+                            <input type="radio" name="shipper_type" value="1" checked="checked" id='st1'><label for='st1'>自营</label>
+                            <input type="radio" name="shipper_type" value="2" id='st2'><label for='st2'>加盟</label>
+                            {else}
+                            <input type="radio" name="shipper_type" value="1" id='st1'><label for='st1'>自营</label>
+                            <input type="radio" name="shipper_type" value="2" checked="checked" id='st2'><label for='st2'>加盟</label>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--div class="rqLine">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">状态：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            <input type="radio" name="is_del" value="0" {if !$is_del or $is_del == 0}checked{/if} id='s1'><label for='s1'>雇佣中</label> 
+                            <input type="radio" name="is_del" value="1" {if $is_del == 1}checked{/if} id='s2'><label for='s2'>删除</label> 
+                        </div>
+                    </div>
+                </div>
+            </div-->
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+				<input type="hidden" name="id" value="{$shipper_id}" id="updateID">	
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

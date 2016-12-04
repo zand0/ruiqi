@@ -1,0 +1,62 @@
+{extends file='main.phtml'}
+{block name=rtitle}年检收费{/block}
+{block name=operate}<a href="/finance/addinspection">添加年检收费</a>{/block}
+{block name=body}
+<div class="orderList contRList">
+    <form name="form" method="POST">
+
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">时间：</label>
+                <div class="riliInputBox fl">
+                    <div class="riliInput fl">
+                        <input type="text" style="width:150px;" name="start_time" value="{$param['start_time']}" id="time_start">
+                    </div>
+                    <span class="fl">至</span>
+                    <div class="riliInput fl">
+                        <input type="text" id="time_end" name="end_time" value="{$param['end_time']}" style="width:150px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <input type="submit" class="blueBtn" value='查询'>
+            </div>
+        </div>
+    </form>
+    <table>
+        <tr>
+            <td>单号</td>
+            <td>门店</td>
+            <td>瓶子</td>
+            <td>收费</td>
+            <td>时间</td>
+        </tr>
+
+        {if $ext neq ''}
+        {foreach $ext['list'] as $value}
+        <tr>
+            <td>{$value['inspection_no']}</td>
+            <td>{$value['shop_name']}</td>
+            <td>
+                {foreach $value['bottle'] as $v}
+                {$v['name']} - {$v[1]}个<br/>
+                {/foreach}
+            </td>
+            <td>{$value['money']}</td>
+            <td>{date('Y-m-d',$value['ctime'])}</td>
+        </tr>
+        {/foreach} 
+        {/if}
+    </table>
+
+    <div class="table-pages pageNav clearfix" id="pageNav"></div>
+</div>
+<script type="text/javascript">
+    var page = {$page}
+    var totalPage = {ceil($ext['count'] / 15)};
+</script>
+<script type="text/javascript" src="{$_PUBLIC}/js/common.js"></script>
+{/block}

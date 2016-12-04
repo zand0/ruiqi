@@ -1,0 +1,208 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}燃气库存{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        燃气库存
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>储罐名称</th>
+                        <th>燃气类别</th>
+                        <th>储量(m³)</th>
+                        <th>储量(t)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $dataTotal neq ''}
+                    {foreach $dataTotal as $value}
+                    <tr>
+                        <td>{$value['tank_name']}</td>
+                        <td>{$value['gname']}</td>
+                        <td>{$value['total']}</td>
+                        <td>{$value['volume']}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="4">暂时没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        出入库记录
+        <span></span>
+        <a href="javascript:;" class="blueBtn6 addChuku">添加出库</a>
+        <a href="javascript:;" class="blueBtn6 blueBtn9 addRuku">添加入库</a>
+    </div>
+    <div class="contRList">
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <li class="tabBtn active">出入库记录<span></span></li>
+                <li class="tabBtn">历史库存记录<span></span></li>
+            </ul>
+            <ul class="tabItembox rqOperation">
+                <li class="tabItem" style="display:block;">
+                    <form name="form" method="POST">
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqRadio rqOption2">
+                                <label class="fl">出入库状态：</label>
+                                <div class="myradio fl">
+                                    <div class="radiobox clearfix">
+                                        <input type="radio" name="type" value="" checked="checked" /> 全部
+                                        <input type="radio" name="type" value="0" /> 入库
+                                        <input type="radio" name="type" value="1" /> 出库
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqOption2">
+                                <label class="fl">产品类别：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="gtype" class="selectmenu">
+                                            <option value="0" >请选择</option>
+                                            {foreach $gas_type as $gVal}
+                                            {if $param['gtype'] eq $gVal['gid']}
+                                            <option value="{$gVal['gid']}" selected="selected">{$gVal['gas_name']}</option>
+                                            {else}
+                                            <option value="{$gVal['gid']}">{$gVal['gas_name']}</option>
+                                            {/if}
+                                            {/foreach}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqOption2">
+                                <label class="fl">漕车车牌号：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" name="license_plate" value="{$param['license_plate']}" style="width:150px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="rqLine clearfix">
+                            <div class="rqOption fl rqOption2">
+                                <label class="fl">出入库时间：</label>
+                                <div class="riliInputBox fl">
+                                    <div class="riliInput fl">
+                                        <input type="text" style="width:150px;" name="start_time" value="{$param['start_time']}" id="time_start">
+                                    </div>
+                                    <span class="fl">至</span>
+                                    <div class="riliInput fl">
+                                        <input type="text" id="time_end" name="end_time" value="{$param['end_time']}" style="width:150px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                                <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="rqTabItem">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>单号</th>
+                                    <th>产品类别</th>
+                                    <th>车牌号/钢瓶号</th>
+                                    <th>出入库对象</th>
+                                    <th>重量（吨）</th>
+                                    <th>操作人</th>
+                                    <th>出入库状态</th>
+                                    <th>出入库时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {if $ext['list'] neq ''}
+                                {foreach $ext['list'] as $value}
+                                <tr>
+                                    <td>{$value['gaslog_sno']}</td>
+                                    <td>{$gas_type[$value['gtype']]['gas_name']}</td>
+                                    <td>{$value['license_plate']}</td>
+                                    <td>{$tankObject[$value['tank_id']]['tank_name']}</td>
+                                    <td>{$value['gnum']}</td>
+                                    <td>{$value['admin_user']}</td>
+                                    <td>{if $value['type'] eq 1}出库{else}入库{/if}</td>
+                                    <td>{date('Y-m-d',$value['ctime'])}</td>
+                                </tr>
+                                {/foreach}
+                                {else}
+                                <tr><td colspan="8">暂时没有数据</td></tr>
+                                {/if}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="clearfix sqspBottom">
+                        <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                        <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                        <input type="hidden" class="currentPage" value="{$param['page']}">
+                        <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                        <input type="hidden" class="paramlist" value="{$getparamlist}" />
+                    </div>
+                </li>
+                <li class="tabItem">
+                    <div  class="rqLine clearfix">
+                        <div class="rqOption3 fl">
+                            <label class="fl">库存记录搜索：</label>
+                            <div class="riliInputBox fl">
+                                <div class="riliInput fl">
+                                    <input type="text" style="width:150px;" id="time_start2">
+                                </div>
+                                <span class="fl">至</span>
+                                <div class="riliInput fl">
+                                    <input type="text" id="time_end2" style="width:150px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:;" class="blueBtn">搜索</a>
+                        </div>
+                    </div>
+                    <div class="rqTabItem">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="w150">日期</th>
+                                    <th>储罐名称</th>
+                                    <th>燃气类别</th>
+                                    <th>储量</th>
+                                    <th>合计</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {$list}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--div class="clearfix sqspBottom">
+                        <p class="fl">共 <span>223</span> 条记录</p>
+                        <div class="table-pages pageNav clearfix fr" id="pageNav2"></div>
+                        <input type="hidden" class="currentPage" value="1">
+                        <input type="hidden" class="totalPage" value="10">
+                    </div-->
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/ranqikucun.js"></script>{/block}

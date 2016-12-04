@@ -1,0 +1,60 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}配件采购计划单详情{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        配件采购计划单详情
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="path">
+            <a href="/instock/index">配件采购计划单</a>&nbsp;
+            <i></i>&nbsp;
+            <a href="javascript:void(0);" class="active">配件采购计划单详情</a>
+        </div>
+        <div class="rqTabItem ">
+            <table>
+                <thead>
+                    <tr>
+                        <th>类型</th>
+                        <th>供应商</th>
+                        <th>规格</th>
+                        <th>重量</th>
+                        <th>单价</th>
+                        <th>金额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $returnData neq ''}
+                    {foreach $returnData as $key => $value}
+                    <tr>
+                        {if $key eq 0}
+                        <td rowspan="{count($returnData)}">配件</td>
+                        <td rowspan="{count($returnData)}">{$value['suppler_name']}</td>
+                        {/if}
+                        <td>{$value['product_name']}</td>
+                        <td>{$value['num']}</td>
+                        <td>{$value['price']}元</td>
+                        <td>{$value['num']*$value['price']}元</td>
+                    </tr>
+                    {/foreach}
+                    {/if}
+                    <tr>
+                        <td>备注</td>
+                        <td colspan="6">{$comment}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/peijiancaigoujihua.js"></script>{/block}

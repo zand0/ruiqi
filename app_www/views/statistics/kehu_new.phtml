@@ -1,0 +1,167 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}客户统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title">
+        <div class="fl">
+            <h3>客户统计</h3>
+            <p>运营简报 > 客户统计</p>
+        </div>	
+        <div class="fr chooseDate">
+            <span class="fl">选择时段：</span>
+            <div class="doubleRili fl">
+                <input type="text" id="start" style="width:80px;">
+            </div>
+            <span class="fl plr8">到</span>
+            <div class="doubleRili fl">
+                <input type="text" id="end" style="width:80px;">
+            </div>
+            <a href="javascript:void(0);" class="fl">确定</a>
+        </div>
+    </div>
+    <!-- 选项卡-->
+    <div class="tabContrl clearfix myDate mb34">
+        <a href="javascript:void(0);" class="active">最近7天</a>
+        <a href="javascript:void(0);">最近14天</a>
+        <a href="javascript:void(0);">最近30天</a>
+        <a href="javascript:void(0);">今日</a>
+        <a href="javascript:void(0);">全部</a>
+    </div>
+    <div class="tabItem">
+        <!-- 最近7天 -->
+        <div class="listItem" style="display:block;">
+            <div class="dataMenu mb40 clientMenu pr240">
+                <div class="bgBtn">
+                    <p>所有客户数</p>
+                    <strong>98,985</strong>
+                </div>
+                <ul class="clearfix">
+                    <li>
+                        <p>新开户数</p>
+                        <strong>￥45,125</strong>
+                    </li>
+                    <li>
+                        <p>活跃客户</p>
+                        <strong>￥45,125</strong>
+                    </li>
+                    <li>
+                        <p>未活跃客户（3个月内）</p>
+                        <strong>￥45,125</strong>
+                    </li>
+                </ul>	
+            </div>
+            <!-- 图表 -->
+            {literal}
+            <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+            <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+            <script>
+                $(function () {
+                    $('#container').highcharts({
+                        chart: {
+                            type: 'column',
+                            options3d: {
+                                enabled: true,
+                                alpha: 15,
+                                beta: 15,
+                                viewDistance: 25,
+                                depth: 40
+                            },
+                            marginTop: 80,
+                            marginRight: 40
+                        },
+                        title: {
+                            text: '2016年5月20日-2016年5月26日所有客户数统计'
+                        },
+                        credits: {
+                            enabled: false // 禁用版权信息
+                        },
+                        xAxis: {
+                            categories: ['东光志远店', '朝阳门店', '四惠店', '马家堡店', '复兴门店']
+                        },
+                        yAxis: {
+                            allowDecimals: false,
+                            min: 0,
+                            title: {
+                                text: '客户数'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{point.key}</b><br>',
+                            pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+                        },
+                        plotOptions: {
+                            column: {
+                                stacking: 'normal',
+                                depth: 40
+                            }
+                        },
+                        series: [{
+                                name: '新开户',
+                                data: [20, 16, 14, 18, 15],
+                                stack: 'male'
+                            }, {
+                                name: '未活跃',
+                                data: [19, 15, 10, 8, 13],
+                                stack: 'male'
+                            }, {
+                                name: '未活跃',
+                                data: [19, 15, 10, 8, 13],
+                                stack: 'male'
+                            }]
+                    });
+                });
+            </script>
+            {/literal}
+            <div id="container" style="height:330px;" class="mb34"></div>
+            <div class="table2 mb34">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="borderRight">门店名称</th>
+                            <th>新开户数</th>
+                            <th>活跃客户</th>
+                            <th>未活跃客户</th>
+                            <th>所有客户数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $shopNowTotal neq ''}
+                        {foreach $shopNowTotal as $value}
+                        <tr>
+                            <td class="borderRight">{(!empty($value['shop_name'])) ? $value['shop_name'] : '未分配门店'}</td>
+                            <td><strong>0</strong></td>
+                            <td><strong>0</strong></td>
+                            <td><strong>0</strong></td>
+                            <td class="redColor"><strong>{$value['total']}</strong></td>
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr><td colspan="5">暂时没有数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- 最近14天 -->
+        <div class="listItem"></div>
+        <!-- 最近30天 -->
+        <div class="listItem"></div>
+        <!-- 今日 -->
+        <div class="listItem"></div>
+        <!-- 全部 -->
+        <div class="listItem"></div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/kehujianbaoCtrl.js"></script>
+{/block}

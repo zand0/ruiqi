@@ -1,0 +1,72 @@
+{extends file='main.phtml'}
+{block name=rtitle}废瓶处理{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/finance/addwaste">
+        <div class="rqLine clearfix bottlerecords">
+            <div class="rqOption fl">
+                <label class="fl">瓶类型：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="btype[]" class="selectmenu">
+                        {foreach $btypes as $k=>$v}
+                        <option value="{$k}">{$v}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="bnum[]" value="{$num}" style="width:180px;">
+                </div>
+            </div>
+            <div class="rqOption fl"><a href="javascript:;" class="add">+</a></div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">总价值：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="money" style="width:150px;">
+                    <span>总价值</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine" id="product">
+            <div class="rqOption clearfix">
+                <label class="fl">备注</label>
+                <div class="fl">
+                    <textarea name="comment"></textarea>
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:if(confirm('提交后不可更改，确定提交？')){ document.form.submit(); }" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.add').live('click', function () {
+            var pt = $(this).parents("div .bottlerecords"), bottle = pt.clone();
+            bottle.find('select').show().removeAttr('id').selectmenu().next().next().remove();
+            bottle.find('select').selectmenu('refresh').next().attr('style', pt.find('.ui-selectmenu-button').attr('style'));
+            bottle.find('div:last>a').removeClass('add').addClass('del').html('-');
+            bottle.find('input:first').val('');
+            
+            if (pt.attr('id') == 'product') {
+                $('#comment').before(bottle);
+            } else {
+                $('#product').before(bottle);
+            }
+        });
+        $('.del').live('click', function () {
+            $(this).parents('.rqLine').remove();
+        });
+    });
+</script>
+{/block}

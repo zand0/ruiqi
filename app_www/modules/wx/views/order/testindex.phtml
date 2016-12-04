@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="format-detection" content="telephone=no" />
+        <title>我要订气</title>
+        <link rel="stylesheet" type="text/css" href="/statics/wx/css/layout.css" />
+        <script type="text/javascript" src="/statics/wx/js/jquery.js"></script>
+        <script>
+            $(function () {
+                $("#addorder").click(function () {
+                    var mobile = $("#mobile").val();
+                    if (mobile != '') {
+                        var formdata = $('#formorder').serialize();
+                        $.ajax({
+                            type: "POST",
+                            async: false,
+                            url: "/wx/order/createorder",
+                            data: formdata,
+                            success: function (result) {
+                                var preview = eval("(" + result + ")");
+                                if (preview.code >= 1) {
+                                    //alert(preview.msg);
+                                    //window.location.reload();
+                                    window.location.href = 'http://cztest.ruiqi100.com/wxpay/example/jsapi.php';
+                                } else {
+                                    alert('下单失败');
+                                }
+                            }
+                        });
+                    } else {
+                        alert('请添加手机号');
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="chooseBtn">
+                <!-- 选择规格数量 -->
+                选择商品规格和数量
+                <i></i>
+                <span></span>
+            </div>
+            <form action="/wx/order/createorder" method="post" id="formorder">
+                <!-- 电话号码 -->
+                <div class="telInput inputarea">
+                    <i></i>
+                    <input type="text" name="mobile" id="mobile" placeholder="手机号" />
+                </div>
+                <!-- 用户姓名 -->
+                <div class="telInput inputarea">
+                    <i></i>
+                    <input type="text" name="username" id="username" placeholder="用户名称" />
+                </div>
+                <!-- 备注 -->
+                <div class="areaInput inputarea">
+                    <i></i>
+                    <textarea name="comment" id="comment" placeholder="地址"></textarea>
+                </div>
+                <!-- 提交 -->
+                <a href="javascript:;" class="loginBtn" id="addorder">提交</a>
+		<div style="color:red">
+		     通过微信订气 下单立减5元
+		</div>
+                <!-- 弹层 -->
+                <div class="layer" style="display:none;"></div>
+                <div class="choosePop" style="display:none">
+                    <div class="btnBox">
+                        <i>取消</i>
+                        <span>清空</span>
+                        <strong>确定</strong>
+                    </div>
+                    <ul class="choose-guige">
+                        {if $data neq ''}
+                        {foreach $data as $bVal}
+                        <li>
+                            <input type="hidden" name="bottle_id[{$bVal['id']}]" value="{$bVal['id']}|{$bVal['norm_id']}|{$bVal['retail_price']}" />
+                            <strong>￥{$bVal['direct_price']}</strong>
+                            <p>{$bVal['name']}-{$bVal['cname']}</p>
+                            <div class="num">
+                                
+                                <span class="sub">-</span>
+                                <input type="text" value="0" />
+                                <span class="add">+</span>
+                                <input type="hidden" name="bottle_num[{$bVal['id']}]" value="0" />
+                            </div>
+                        </li>
+                        {/foreach}
+                        {/if}
+                    </ul>
+                    <div>
+                        <div class="tips" style="display:none">请输入数量</div>
+                    </div>
+                    <script type="text/javascript" src="/statics/wx/js/public.js"></script>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

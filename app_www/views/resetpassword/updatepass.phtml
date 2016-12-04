@@ -1,0 +1,51 @@
+{extends file='main_other.phtml'}
+{block name=body}
+<div class="content clearfix">
+    {include file='staticpage_left.phtml'}
+    <div class="fr" style="width:904px;">
+        <div class="contRItem">
+            <div class="contRTitle">
+                修改密码
+                <span></span>
+            </div>
+            <div class="contRList changePsd">
+                <form name="form" method="POST" action="/resetpassword/updatepass">
+                <p class="tips">建议您经常更换您的密码，确保您的账户安全！</p>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label><span>*</span>原密码：<font>必须输入原密码才能修改.</font></label>
+                        <div class="inputBox  placeholder">
+                            <input type="password" name="old_password" style="width:500px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption">
+                        <label><span>*</span>新密码：<font>最小长度为6个字符.</font></label>
+                        <div class="inputBox  placeholder">
+                            <input type="password" name="password" style="width:500px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption">
+                        <label><span>*</span>确认新密码：<font>请再次输入新密码.</font></label>
+                        <div class="inputBox placeholder">
+                            <input type="password" name="confirm_password" style="width:500px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <a href="javascript:document.form.submit();" class="blueBtn">确定</a>
+                    </div>
+                    <div class="rqOption fl">
+                        <a href="javascript:document.form.reset();" class="grayBtn">取消</a>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

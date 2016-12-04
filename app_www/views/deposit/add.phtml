@@ -1,0 +1,66 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}押金管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <form name="form" method="POST" action="/deposit/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">门店：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="shop_id" id="shop_id" class="selectmenu">
+                                <option value="">选择门店</option>
+                                {if $shopObject neq ''}
+                                {foreach $shopObject as $value}
+                                <option value="{$value['shop_id']}">{$value['shop_name']}</option>
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">送气工：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="shipper_id" id="shipper_id" class="selectmenu">
+                                <option value="">选择送气工</option>
+                                {if $data neq ''}
+                                {foreach $data as $value}
+                                <option value="{$value['shipper_id']}">{$value['shipper_name']}</option>
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption clearfix">
+                    <div class="fl">
+                        <div  class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">提交</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/orderDetail.js"></script>{/block}

@@ -1,0 +1,116 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工配件库存{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        出入库记录 
+        <span></span>
+        <a href="javascript:;" class="blueBtn6 addChuku">添加出库</a>
+        <a href="javascript:;" class="blueBtn6 blueBtn9 addRuku">添加入库</a>
+    </div>
+    <div class="contRList">
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <a href="/stock/shipperproduct?pagetype=log" target="_blank"><li class="tabBtn active">历史库存记录<span></span></li></a>
+            </ul>
+            <ul class="tabItembox rqOperation">
+                <li class="tabItem" style="display:block;">
+                    <form name="form" method="POST">
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqRadio rqOption2">
+                                <label class="fl">出入库状态：</label>
+                                <div class="myradio fl">
+                                    <div class="radiobox clearfix">
+                                        <input type="radio" name="type" value ="1" class="active" />入库
+                                        <input type="radio" name="type" value ="2" class="active" />出库
+                                        <input type="radio" name="type" value ="" class="active" />全部
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <label class="fl">产品类别：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="goods_id" class="selectmenu">
+                                            <option value="0" >请选择</option>
+                                            {if $productsObject neq ''}
+                                            {foreach $productsObject as $key => $value}
+                                            {if $param['goods_id'] eq $value['id']}
+                                            <option value="{$value['id']}" selected="selected">{$value['name']}-{$value['typename']}</option>
+                                            {else}
+                                            <option value="{$value['id']}" >{$value['name']}-{$value['typename']}</option>
+                                            {/if}
+                                            {/foreach}
+                                            {/if}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">送气工：</label>
+                                <div class="mySelect fl">
+                                    <select name="shipper_id" class="selectmenu" style="width:160px;">
+                                        <option selected="selected" value="">选择送气工</option>
+                                        {foreach $shipperObject as $sKey => $sVal}
+                                        {if $param['shipper_id'] eq $sVal['shipper_id']}
+                                        <option value="{$sVal['shipper_id']}" selected="selected">{$sVal['shipper_name']}</option>
+                                        {else}
+                                        <option value="{$sVal['shipper_id']}">{$sVal['shipper_name']}</option>
+                                        {/if}
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="rqLine clearfix">
+                            <div class="rqOption fl rqOption2">
+                                <label class="fl">出入库时间：</label>
+                                <div class="riliInputBox fl">
+                                    <div class="riliInput fl">
+                                        <input type="text" style="width:150px;" name="start_time" value="{$param['start_time']}" id="time_start">
+                                    </div>
+                                    <span class="fl">至</span>
+                                    <div class="riliInput fl">
+                                        <input type="text" id="time_end" name="end_time" value="{$param['end_time']}" style="width:150px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                                <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="rqTabItem">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="w150">日期</th>
+                                    <th class="w150">送气工</th>
+                                    <th class="w150">配件规格</th>
+                                    <th class="w150">数量</th>
+                                    <th>备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {$list}
+                            </tbody>
+                        </table>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/peijiankucun.js"></script>{/block}

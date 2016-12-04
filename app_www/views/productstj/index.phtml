@@ -1,0 +1,28 @@
+{extends file='main.phtml'}
+{block name=rtitle}配件库存{/block}
+
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>门店等级</td>
+            <td>门店名称</td>
+            <td>物品类型</td>
+            <td>物品编号</td>
+            <td>物品名称</td>
+            <td>物品数量</td>
+        </tr>
+
+        {foreach $list as $value}
+        <tr>
+            <td>{$shop_levels[$value['shop_level']]}</td>
+            <td>{$shop_list[$value['shop_id']]['shop_name']}</td>
+            <td>{if $value['products_type'] eq 0}钢瓶{else if $value['products_type'] eq 1}配件{else}其它{/if}</td>
+            <td>{$value['products_no']}</td>
+            <td>{$value['products_name']}</td>
+            <td>{$value['num']}</td>
+        </tr>
+        {/foreach} 
+    </table>
+</div>
+{/block}

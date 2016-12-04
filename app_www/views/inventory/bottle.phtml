@@ -1,0 +1,77 @@
+{extends file='main.phtml'}
+{block name=rtitle}钢瓶出入库{/block}
+{block name=body}
+<div class="orderList contRList">
+    <form name="form" method="POST">
+        <div class="rqLine clearfix">
+            {if $shop_id > 0 }
+            <input type="hidden" name="shop_id" value="{$shop_id}" />
+            {else}
+            <div class="rqOption fl">
+                <label class="fl">门店列表：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="shop_id" class="selectmenu">
+                            <option value="0">请选择</option>
+                            {foreach $shopObject as $k=>$v}
+                            <option value="{$k}" {if $v['shop_id'] == $param['shop_id']}selected="selected"{/if}>{$v['shop_name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {/if}
+            <div class="rqOption fl">
+                <label class="fl">时间：</label>
+                <div class="riliInputBox fl">
+                    <div class="riliInput fl">
+                        <input type="text" style="width:150px;" name="start_time" value="{$param['start_time']}" id="time_start">
+                    </div>
+                    <span class="fl">至</span>
+                    <div class="riliInput fl">
+                        <input type="text" id="time_end" name="end_time" value="{$param['end_time']}" style="width:150px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <input type="hidden" name="page" value="{if $post['page']}{$post['page']}{else}1{/if}">
+                <a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a>
+            </div>
+        </div>
+    </form>
+    <table>
+        <tr>
+            <td>芯片号</td>
+            <td>门店</td>
+            <td>瓶类型</td>
+            <td>抵达位置</td>
+            <td>是否在门店</td>  
+            <td>时间</td>
+        </tr>
+
+        {if $ext neq ''}
+        {foreach $ext['list'] as $value}
+        <tr>
+            <td>{$value['xinpian']}</td>
+            <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+            <td>{$bottleTypeObject[$value['type']]['bottle_name']}</td>
+            <td>{if $value['status']==1}门店{elseif $value['status'] == 2}送气工{else}客户{/if}</td>
+            <td>{if $value['is_use'] == 1}是{else}否{/if}</td>
+            <td>{date('Y-m-d',$value['time_created'])}</td>
+        </tr>
+        {/foreach} 
+        {/if}
+    </table>
+
+    <div class="table-pages pageNav clearfix" id="pageNav"></div>
+</div>
+{literal}
+<script type="text/javascript">
+    var page = {/literal}{$page}{literal}
+    var totalPage = {/literal}{ceil($ext['count']/$page_size)}{literal}
+</script>
+{/literal}
+<script type="text/javascript" src="{$_PUBLIC}/js/common.js"></script>
+{/block}

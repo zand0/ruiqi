@@ -1,0 +1,119 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}钢瓶流失记录{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        钢瓶流失记录
+        <span></span>
+        <a href="/losscylinders/add" class="blueBtn8 addGpls">添加钢瓶流失</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">钢印号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="number" value="{$param['number']}" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">芯片号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="xinpian" value="{$param['xinpian']}" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">钢瓶规格：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="type" class="selectmenu" style="width:170px;">
+                                <option selected="selected" value="">选择钢瓶规格</option>
+                                {foreach $bottleTypeData as $k => $value}
+                                {if $param['type'] eq $value['id']}
+                                <option value="{$value['id']}" selected="selected">{$value['bottle_name']}</option>
+                                {else}
+                                <option value="{$value['id']}">{$value['bottle_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">流失时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" value="开始时间">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:148px;" value="结束时间">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        记录列表
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>钢印号</th>
+                        <th>芯片号</th>
+                        <th>瓶规格</th>
+                        <th>流失时间</th>
+                        <th>流失原因</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {if count($ext['list']) > 0}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['codingsn']}</td>
+                        <td>{$value['number']}</td>
+                        <td>{$value['xinpian']}</td>
+                        <td>{$value['type']}</td>
+                        <td>{$value['time']}</td>
+                        <td>{$value['comment']}</td>
+                    </tr>
+                    {/foreach} 
+                    {else}
+                    <tr><td colspan="6">暂时没有数据</td></tr>
+                    {/if}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/gangpingliushijilu.js"></script>{/block}

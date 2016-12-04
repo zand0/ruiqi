@@ -1,0 +1,23 @@
+{extends file='main.phtml'}
+{block name=rtitle}额度管理{/block}
+{block name=operate}<a href="/quota/add">创建额度</a>{/block}
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>职务</td>
+            <td>额度</td> 
+            <td>操作</td>
+        </tr>
+        {if $data neq ''}
+        {foreach $data as $value}
+        <tr>
+            <td>{$value['name']}</td>
+            <td>{$value['price']}</td>
+            <td><a href="/quota/edite?id={$value['id']}">修改</a></td>
+        </tr>
+        {/foreach}
+        {/if}
+    </table>
+</div>
+{/block}

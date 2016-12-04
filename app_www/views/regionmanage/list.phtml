@@ -1,0 +1,116 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}区域管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        区域管理
+        <span></span>
+        <!--a href="/regionmanage/addlist?id={$pid}" class="blueBtn6 addGuize">添加村镇</a-->
+        <a href="/regionmanage/addlist?id={$pid}&page={$page}" class="blueBtn6">添加村镇</a>
+    </div>
+    <div class="contRList">
+        <form method="GET" >
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">市：</label>
+                    <div class="fl areaSelect">
+                        <select id="loc_province" name="region_1" style="width:100px;" class="selectmenu region_1"></select>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">县/区：</label>
+                    <div class="fl areaSelect">
+                        <select id="loc_city" name="region_2" style="width:120px;" class="selectmenu region_2"></select>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">街道/城镇：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select id="loc_town" name="region_3" style="width:120px;" class="selectmenu region_3"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">村：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select id="loc_town" name="region_4" style="width:120px;" class="selectmenu region_4"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">关键词：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" value="{$name}" style="width:120px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>城市</th>
+                        <th>区\县</th>
+                        <th>街道\社区</th>
+                        <th>村镇</th>
+                        <th>所属片区</th>
+                        <th>负责送气工</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {if count($list) > 0}
+                    {foreach $list as $regionRow}
+                    <tr>
+                        <td>{$regionRow['regionsn']}</td>
+                        <td>{$regionRow['shi']}</td>
+                        <td>{$regionRow['xian']}</td>
+                        <td>{$regionRow['qu']}</td>
+                        <td>{$regionRow['region_name']}</td>
+                        <td>{(isset($areaData[$regionRow['area_id']])) ? $areaData[$regionRow['area_id']]['title'] : ''}</td>
+                        <td>{(isset($shipperData[$regionRow['shipper_id']])) ? $shipperData[$regionRow['shipper_id']]['shipper_name'] : ''}</td>
+                        <td class="tableBtn">
+                            <a href="/regionmanage/editlist?id={$regionRow['region_id']}&pid={$pid}&page={$page}">编辑</a>|
+                            <a href="/regionmanage/del?id={$regionRow['region_id']}&pid={$regionRow['parent_id']}" onclick="if (confirm('确定删除?') == false) return false;">删除</a>
+                        </td> 
+                    </tr> 
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="8">暂时还没有数据</td></tr>
+                    {/if}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$count}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($count/15)}">
+            <input type="hidden" id="xid" value="{$region[2]}" />
+            <input type="hidden" id="pid" value="{$region[3]}" />
+            <input type="hidden" id="cid" value="{$region[4]}" />
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/quyuManage.js"></script>{/block}

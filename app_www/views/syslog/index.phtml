@@ -1,0 +1,111 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}日志管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRItem">
+    <div class="contRTitle">
+        日志管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="tpData">
+            <ul class="clearfix">
+                <li>
+                    <p>终端总人数</p>
+                    <span>{$dataTotal['total']}</span>
+                </li>
+                <li  class="greenBg">
+                    <p>当前在线人数</p>
+                    <span>{$dataTotal['zx']}</span>
+                </li>
+                <li  class="greenBg">
+                    <p>当前离线人数</p>
+                    <span>{$dataTotal['lx']}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        日志管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">登陆名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name='logusername' id='username' value="{$param['logusername']}" style="width:120px;">
+                        <span>登陆名</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">岗位：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="job"class="selectmenu">
+                                <option value=''>岗位</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">岗位：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name='username' id='username' value="{$param['username']}" style="width:120px;">
+                        <span>岗位</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fr">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>登陆用户</td>
+                    <td>姓名</td>
+                    <td>岗位</td>
+                    <!--td>登录ip</td-->
+                    <td>登陆时间</td>
+                    <td>类型</td>
+                </tr>
+                {if !empty($ext['list']) }
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['logusername']}</td>
+                    <td>{$value['username']}</td>
+                    <td>{$value['quarters']}</td>
+                    <!--td>{$value['logip']}</td-->
+                    <td>{date('Y-m-d H:i:s',$value['logtime'])}</td>
+                    <td>{$value['logcontent']}</td>
+                </tr>
+                {/foreach}
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

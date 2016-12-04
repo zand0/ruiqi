@@ -1,0 +1,119 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}订单管理{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            订单管理
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="path">
+                <a href="/order/index">订单列表</a>&nbsp;
+                <i></i>&nbsp;
+                <a href="javascript:void(0);" class="active">订单详情</a>
+            </div>
+            <div class="detailTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="12" class="clearfix">
+                                <div class="fl">
+                                    <font>{date('Y-m-d H:i:s',$orderData['ctime'])}</font>&nbsp;&nbsp;
+                                    订单号：<span><font>{$orderData['order_sn']}</font></span>&nbsp;&nbsp;
+                                    客户类型：<span>{(isset($userType[$orderData['kehu_type']])) ? $userType[$orderData['kehu_type']]['typemanagername'] : '客户类型'}</span>&nbsp;&nbsp;
+                                    订单来源：<span class="redColor">{(isset($ordersource[$orderData['ordertype']])) ? $ordersource[$orderData['ordertype']] : '订单来源'}</span>
+                                </div>
+                                <div class="fr">订单状态：<span>{(isset($orderStatus[$orderData['status']])) ? $orderStatus[$orderData['status']] : ''}</span></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="{$ordernum+1}">
+                                <p class="name"><i></i>{$orderData['username']}</p>
+                                <p class="tel">{$orderData['mobile']}</p>
+                            </td>
+                            <td rowspan="{$ordernum+1}">
+                                <p class="area"><i></i>客户地址</p>
+                                <p>{$orderData['address']}</p>
+                            </td>
+                            <td rowspan="{$ordernum+1}">
+                                <div class="tableCont">
+                                    <p>
+                                        <font>配送站点：</font><span>{$shopObject[$orderData['shop_id']]['shop_name']}</span>
+                                    </p>
+                                    <p>
+                                        <font>送气工：</font><span>{$orderData['shipper_name']}</span>
+                                    </p>
+                                    <p>
+                                        <font>配送电话：</font>{$orderData['shipper_mobile']}
+                                    </p>
+                                </div>
+                            </td>
+                            <td>商品名称</td>
+                            <td>规格</td>
+                            <td>单价</td>
+                            <td>数量</td>
+                            <td>实际价格</td>
+                            <td>押金</td>
+                            <td>余气</td>
+                            <td>折旧</td>
+                            <td>残液</td>
+                        </tr>
+                        {if $orderInfo neq ''}
+                        {foreach $orderInfo as $key => $value}
+                        <tr>
+                            <td>{$value['goods_name']}</td>
+                            {if $value['goods_type'] eq 1}
+                            <td>{$bottleTypeData[$value['goods_kind']]['bottle_name']}</td>
+                            {else}
+                            <td>{$porductTypeData[$value['goods_kind']]['name']}</td>
+                            {/if}
+                            <td>{$value['goods_premium']}</td>
+                            <td>{$value['goods_num']}</td>
+                            <td>{$value['pay_money']}</td>
+                            {if $key eq 0}
+                            <td rowspan="{$orderCount}">{$orderData['deposit']}</td>
+                            <td rowspan="{$orderCount}">{$orderData['residual_gas']}</td>
+                            <td rowspan="{$orderCount}">{$orderData['depreciation']}</td>
+                            <td rowspan="{$orderCount}">{$orderData['raffinat']}</td>
+                            {/if}
+                        </tr>
+                        {/foreach} 
+                        {/if}
+                        <tr>
+                            <td>备注</td>
+                            <td colspan="2">{$orderData['comment']}</td>
+                            <td colspan="7">
+                                <p>
+                                    <font>应收金额：</font><strong>{$orderData['money']}元</strong>&nbsp;&nbsp;
+                                    <font>实收金额：</font><strong>{$orderData['pay_money']}元</strong>
+                                    <font>送气工优惠：</font><strong>{$orderData['shipper_money']}元</strong>
+                                    {if $orderData['discountmoney'] neq ''}
+                                    <font>用户优惠：</font><strong>{$orderData['discountmoney']}元</strong>
+                                    {/if}
+                                    {if $orderData['is_youhui'] eq 1 && $orderData['is_yh_money']}
+                                    <font>优惠券：</font><strong>{$orderData['is_yh_money']}元</strong>
+                                    {/if}
+                                    {if $orderData['status'] eq 4 && $orderData['is_settlement'] eq 2}
+                                    <font>欠款金额：</font><strong>{$orderData['is_settlement_money']}元</strong>
+                                    {/if}
+                                </p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/orderDetail.js"></script>{/block}

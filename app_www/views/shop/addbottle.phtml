@@ -1,0 +1,66 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店钢瓶借调{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRList">
+            <div class="path">
+                <a href="/shop/secondment">门店借调</a>&nbsp;
+                <i></i>&nbsp;
+                <a href="javascript:void(0);" class="active">{$shop_name}</a>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">借调详情：</label>
+                    <div class="rqTabItem rqTabItem2 fl" style="width:580px;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>规格</th>
+                                    <th>数量</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {$list}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <form name="form" method="POST" action="/shop/ajaxbottle"> 
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <div class="rqOption fl">
+                            <label class="fl">钢印号：</label>
+                            <div class="inputBox fl">
+                                <input type="hidden" name="to_shop_id" value="{$to_shop_id}" />
+                                <input type="hidden" name="sn" value="{$sn}" />
+                                <textarea type="text" name="number" id="number"></textarea>钢印号之间回车连接
+                            </div>
+                        </div>
+                        <div class="fl">
+                            <div class="rqLine">
+                                <div class="rqOption fl">
+                                    <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                                </div>
+                                <div class="rqOption fl">
+                                    <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/storeManage.js"></script>{/block}

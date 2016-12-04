@@ -1,0 +1,49 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}测试{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/lib/jquery.uploadify.min.js"></script>
+<script>
+    $(function () {
+        $("#xls-upload").uploadify({
+            'removeCompleted': true,
+            formData: {
+                'token_school': "<?php echo $aa_school_sn; ?>",
+                'token_term': "<?php echo $edu_term; ?>",
+                'token_type': "class"
+            },
+            'buttonImage': "/statics/images/qiBg3.png",
+            'fileTypeExts': "*.xlsx;*.xls",
+            'fileSizeLimit': 5 * 1024,
+            'queueID': "some_file_queue",
+            'width': 85,
+            'height': 27,
+            'swf': "/statics/lib/uploadify.swf",
+            'uploader': "/test/index",
+            'itemTemplate': "<div></div>",
+            'auto': true,
+            'onUploadSuccess': function (file, data, response) {
+
+            },
+            onUploadProgress: function () {
+                $("#loding_look").show();
+            }
+        });
+    });
+</script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <a href="javascript:;" class="fl m_button_1 clearfix ml20">
+        <input type="file" name="fileInput" id="xls-upload" />
+    </a>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

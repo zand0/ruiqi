@@ -1,0 +1,57 @@
+@charset "utf-8";
+/* 通用样式 */
+*{ -webkit-tap-highlight-color: rgba(0,0,0,0);}
+html{-webkit-text-size-adjust:none; } 
+body, div, ol, ul, h1, h2, h3, h4, h5, h6, p, th, td, dl, dd, form, iframe, input, textarea, select, label, article, aside, footer, header, menu, nav, section, time, audio, video {margin:0; padding:0;}
+article, aside, footer, header, hgroup, nav, section, audio, canvas, video {display:block;}
+body { font-family: Microsoft YaHei, Helvetica Neue, Helvetica, STHeiTi, sans-serif; font-size:100%;color: #282828;}
+textarea {resize:none;}
+iframe, img {border:0 none;}
+ul, ol {list-style:none;outside none;}
+input, select, textarea {outline:0 none;}
+.clear{ clear:both;}
+.clearfix:before, .clearfix:after {
+    content: ".";
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+}
+.clearfix:after {
+    clear: both;
+}
+a{ text-decoration: none; color:#333;}
+input,input:focus,input:active{ -webkit-appearance:none; user-select: text; border:none; list-style:none;}
+.fl{ float:left;}
+.fr{ float:right;}
+img{display:block;}
+/*自定义样式*/
+.wrap{background: #f4f4f4;padding: 10px 14px;}
+.chooseBtn{position:relative;font-size:14px;padding-left:10px;border: 1px solid #ddd;height:40px;line-height:40px;color: #333;background: #fff;border-radius: 3px;margin-bottom: 10px;}
+.chooseBtn span{position: absolute;right: 10px;top: 50%;margin-top:-8px;width: 10px;height: 16px;background: url(../images/arrow.png) no-repeat;background-size: 100%;}
+.chooseBtn i{display:none;position: absolute;left: 142px;top: 50%;margin-top:-5px;width: 12px;height: 9px;background: url(../images/okIcon.png) no-repeat;background-size: 100%;}
+.inputarea{position:relative;border: 1px solid #ccc;border-radius: 3px;background: #fff;padding-left: 36px;height: 40px;margin-bottom: 10px;}
+.inputarea i{position: absolute;left: 12px;top: 50%;width: 14px;height: 16px;margin-top: -8px;background: url(../images/icon.png) no-repeat;background-size:14px 38px; }
+.inputarea input{font-size:14px;color: #333;height: 16px;padding: 12px 0;line-height: 16px;}
+.areaInput{padding: 12px 10px 0 36px;height:144px; }
+.areaInput textarea{width:100%;border: none;font-size:14px;line-height: 20px;height: 100px; }
+.areaInput i{top: 16px;background-position: -2px -26px;margin-top: 0;}
+.loginBtn{display:block;width: 100%;height: 50px;line-height: 50px;text-align: center;background:#1abc9c;color: #fff;font-size: 17px;border-radius: 3px;margin-top: 40px;}
+.layer{position: fixed;left: 0;top: 0;width: 100%;height:100%;background: rgba(0,0,0,0.6);z-index:2;}
+.choosePop{z-index:100;position: fixed;left: 0;bottom: 0;width: 100%;background: #fff;padding-bottom: 20px;}
+.btnBox{position:relative;text-align: center;font-size: 14px;height: 50px;line-height: 50px;color: #666;border-bottom: 1px solid #ddd;}
+.btnBox i{font-style: normal;position: absolute;left:14px;top: 0;}
+.btnBox strong{font-weight: normal;position: absolute;right:14px;top: 0;}
+.choose-guige li{position:relative;padding-left:30%;border-bottom: 1px solid #ddd;font-size: 14px;color: #333;height: 50px;line-height: 50px;}
+.choose-guige li strong{position:absolute;left:10px;top:0;color: #06c;font-size: 16px;}
+.num{position: absolute;right: 10px;top: 50%;height:34px;line-height: 34px;margin-top:-18px;border: 1px solid #666;border-radius: 5px;text-align: center;}
+.num span{float:left;width:34px;color: #666;font-size: 22px;}
+.num span.sub{border-right: 1px solid #666;}
+.num span.add{border-left: 1px solid #666;}
+.num input{float: left;width: 48px;height: 14px;font-size: 14px;padding:10px 0;text-align: inherit;}
+.tips{font-size:14px;position:fixed;left:50%;bottom:20px;margin-left:-80px;width: 160px;height: 40px;line-height: 40px;background: rgba(0,0,0,0.75);border-radius: 5px;color: #fff;text-align: center;}
+
+

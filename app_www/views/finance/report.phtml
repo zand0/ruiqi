@@ -1,0 +1,122 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}应收款-简报{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        应收款统计
+        <span></span>
+    </div>
+    <div class="contRList">
+        {literal}
+        <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+        <script>
+            $(function () {
+                var title = {/literal}{$title}{literal};
+                var show = {/literal}{$show}{literal};
+                var showData = {/literal}{$showData}{literal};
+                $('#container').highcharts({
+                    chart: {
+                        type: 'column',
+                        options3d: {
+                            enabled: true,
+                            alpha: 15,
+                            beta: 15,
+                            viewDistance: 25,
+                            depth: 40
+                        },
+                        marginTop: 80,
+                        marginRight: 40
+                    },
+                    title: {
+                        text: '应收款统计'
+                    },
+                    credits: {
+                        enabled: false // 禁用版权信息
+                    },
+                    xAxis: {
+                        categories: title
+                    },
+                    yAxis: {
+                        allowDecimals: false,
+                        min: 0,
+                        title: {
+                            text: '应收款'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{point.key}</b><br>',
+                        pointFormat: '<span style="color:{series.color}">\u25CF</span> {series.name}: {point.y} / {point.stackTotal}'
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            depth: 40
+                        }
+                    },
+                    series: [
+                        {
+                            name: '押金欠款',
+                            data: showData,
+                            stack: 'male'
+                        },
+                        {
+                            name: '气款应收',
+                            data: show,
+                            stack: 'male'
+                        }]
+                });
+            });
+        </script>
+        {/literal}
+        <div id="container" class="mb20"></div>
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <li class="tabBtn active">门店应收款<span></span></li>
+            </ul>
+            <ul class="tabItembox rq_itembox">
+                <li class="tabItem" style="display:block;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>气款应收</th>
+                                <th>押金欠款</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if $reportNewData neq ''}
+                            {foreach $reportNewData as $key => $value}
+                            {assign var=reportTotal value=$reportTotal+$value[1]}
+                            {assign var=reportyjTotal value=$reportyjTotal+$value[2]}
+                            <tr>
+                                <td>{$shopObject[$key]['shop_name']}</td>
+                                <td>{$shopObject[$key]['admin_name']}</td>
+                                <td>{(isset($value[1])) ? $value[1] : 0}</td>
+                                <td>{(isset($value[2])) ? $value[2] : 0}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$reportTotal}</td>
+                                <td>{$reportyjTotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="4">暂时还没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/yingshoukuanjianbao.js"></script>{/block}

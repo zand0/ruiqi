@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="format-detection" content="telephone=no" />
+        <link rel="stylesheet" type="text/css" href="/statics/wx/css/layout.css" />
+        <script type="text/javascript" src="/statics/wx/js/jquery.js"></script>
+        <script type="text/javascript" src="/statics/wx/js/jquery.transit.min.js"></script>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="bgImg">
+                <img src="/statics/wx/images/bg.jpg">
+            </div>
+            <div class="menu">
+                <ul>
+                    <li>
+                        <a href="http://mp.weixin.qq.com/s?__biz=MzI0MzM5NTYyNg==&mid=100000003&idx=1&sn=aa03d0dff114923d4ed73529f5c51042#rd">关注派思微信</a>
+                    </li>
+                    <li class="ios-download">
+                        <a href="https://itunes.apple.com/cn/app/wo-yao-ding-qi/id1100542596?mt=8">IOS版本下载</a>
+                    </li>
+                    <li class="and-download">
+                        <!--a href="http://zhushou.360.cn/detail/index/soft_id/3253521?recrefer=SE_D_%E6%88%91%E8%A6%81%E8%AE%A2%E6%B0%94">Android版本下载</a-->
+			<a href="/statics/upload/Customer.apk">Android版本下载</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tips-layer">
+                <img src="/statics/wx/images/weixinfc.png" />
+            </div>
+        </div>
+        {literal}
+        <script type="text/javascript">
+            $(function (){
+		$('.wrap').css({width:$(window).width(),height:$(window).height()})
+		fnScale();
+		$(window).on('resize',function (){
+			$('.wrap').css({width:$(window).width(),height:$(window).height()})
+			fnScale();
+		})
+		// 判断是否是微信
+		$('.ios-download,.and-download').on('click',function (){
+			is_weixin();
+		});
+		// 判断是否是微信
+		function is_weixin(){
+			var ua=window.navigator.userAgent.toLowerCase();
+			if(ua.match(/Micromessenger/i)=="micromessenger"){
+				$('.tips-layer').show();
+				$('.tips-layer,tips-layer img').on('click',function (){
+					$(this).hide();
+				});
+			}
+		}
+		// 缩放背景图
+		function fnScale(){
+		    ws = $(window).width()/320; 
+		    hs = $(window).height()/568;
+		    if( ws - hs > 1 ) ws = hs;
+         	$('.bgImg').css( { scale : hs < ws ? ws : hs } );
+		};
+	})
+        </script>
+        {/literal}
+    </body>
+</html>

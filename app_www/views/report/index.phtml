@@ -1,0 +1,56 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}安全报告{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        安全报告
+        <span></span>
+        <a href="/report/add" class="blueBtn8">创建安全报告</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>编号</td>
+                    <td>安全报告</td>
+                    <td>类型</td>
+                    <td>备注</td>
+                    <td>操作</td>
+                </tr>
+                {if $ext['list'] neq ''}
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['reportsn']}</td>
+                    <td>{$value['title']}</td>
+                    <td>
+                        {if $value['type'] eq 1}居民{else if $value['type'] eq 2}商业{else}工业{/if}
+                    </td>
+                    <td>{$value['comment']}</td>
+                    <td>
+                        <a href="/report/edit?id={$value['id']}">编辑</a>|<a href="/report/del?id={$value['id']}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>
+                    </td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr><td colspan="5">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

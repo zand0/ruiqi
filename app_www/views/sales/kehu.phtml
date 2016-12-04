@@ -1,0 +1,247 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}新开户-简报{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        新开户统计
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rq_data">
+            <ul class="clearfix">
+                <li class="{if $nowProportion >0}rq_up{else}rq_down{/if} dataLi4">
+                    <p>新开户数</p>
+                    <span class="rq_num"><strong>{$jtTotal}</strong></span>
+                    <font>{$nowProportion}</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="{if $weekProportion >0}rq_up{else}rq_down{/if} dataLi5">
+                    <p>新开户数</p>
+                    <span class="rq_num"><strong>{$weekTotal}</strong></span>
+                    <font>{$weekProportion}</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="{if $seasonProportion >0}rq_up{else}rq_down{/if} dataLi6">
+                    <p>新开户数</p>
+                    <span class="rq_num"><strong>{$seasonTotal}</strong></span>
+                    <font>{$seasonProportion}</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+            </ul>
+        </div>
+        {literal}
+        <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+        <script>
+            $(function () {
+                var title = {/literal}{$title}{literal};
+                var show = {/literal}{$show}{literal};
+                $('#container').highcharts({
+		        title: {
+		            text: '新开户统计',
+		            x: -20 //center
+		        },
+		        subtitle: {
+		            text: '二周内每日新开户明细',
+		            x: -20
+		        },
+		        credits:{
+				    enabled:false // 禁用版权信息
+				},
+		        xAxis: {
+		        	title: {
+		                text: '日期'
+		            },
+		            categories: title
+		        },
+		        yAxis: {
+		            title: {
+		                text: '开户数'
+		            },
+		            plotLines: [{
+		                    value: 0,
+		                    width: 1,
+		                    color: '#808080'
+		                }]
+		        },
+		        tooltip: {
+		            valueSuffix: '个'
+		        },
+		        legend: {
+		            enabled:false
+		        },
+		        series: [{"name":"开户数","data":show}]
+		    });
+            });
+        </script>
+        {/literal}
+        <div id="container" class="mb20"></div>
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <li class="tabBtn active">本日<span></span></li>
+                <li class="tabBtn">本周<span></span></li>
+                <li class="tabBtn">本月<span></span></li>
+                <li class="tabBtn">本季度<span></span></li>
+                <li class="tabBtn">本年<span></span></li>
+            </ul>
+            <ul class="tabItembox rq_itembox">
+                <li class="tabItem" style="display:block;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>新开户数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopDayTotal) > 0}
+                            {foreach $shopDayTotal as $wVal}
+                            {assign var=daytotal value=$daytotal+$wVal['total']}
+                            <tr>
+                                <td>{($wVal['shop_name'] != '') ? $wVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$wVal['admin_name']}</td>
+                                <td>{$wVal['total']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$daytotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="3">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>新开户数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopNowTotal) > 0}
+                            {foreach $shopNowTotal as $wVal}
+                            {assign var=weektotal value=$weektotal+$wVal['total']}
+                            <tr>
+                                <td>{($wVal['shop_name'] != '') ? $wVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$wVal['admin_name']}</td>
+                                <td>{$wVal['total']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$weektotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="3">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>新开户数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopWeekTotal) > 0}
+                            {foreach $shopWeekTotal as $wVal}
+                            {assign var=monthtotal value=$monthtotal+$wVal['total']}
+                            <tr>
+                                <td>{($wVal['shop_name'] != '') ? $wVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$wVal['admin_name']}</td>
+                                <td>{$wVal['total']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$monthtotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="3">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>新开户数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopSeasonTotal) > 0}
+                            {foreach $shopSeasonTotal as $jVal}
+                            {assign var=seasontotal value=$seasontotal+$jVal['total']}
+                            <tr>
+                                <td>{($jVal['shop_name'] != '') ? $jVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$jVal['admin_name']}</td>
+                                <td>{$jVal['total']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$seasontotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="3">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>新开户数</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopYearTotal) > 0}
+                            {foreach $shopYearTotal as $jVal}
+                            {assign var=yeartotal value=$yeartotal+$jVal['total']}
+                            <tr>
+                                <td>{($jVal['shop_name'] != '') ? $jVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$jVal['admin_name']}</td>
+                                <td>{$jVal['total']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$yeartotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="3">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/xinkaihujianbao.js"></script>{/block}

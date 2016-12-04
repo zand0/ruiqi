@@ -1,0 +1,215 @@
+{extends file='layouts\main.phtml'}
+{block name=body}
+{block name=head}
+<script type="text/javascript" src="{$_PUBLIC}/js/region_select.js"></script>
+{literal}
+<script>
+    $(function () {
+         var sheng = "{/literal}{$sheng}{literal}";
+        var shi = "{/literal}{$shi}{literal}";
+        var shi_name = "{/literal}{$shi_name}{literal}";
+        var xian = "{/literal}{$xian}{literal}";
+        var xian_name = "{/literal}{$xian_name}{literal}";
+        var qu = "{/literal}{$cun}{literal}";
+        var qu_name = "{/literal}{$cun_name}{literal}";
+        var jd = "{/literal}{$qu}{literal}";
+        var jd_name = "{/literal}{$qu_name}{literal}";
+        region_util({
+            v1_select: '.region_1',
+            v2_select: '.region_2',
+            v3_select: '.region_3',
+            v4_select: '.region_4',
+            request_param: {
+                opt_cat: 'list',
+            },
+            r_param:{
+                sheng:sheng,
+                shi:shi,
+                shi_name:shi_name,
+                xian:xian,
+                xian_name:xian_name,
+                qu:qu,
+                qu_name:qu_name,
+                jd:jd,
+                jd_name:jd_name
+            }
+        });
+    });
+</script>
+{/literal}
+{/block}
+<div class="content clearfix">
+    {include file='layouts\left.phtml'}
+    <div class="fr" style="width:904px;">
+        <div class="contRItem">
+            <div class="contRTitle">
+                个人资料
+                <span></span>
+            </div>
+            <div class="contRList countData">
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">用户头像：</label>
+                        <div class="uploadTouxiang">
+                            <a href="/my/photo/index" class="fl touxiang">
+                                {if $userRow['photo'] neq ''}
+                                <img src="/statics/upload/photo/{$userRow['photo']}">
+                                {else}
+                                <img src="/statics/upload/photo/touxiang.jpg">
+                                {/if}
+                            </a>
+                            <a href="/my/photo/index" class="fl blueBtn5">更换头像</a>
+                        </div>
+                    </div>
+                </div>
+                <form action="/my/home/index" method="post" >
+                    <div class="rqLine">
+                        <div class="rqOption clearfix">
+                            <label class="fl">用户名：</label>
+                            <div class="inputBox fl placeholder">
+                                <input type="text" name='username' style="width:260px;" value="{$userRow['user_name']}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqLine">
+                        <div class="rqOption clearfix">
+                            <label>密码管理：</label>
+                            <a href="/my/home/retsetpwd" class="modifyBtn">修改密码</a>
+                        </div>
+                    </div>
+                    <div class="rqLine">
+                        <div class="rqOption clearfix">
+                            <label class="fl">真实姓名：</label>
+                            <div class="inputBox fl placeholder">
+                                <input type="text" name='user_name' style="width:260px;" value="{$userRow['user_name']}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqLine">
+                        <div class="rqOption clearfix">
+                            <label class="fl">联系电话：</label>
+                            <div class="fl">
+                                <div class="addDelete">
+                                    <div class="inputBox placeholder">
+                                        <input type="text" name="mobile" style="width:260px;" value="{$userRow['mobile_phone']}">
+                                    </div>
+                                    {if count($kehuData['mobile_list']) > 0}
+                                    {foreach $kehuData['mobile_list'] as $mVal}
+                                    <div class="inputBox placeholder">
+                                        <input type="text" name="mobile_list[]" style="width:260px;" value="{$mVal}">
+                                    </div>
+                                    {/foreach}
+                                    {/if}
+                                </div>
+                                <a href="javascript:;" class="addBtn2" id="addTel">+新增联系电话</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqLine clearfix">
+                        <div class="rqOption fl">
+                            <label class="fl">省/市：</label>
+                            <div class="selectBox fl" style="width:172px;">
+                                <div class="selectBox">
+                                    <select name="region_1" class="selectmenux region_1"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqOption fl">
+                            <label class="fl">市：</label>
+                            <div class="selectBox fl" style="width:172px;">
+                                <div class="selectBox">
+                                    <select name="region_2" class="selectmenux region_2"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqOption fl">
+                            <label class="fl">区/县：</label>
+                            <div class="selectox fl" style="width:172px;">
+                                <div class="selectBox">
+                                    <select name="region_3" class="selectmenux region_3"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqOption fl">
+                            <label class="fl">街道/村：</label>
+                            <div class="selectox fl" style="width:172px;">
+                                <div class="selectBox">
+                                    <select name="region_4" class="selectmenux region_4"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqLine">
+                        <div class="rqOption clearfix">
+                            <label class="fl">详细地址：</label>
+                            <div class="fl">
+                                <div class="addDelete">
+                                    <div class="inputBox  placeholder">
+                                        <input type="text" style="width:435px;" name='address' value="{$userRow['address']}">
+                                        <span>输入详细地址</span>
+                                    </div>
+                                    {if count($addressData) > 0}
+                                    {foreach $addressData as $aVal}
+                                    <div class="inputBox  placeholder">
+                                        <input type="text" style="width:435px;" name="address_list[{$aVal['id']}]" value="{$aVal['address']}">
+                                        <span>输入详细地址</span>
+                                    </div>
+                                    {/foreach}
+                                    {/if}
+                                </div>
+                                <a href="javascript:;" class="addBtn2" id="addAddress">+新增地址</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqLine">
+                        <div class="rqOption">
+                            <input type='submit' value='提交订单' class="blueBtn"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="contRItem">
+            <div class="contRTitle">
+                充值记录
+                <span></span>
+                <p>共 <font>{$ext['count']}</font> 条记录</p>
+            </div>
+            <div class="contRList">
+                <div class="rqTabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>充值时间</th>
+                                <th>充值金额</th>
+                                <th>账户余额</th>
+                                <th>充值渠道</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($ext['list']) neq 0}
+                            {foreach $ext['list'] as $value}
+                            <tr>
+                                <td>{$value['time_list']}</td>
+                                <td>{$value['money']}</td>
+                                <td>{$value['balance']}</td>
+                                <td>{$paytype[$value['paytype']]}</td>
+                            </tr>
+                            {/foreach}
+                            {else}
+                            <tr><td colspan="4">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix sqspBottom">
+                    <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                    <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                    <input type="hidden" class="currentPage" value="{$page}">
+                    <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

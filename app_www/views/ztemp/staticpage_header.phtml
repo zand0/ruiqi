@@ -1,0 +1,23 @@
+<div class="header">
+    <div class="headCont clearfix">
+        <div class="fl headLeft">
+            <a href="/index/index"><img src="{$_PUBLIC}/images/logo.png"></a>
+        </div>
+        {if $smarty.session.userinfo neq ''}
+        <div class="fr headRight">
+            <span>{date('Y年m月d日')}</span>&nbsp;
+            <span>{$dateWeek[date('N')]}</span>
+            <font>Hi!<a href="/personal/index">{$smarty.session.userinfo.username}</a></font>
+            <a href="javascript:;">帮助</a>
+            <i>|</i>
+            <a href="/index/logout">退出</a>  
+        </div>
+        {else}
+        <div class="fr headRight">
+            <span>{date('Y年m月d日')}</span>&nbsp;
+            <span>{$dateWeek[date('N')]}</span>
+            <a href="javascript:;">帮助</a>
+        </div>
+        {/if}
+    </div>
+</div>

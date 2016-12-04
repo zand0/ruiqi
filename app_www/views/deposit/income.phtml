@@ -1,0 +1,176 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}押金收入{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRItem">
+    <div class="contRTitle">
+        押金收入
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>规格</th>
+                        <th>数量</th>
+                        <th>金额</th>
+                        <th>合计</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $statusTj neq ''}
+                    {foreach $statusTj as $k => $tVal}
+                    <tr>
+                        <td>{$bottleTypeData[$tVal['type']]['bottle_name']}</td>
+                        <td>{$tVal['num']}</td>
+                        <td>{$tVal['total']}</td>
+                        {if $k eq 0}
+                        <th rowspan="{$statusTotal+1}">{$totalMoney}</th>
+                        {/if}
+                    </tr>
+                    {/foreach}
+                    <tr>
+                        <td>收缴押金欠款</td>
+                        <td>{$totalqkMoney['num']}</td>
+                        <td>{$totalqkMoney['total']}</td>
+                    </tr>
+                    {else}
+                    <tr><td colspan="4">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        押金收入记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">订单号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="order_sn" value="{$param['order_sn']}" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    
+                    <label class="fl">钢瓶规格：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="type" class="selectmenu" style="width:170px;">
+                                <option value="">选择类型</option>
+                                {if $bottleTypeData neq ''}
+                                {foreach $bottleTypeData as $otVal}
+                                {if $otVal['id'] eq $param['type']}
+                                <option value="{$otVal['id']}" selected="selected">{$otVal['bottle_name']}</option>
+                                {else}
+                                <option value="{$otVal['id']}">{$otVal['bottle_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="rqOption fl mr0">
+                    {if isset($is_show_shop) && !empty($is_show_shop)}
+                    <input type="hidden" name="shop_id" value="{$is_show_shop}" />
+                    {else}
+                    <label class="fl">所属门店：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu" style="width:170px;">
+                                <option value="">选择站点</option>
+                                {foreach $shopObject as $k=>$v}
+                                {if $k eq $param['shop_id']}
+                                <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                                {else}
+                                <option value="{$k}">{$v['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    {/if}
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">开户时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" name="time_start" value="">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:148px;" name="time_end" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>规格</th>
+                        <th>客户名称</th>
+                        <th>数量</th>
+                        <th>押金</th>
+                        <th>金额</th>
+                        <th>所属门店</th>
+                        <th>方式</th>
+                        <th>开户时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) > 0 }
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['order_sn']}</td>
+                        <td>{$bottleTypeData[$value['type']]['bottle_name']}</td>
+                        <td>{$value['user_name']}</td>
+                        <td>{$value['number']}</td>
+                        <td>{$value['money']}</td>
+                        <td>{$value['price']}</td>
+                        <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                        <td>{($value['deposit_type'] eq 1) ? '订单收入' : '欠款收缴'}</td>
+                        <td>{$value['time']}</td>
+                    </tr>
+                    {/foreach} 
+                    {else}
+                    <tr><td colspan="10">暂时还没有数据</td></tr>
+                    {/if}    
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$param['page']}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/yajinshouru.js"></script>{/block}

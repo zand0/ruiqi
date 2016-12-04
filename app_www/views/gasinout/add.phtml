@@ -1,0 +1,76 @@
+{extends file='main.phtml'}
+{block name=rtitle}燃气库存{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/gasinout/add">
+        <div class="rqLine clearfix">
+            <div class="rqOption clearfix rqRadio">
+                <label class="fl">类型：</label>
+                <div class="myradio fl">
+                    <div class="radiobox clearfix">
+                        <input type="radio" name="type" value="0" checked="checked" /> 入库
+                        <input type="radio" name="type" value="1" /> 出库
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">燃气类型：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <select name="gtype" class="selectmenu">
+                        {foreach $gas_type as $k=>$v}
+                        <option value="{$k}">{$v['gas_name']}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">操作储罐：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <select name="tank_id" class="selectmenu">
+                        {foreach $tank_type as $key=>$value}
+                        <option value="{$key}">{$value['tank_name']}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="gnum" value="{$gnum}" style="width:200px;">
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">槽车车牌号：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="license_plate" value="{$license_plate}" style="width:200px;">
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl">备注</label>
+                <div class="fl">
+                    <textarea name="comment"></textarea>
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$id}" id="updateID">
+    </form>
+</div>
+{/block}

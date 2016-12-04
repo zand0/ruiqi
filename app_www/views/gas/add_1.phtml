@@ -1,0 +1,41 @@
+{extends file='main.phtml'}
+{block name=rtitle}燃气类型{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/gas/add">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">类型名称：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="gas_name" value="{$gas_name}" style="width:150px;">
+                    <span>类型名称</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">备注：</label>
+                <div class="inputBox fl">
+                    <textarea type="text" name="comment">{$comment}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl"></label>
+                <div class="fl">
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$gid}">
+    </form>
+</div>
+{/block}

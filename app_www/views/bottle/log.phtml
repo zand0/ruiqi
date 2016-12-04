@@ -1,0 +1,143 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}钢瓶日志{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        钢瓶日志
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">钢印号：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="number" value="{$param['number']}" style="width:130px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">芯片号：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="xinpian" value="{$param['xinpian']}" style="width:130px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">订单号：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="order_sn" value="{$param['order_sn']}" style="width:130px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">门店：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu"  style="width:170px;">
+                                <option selected="selected" value="">选择钢瓶状态</option>
+                                {foreach $shopObject as $sk => $sval}
+                                {if $param['shop_id'] eq $sk}
+                                <option value="{$sk}" selected="selected">{$sval['shop_name']}</option>
+                                {else}
+                                <option value="{$sk}">{$sval['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">送气工：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shipper_id" class="selectmenu"  style="width:170px;">
+                                <option selected="selected" value="">选择送气工</option>
+                                {foreach $shipperData as $k => $val}
+                                {if $param['shipper_id'] eq $k}
+                                <option value="{$k}" selected="selected">{$val['shipper_name']}</option>
+                                {else}
+                                <option value="{$k}">{$val['shipper_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        钢瓶列表
+        <span></span>
+    </div>
+    <div class="contRList gangpList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>钢印号</td>
+                    <td>芯片号</td>
+                    <td>条形码</td>
+                    <td>类型</td>
+                    <td>到门店</td>
+                    <td>到门店时间</td>
+                    <td>到送气工</td>
+                    <td>到送气工时间</td>
+                    <td>到客户</td>
+                    <td>到客户时间</td>
+                    <td>订单号</td>
+                    <td>状态</td>
+                </tr>
+
+                {if count($ext['list']) > 0}
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['number']}</td>
+                    <td>{$value['xinpian']}</td>
+                    <td>{$value['bar_code']}</td>
+                    <td>{($value['type']==1) ? '重瓶' : '空瓶'}</td>
+                    <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                    <td>{if $value['shop_time']>0}{date('Y-m-d H:i',$value['shop_time'])}{/if}</td>
+                    <td>{if $value['shipper_time']>0} {$shipperData[$value['shipper_id']]['shipper_name']} {/if}</td>
+                    <td>{if $value['shipper_time']>0}{date('Y-m-d H:i',$value['shipper_time'])}{/if}</td>
+                    <td>{$value['user_name']}</td>
+                    <td>{if $value['kehu_time']>0}{date('Y-m-d H:i',$value['kehu_time'])}{/if}</td>
+                    <td>{$value['order_sn']}</td>
+                    <td>{($value['property'] == 0) ? '进行中' : '已结束'}</td>
+                </tr>
+                {/foreach} 
+                {else}
+                <tr><td colspan="11">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

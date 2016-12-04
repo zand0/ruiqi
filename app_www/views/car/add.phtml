@@ -1,0 +1,157 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}车辆管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        车辆管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/car/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">车牌号：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="license_plate" value="{$license_plate}" />
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">车类型：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="car_type" class="selectmenu" id="car_type">
+                                <option value="">配送站点</option>
+                                {if $carType neq ''}
+                                {foreach $carType as $key => $value}
+                                {if $key == $car_type}
+                                <option value="{$key}" selected="selected">{$value}</option>
+                                {else}
+                                <option value="{$key}">{$value}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">品牌型号：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="brand_model" value="{$brand_model}" />
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">所属站点：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="site_name" value="{$site_name}" />
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">驾驶员：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="driver_name" value="{$driver_name}" />
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">押运员：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="escorte_name" value="{$escorte_name}" />
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">排气量：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="exhaust_volume" value="{$exhaust_volume}" />
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">耗油量：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="fuel_consumption" value="{$fuel_consumption}" />
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">载重：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="load" value="{$load}" />
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">行驶证号：</label>
+                    <div class="inputBox fl">
+                        <input type="text" name="driver_license" value="{$driver_license}" />
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">年检状态：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="inspection_status" class="selectmenu" id="inspection_status">
+                                {if $carType neq ''}
+                                {foreach $typeStatus as $key => $value}
+                                {if $key == $inspection_status}
+                                <option value="{$key}" selected="selected">{$value}</option>
+                                {else}
+                                <option value="{$key}">{$value}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">出场日期：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="ccrq" value="{$ccrq}" style="width:150px;">
+                        <span>出场日期</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">购买日期：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="gmrq" value="{$gmrq}" style="width:150px;">
+                        <span>出场日期</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">备注</label>
+                    <div class="fl">
+                        <textarea name="comment">{$comment}</textarea>
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:if(confirm('提交后不可更改，确定提交？')){ document.form.submit(); }" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="car_id" value="{$car_id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

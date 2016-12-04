@@ -1,0 +1,284 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}门店订单分类统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb30">
+        <div class="fl mr200">
+            <h3>门店销售收入</h3>
+            <p>销售 > 销售统计</p>
+        </div>	
+        <div class="fl chooseDate pt16">
+            <span class="fl">选择时段：</span>
+            <div class="doubleRili fl">
+                <input type="text" id="start" style="width:80px;">
+            </div>
+            <span class="fl plr8">到</span>
+            <div class="doubleRili fl">
+                <input type="text" id="end" style="width:80px;">
+            </div>
+            <a href="javascript:void(0);" class="fl">确定</a>
+        </div>
+        <div class="fr">
+            <a href="javascript:void(0);" class="createBtn createBtn2 mt10">收入导出</a>
+        </div>
+    </div>
+    <!-- 选项卡-->
+    <div class="tabContrl clearfix myDate mb30">
+        <a href="javascript:void(0);" class="active">今日</a>
+        <a href="javascript:void(0);">本周</a>
+        <a href="javascript:void(0);">本月</a>
+        <a href="javascript:void(0);">本季度</a>
+        <a href="javascript:void(0);">上半年</a>
+        <a href="javascript:void(0);">下半年</a>
+        <a href="javascript:void(0);">全年</a>
+    </div>
+    <div class="tabItem">
+        <div class="listItem" style="display:block;">
+            <!-- 数据统计 -->
+            <div class="dataMenu dataMenu2 mb30  pl290 clientManage">
+                <div class="bgBtn">
+                    <p>销售收入合计</p>
+                    <strong>￥198,985</strong>
+                </div>
+                <ul class="clearfix">
+                    <li>
+                        <p>燃气零售收入</p>
+                        <strong>￥45,125</strong>
+                    </li>
+                    <li>
+                        <p>配件销售收入</p>
+                        <strong>￥678,120</strong>
+                    </li>
+                </ul>	
+            </div>
+            <div class="clearfix mb20">
+                <!-- 燃气 -->
+                <div class="table2 table3 fl" style="width:450px;">
+                    <table>
+                        <thead>
+                            <tr class="H34">
+                                <th class="borderRight textLeft ">钢瓶规格</th>
+                                <th>数量/重量</th>
+                                <th>销售金额</th>
+                                <th class="textRight">销售均价</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>5kg</strong>
+                                </td>
+                                <td>125瓶<br>2.12吨</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/瓶<br>￥2132.28元/吨</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>10kg</strong>
+                                </td>
+                                <td>125瓶<br>2.12吨</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/瓶<br>￥2132.28元/吨</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>15kg</strong>
+                                </td>
+                                <td>125瓶<br>2.12吨</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/瓶<br>￥2132.28元/吨</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>50kg</strong>
+                                </td>
+                                <td>125瓶<br>2.12吨</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/瓶<br>￥2132.28元/吨</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>50KG(液)</strong>
+                                </td>
+                                <td>125瓶<br>2.12吨</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/瓶<br>￥2132.28元/吨</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight redColor">
+                                    <strong>燃气销售合计</strong>
+                                </td>
+                                <td class="redColor">125瓶<br>2.12吨</td>
+                                <td class="redColor"><strong>￥2655.20</strong></td>
+                                <td class="textRight redColor">￥32.28元/瓶<br>￥2132.28元/吨</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 配件 -->
+                <div class="table2 fr table4" style="width:450px;">
+                    <table>
+                        <thead>
+                            <tr class="H34">
+                                <th class="borderRight textLeft">配件名称</th>
+                                <th>销售数量</th>
+                                <th>销售金额</th>
+                                <th class="textRight">销售均价</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>中压阀</strong>
+                                </td>
+                                <td>121只</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/只</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>低压阀</strong>
+                                </td>
+                                <td>121只</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/只</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>炉具</strong>
+                                </td>
+                                <td>121只</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/只</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>胶管</strong>
+                                </td>
+                                <td>121只</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/只</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">
+                                    <strong>喉码</strong>
+                                </td>
+                                <td>121只</td>
+                                <td><strong>￥2655.20</strong></td>
+                                <td class="textRight">￥32.28元/只</td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight redColor">
+                                    <strong>配件销售合计</strong>
+                                </td>
+                                <td>521件</td>
+                                <td class="redColor"><strong>￥12655.20</strong></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- 条件查询 -->
+            <p  class="sub_title mb10">销售收入详情：</p>
+            <div class="refer mb20">
+                <div class="mb20 clearfix lineData">
+                    <div class="fl mr60">
+                        <label class="fl">订单号：</label>
+                        <input type="text" style="width:135px" placeholder="输入订单号"  class="fl">
+                    </div>
+                    <div class="fl mr60">
+                        <label class="fl">客户类型：</label>
+                        <select class="fl" style="width:157px;">
+                            <option selected="selected">请选择</option>
+                            <option>居民用户</option>
+                            <option>商业用户</option>
+                        </select>
+                    </div>
+                    <div class="fl">
+                        <label class="fl">送气工：</label>
+                        <select class="fl" style="width:157px;">
+                            <option selected="selected">请选择</option>
+                            <option>张三</option>
+                            <option>李四</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb20 clearfix lineData">
+                    <div class="fl mr60">
+                        <label class="fl">客户姓名：</label>
+                        <input type="text" style="width:135px" placeholder="输入客户姓名"  class="fl">
+                    </div>
+                    <div class="fl mr60">
+                        <label class="fl">客户电话：</label>
+                        <input type="text" style="width:135px" placeholder="输入客户电话"  class="fl">
+                    </div>
+                    <a href="javascript:void(0);" id="searchBtn" class="fr" style="margin-right:52px;">搜索</a>
+                </div>
+            </div>
+            <!-- 订单查找结果 -->
+            <div class="result mb30">
+                <div class="title mb10">
+                    <p>订单查找结果：</p>
+                </div>
+                <div class="table2 mb34">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="borderRight">下单时间</th>
+                                <th>订单号</th>
+                                <th>客户信息</th>
+                                <th>订单金额</th>
+                                <th>订单来源</th>
+                                <th>送气工</th>
+                                <th>订单状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="borderRight">2016-03-20</td>
+                                <td>Dd201602201545</td>
+                                <td>朱金娥[居民用户]<br>13825458958</td>
+                                <td class="redColor"><strong>￥78.00</strong></td>
+                                <td>送气工下单</td>
+                                <td>罗希婷</td>
+                                <td>已送达</td>
+                                <td class="operate"><a href="dingdanDetail.html">详情 &gt;</a></td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">2016-03-20</td>
+                                <td>Dd201602201545</td>
+                                <td>朱金娥[居民用户]<br>13825458958</td>
+                                <td class="redColor"><strong>￥78.00</strong></td>
+                                <td>呼叫中心下单</td>
+                                <td>罗希婷</td>
+                                <td>已送达</td>
+                                <td class="operate"><a href="dingdanDetail.html">详情 &gt;</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix sqspBottom">
+                    <p class="fl">共 <span>223</span> 条记录</p>
+                    <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                    <input type="hidden" class="currentPage" value="1">
+                    <input type="hidden" class="totalPage" value="10">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/mendianxssrCtrl.js"></script>
+{/block}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>登录</title>
+        <link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+        <script type="text/javascript" src="/statics/js/require.min.js"></script>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="header">
+                <div class="headCont clearfix">
+                    <div class="fl headLeft">
+                        <a href="/index/index"><img src="/statics/images/logo.png"></a>
+                    </div>
+                    <div class="fr headRight">
+                        <span>{date('Y年m月d日')}</span>&nbsp;
+                        <span></span>
+                        <a href="javascript:;">登录</a>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="loginCont">
+                    <h2>登录</h2>
+                    <form name="login" method="post">
+                        <div class="inputBox placeholder">
+                            <input type="text" name="username" style="width:378px;">
+                            <span>输入账号</span>
+                        </div>
+                        <div class="inputBox placeholder">
+                            <input type="password" name="password" style="width:378px;">
+                            <span>输入密码</span>
+                        </div>
+                        <div class="clearfix yzmbox">
+                            <div class="inputBox placeholder fl" style="width:305px;">
+                                <input type='text' name='captcha' style="width:273px;">
+                                <span>输入验证码</span>
+                            </div>
+                            <div class="fl yzmImg mt4">
+                                <image src='/index/safeCodeImg'>
+                            </div>
+                        </div>
+                        <p class="clearfix checkList mb20"><a href="javascript:;"><span></span>记住密码</a></p>
+                        <a href="javascript:document.login.submit();" class="rq_loginBtn">登录</a>
+                    </form>
+                </div>
+            </div>
+            <div class="footer">
+                <p>版权所有2014-2015 北京瑞气科技有限责任公司</p>
+                <p>电话：101-56379951&nbsp;&nbsp;&nbsp;&nbsp;
+                    传真：010-56379951&nbsp;&nbsp;&nbsp;&nbsp;
+                    邮编：100220&nbsp;&nbsp;&nbsp;&nbsp;
+                    地址：北京朝阳区四惠东地铁B口锦裕写字楼A226</p>
+            </div>
+        </div>
+        <script type="text/javascript" src="/statics/js/controllers/login.js"></script>
+    </body>
+</html>

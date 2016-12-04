@@ -1,0 +1,81 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+气站钢瓶库存
+{/block}
+{block name=operate}
+{/block}
+
+{block name=body}
+{literal}
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '门店库存'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                    type: 'pie',
+                    name: '所占比重',
+                    /*data: [
+                        ['Firefox', 45.0],
+                        ['IE', 26.8],
+                        {
+                            name: 'Chrome',
+                            y: 12.8,
+                            sliced: true,
+                            selected: true
+                        },
+                        ['Safari', 8.5],
+                        ['Opera', 6.2],
+                        ['Others', 0.7]
+                    ]*/
+                    data:{/literal}{$json_data}{literal}
+                }]
+        });
+    });
+</script>
+{/literal}
+<div id="container" style="min-width:700px;height:400px"></div>
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>门店</td>
+            <td>钢瓶类型</td>
+            <td>是否空瓶</td>
+            <td>数量</td>
+        </tr>
+
+        {if $data neq ''}
+        {foreach $data as $value}
+        <tr>
+            <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+            <td>{$value['bottle_name']}</td>
+            <td>{($value['is_open'] == 0) ? '空瓶' : '重瓶'}</td>
+            <td>{$value['num']}</td>
+        </tr>
+        {/foreach} 
+        {/if}
+    </table>
+</div>
+{/block}

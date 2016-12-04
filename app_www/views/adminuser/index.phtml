@@ -1,0 +1,93 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}人员管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        人员管理
+        <span></span>
+        <a href="/adminuser/index?temptype=new" class="blueBtn6" target="_blank">新版页面</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">登录名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="username" value="{$param['username']}" style="width:130px;">
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">姓名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="real_name" value="{$param['real_name']}" style="width:130px;">
+                    </div>
+                </div>
+                <div class="rqOption3 fl clearfix">
+                    <label class="fl">手机号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="mobile_phone" value="{$param['mobile_phone']}" style="width:130px;">
+                    </div>
+                </div>
+                <div class="rqOption fl mr0">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="msgTitle clearfix mb20">
+            <span class="fr"><a href="/adminuser/add" class="blueBtn5 addPeople">添加人员</a></span>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>用户名</th>
+                        <th>姓名</th>
+                        <th>手机</th>
+                        <th>岗位</th>
+                        <th>角色</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['username']}</td>
+                        <td class="tableBtn"><a href="javascript:;">{$value['real_name']}</a></td>
+                        <td>{$value['mobile_phone']}</td>
+                        <td>{(isset($ext['quarters'][$value['quarters_id']])) ? $ext['quarters'][$value['quarters_id']]['title'] : ''}</td>
+                        <td>{(isset($roleObject[$value['roles']])) ? $roleObject[$value['roles']] : ''}</td>
+                        <td>{if $value['status'] eq '0'}在职{else}禁用{/if}</td>
+                        <td>
+                            <a href="/adminuser/quarters?user_id={$value['user_id']}" class="fenbeiBtn">分配岗位</a>|
+                            {if $value['user_id'] gt 1}<a href="/adminuser/edite?id={$value['user_id']}" class="modBtn">修改</a>|<a href="/adminuser/del?id={$value['user_id']}">删除</a>{/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="6">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/peopleManage.js"></script>{/block}

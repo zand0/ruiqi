@@ -1,0 +1,69 @@
+<div class="fl" style="width:183px;">
+    <div class="contRItem">
+        <div class="iconTitle clearfix">
+            <h3 class="fl">个人中心</h3>
+        </div>
+        <div class="personalCenter">
+            <div class="myheadface">
+                {if $kehuInfo.photo neq ''}
+                <img src="/statics/upload/photo/{$kehuInfo.photo}">
+                {else}
+                <img src="/statics/upload/photo/touxiang.jpg">
+                {/if}
+            </div>
+            <ul>
+                <li class="myname">{$kehuInfo.user_name}</li>
+                <li><span></span>{$kehuInfo.mobile_phone}</li>
+                <!--li class="myaddress"><span></span>{$kehuInfo.region_name}</li-->
+                <li class="mybalance"><span></span>余额：<font>{$kehuInfo.balance}元<font></li>
+                <li class="mybalance"><span></span>欠款额：<font>{$kehuInfo.money}元<font></li>
+                <li class="mybalance"><span></span>积分：<font>{$kehuInfo.point}元<font></li>
+            </ul>
+            <!--a href="javascript:;" class="blueBtn4">充值</a-->
+        </div>
+    </div>
+    <div class="contLeft fl operateList">
+        <ul style="display:block;">
+            <li class="show_active">
+                <a class="show_url" href="/my/home/createorder">我要订气<span></span></a>
+            </li>
+            <li class="dq_li2 show_active">
+                <a class="show_url" href="/my/home/tousu">我要投诉<span></span></a>
+            </li>
+            <li class="dq_li3 show_active">
+                <a class="show_url" href="/my/home/baoxiu">我要报修<span></span></a>
+            </li>
+            <li class="dq_li4 show_active">
+                <a class="show_url" href="/my/home/backbottle">我要退瓶<span></span></a>
+            </li>
+            <li class="dq_li5 show_active">
+                <a class="show_url" href="/my/home/myorder">我的订单<span></span></a>
+            </li>
+            <li class="dq_li6 show_active active">
+                <a class="show_url" href="/my/home/index">个人资料<span></span></a>
+            </li>
+        </ul>
+        {literal}
+        <script>
+            $(function () {
+                var url = document.location.href;  //得到链接地址 
+                //字符串去空
+                String.prototype.trim = function () {
+                    return this.replace(/(^\s*)|(\s*$)/g, "");
+                }
+                if (url) {
+                    $('.show_url').each(function () {
+                        var myIndex = $(this).attr('href').lastIndexOf("/");
+                        var href = $(this).attr('href');
+                        var test = new RegExp(href); //创建正则表达式对象
+                        var result = url.match(test);
+                        if (result) {
+                            $(this).parents("li.show_active ").addClass('active').siblings().removeClass("active");
+                        }
+                    });
+                }
+            });
+        </script>
+        {/literal}
+    </div>
+</div>

@@ -1,0 +1,275 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}销售额-简报{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        销量状况
+        <span></span>
+        <a href="/sales/index?temptype=new" class="blueBtn6" target="_blank">新版页面</a>
+    </div>
+    <div class="contRList">
+        <div class="rq_data">
+            <ul class="clearfix">
+                <li class="{if $nowProportion >0}rq_up{else}rq_down{/if} dataLi1">
+                    <p>总额</p>
+                    <span class="rq_num">￥<strong>{$jtTotal}</strong></span>
+                    <font>{$nowProportion}</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="{if $weekProportion >0}rq_up{else}rq_down{/if} dataLi2">
+                    <p>总额</p>
+                    <span class="rq_num">￥<strong>{$weekTotal}</strong></span>
+                    <font>{$weekProportion}</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="{if $seasonProportion >0}rq_up{else}rq_down{/if} dataLi3">
+                    <p>总额</p>
+                    <span class="rq_num">￥<strong>{$seasonTotal}</strong></span>
+                    <font>{$seasonProportion}</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+            </ul>
+        </div>
+        {literal}
+        <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+        <script>
+            $(function () {
+                var title = {/literal}{$title}{literal};
+                var show = {/literal}{$show}{literal};
+                $('#container').highcharts({
+		        title: {
+		            text: '销售额统计',
+		            x: -20 //center
+		        },
+		        subtitle: {
+		            text: '一周内日销售额明细',
+		            x: -20
+		        },
+		        credits:{
+				    enabled:false // 禁用版权信息
+				},
+		        xAxis: {
+		        	title: {
+		                text: '日期'
+		            },
+		            categories: title
+		        },
+		        yAxis: {
+		            title: {
+		                text: '销售额'
+		            },
+		            labels: {
+		                formatter: function() {
+		                    return this.value +'元'
+		                }
+		            },
+		            plotLines: [{
+		                    value: 0,
+		                    width: 1,
+		                    color: '#808080'
+		                }]
+		        },
+		        tooltip: {
+		        	valueDecimals: 2,
+		            valueSuffix: '元'
+		        },
+		        legend: {
+		            enabled:false
+		        },
+		        series: [{"name":"销售额","data":show}]
+		    });
+            });
+        </script>
+        {/literal}
+        <div id="container"></div>
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <li class="tabBtn active">本日<span></span></li>
+                <li class="tabBtn">本周<span></span></li>
+                <li class="tabBtn">本月<span></span></li>
+                <li class="tabBtn">本季度<span></span></li>
+                <li class="tabBtn">本年<span></span></li>
+            </ul>
+            <ul class="tabItembox rq_itembox">
+                <li class="tabItem" style="display:block;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>主营收入<span>（元）</span></th>
+                                <th>押金收入<span>（元）</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopDayTotal) > 0}
+                            {foreach $shopDayTotal as $wVal}
+                            {assign var=daytotal value=$daytotal+$wVal['total']}
+                            {assign var=dayyjtotal value=$dayyjtotal+$wVal['yjtotal']}
+                            <tr>
+                                <td>{(!empty($wVal['shop_name'])) ? $wVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$wVal['admin_name']}</td>
+                                <td>{$wVal['total']}</td>
+                                <td>{$wVal['yjtotal']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$daytotal}</td>
+                                <td>{$dayyjtotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="4">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>主营收入<span>（元）</span></th>
+                                <th>其他收入<span>（元）</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopNowTotal) > 0}
+                            {foreach $shopNowTotal as $wVal}
+                            {assign var=weektotal value=$weektotal+$wVal['total']}
+                            {assign var=weekyjtotal value=$weekyjtotal+$wVal['yjtotal']}
+                            <tr>
+                                <td>{(!empty($wVal['shop_name'])) ? $wVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$wVal['admin_name']}</td>
+                                <td>{$wVal['total']}</td>
+                                <td>{$wVal['yjtotal']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$weektotal}</td>
+                                <td>{$weekyjtotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="4">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>主营收入<span>（元）</span></th>
+                                <th>其他收入<span>（元）</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopWeekTotal) > 0}
+                            {foreach $shopWeekTotal as $wVal}
+                            {assign var=monthtotal value=$monthtotal+$wVal['total']}
+                            {assign var=monthyjtotal value=$monthyjtotal+$wVal['yjtotal']}
+                            <tr>
+                                <td>{(!empty($wVal['shop_name'])) ? $wVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$wVal['admin_name']}</td>
+                                <td>{$wVal['total']}</td>
+                                <td>{$wVal['yjtotal']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$monthtotal}</td>
+                                <td>{$monthyjtotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="4">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>主营收入<span>（元）</span></th>
+                                <th>其他收入<span>（元）</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopSeasonTotal) > 0}
+                            {foreach $shopSeasonTotal as $jVal}
+                            {assign var=seasontotal value=$seasontotal+$jVal['total']}
+                            {assign var=seasonyjtotal value=$seasonyjtotal+$jVal['yjtotal']}
+                            <tr>
+                                <td>{(!empty($jVal['shop_name'])) ? $jVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$jVal['admin_name']}</td>
+                                <td>{$jVal['total']}</td>
+                                <td>{$jVal['yjtotal']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$seasontotal}</td>
+                                <td>{$seasonyjtotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="4">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+                <li class="tabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>门店名称</th>
+                                <th>负责人</th>
+                                <th>主营收入<span>（元）</span></th>
+                                <th>其他收入<span>（元）</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if count($shopYearTotal) > 0}
+                            {foreach $shopYearTotal as $jVal}
+                            {assign var=yeartotal value=$yeartotal+$jVal['total']}
+                            {assign var=yearyjtotal value=$yearyjtotal+$jVal['yjtotal']}
+                            <tr>
+                                <td>{(!empty($jVal['shop_name'])) ? $jVal['shop_name'] : '未分配门店'}</td>
+                                <td>{$jVal['admin_name']}</td>
+                                <td>{$jVal['total']}</td>
+                                <td>{$jVal['yjtotal']}</td>
+                            </tr>
+                            {/foreach}
+                            <tr>
+                                <td colspan="2">统计</td>
+                                <td>{$yeartotal}</td>
+                                <td>{$yearyjtotal}</td>
+                            </tr>
+                            {else}
+                            <tr><td colspan="4">暂时没有数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/xiaoshoujianbao.js"></script>{/block}

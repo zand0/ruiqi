@@ -1,0 +1,83 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}添加钢瓶押金{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        添加钢瓶押金
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/cylinderdeposit/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">钢瓶类型：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="bottle_id" class="selectmenu">
+                            <option value="">钢瓶类型</option>
+                            {foreach $bottleData as $k=>$v}]
+                            {if $k eq $bottle_id}
+                            <option value="{$k}" selected="selected">{$v['bottle_name']}</option>
+                            {else}
+                            <option value="{$k}">{$v['bottle_name']}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">客户押金：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="suggested_price" value="{$suggested_price}" style="width:150px;">-<input type="text" name="suggested_price_business" value="{$suggested_price_business}" style="width:150px;">-<input type="text" name="suggested_price_industry" value="{$suggested_price_industry}" style="width:150px;">
+                        <b>*客户押金(居民-商业-工业)</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">直营店押金：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="other_price" value="{$other_price}" style="width:150px;">
+                        <b>*直营店押金</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">加盟店押金：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="price" value="{$price}" style="width:150px;">
+                        <b>*加盟店押金</b>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <input type="hidden" name="id" value="{$id}">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

@@ -1,0 +1,129 @@
+{extends file='main_other.phtml'}
+{block name=body}
+{block name=head}
+<script type="text/javascript" src="{$_PUBLIC}/js/region_select.js"></script>
+{literal}
+<script>
+    $(function ($) {
+        region_util({
+            v1_select: '.region_1',
+            v2_select: '.region_2',
+            v3_select: '.region_3',
+            v4_select: '.region_4',
+            request_param: {
+                opt_cat: 'list'
+            }
+        });
+    });
+</script>
+{/literal}
+{/block}
+<div class="content clearfix">
+    {include file='staticpage_left.phtml'}
+    <div class="fr" style="width:904px;">
+        <div class="contRItem">
+            <div class="contRTitle">
+                个人资料
+                <span></span>
+            </div>
+            <div class="contRList countData">
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">用户头像：</label>
+                        <div class="uploadTouxiang">
+                            <a href="javascript:;" class="fl touxiang"><img src="{$_PUBLIC}/images/touxiang.jpg"></a>
+                            <a href="javascript:;" class="fl blueBtn5">更换头像</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">用户名：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="username" style="width:260px;" value="{$username}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label>密码管理：</label>
+                        <a href="/resetpassword/updatepass" class="modifyBtn">修改密码</a>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">真实姓名：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="real_name" style="width:260px;" value="{$real_name}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">联系电话：</label>
+                        <div class="fl">
+                            <div class="addDelete">
+                                <div class="inputBox placeholder">
+                                    <input type="text" name="mobile_phone" style="width:260px;" value="{$mobile_phone}">
+                                </div>
+                            </div>
+                            <a href="javascript:;" class="addBtn2" id="addTel">+新增联系电话</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">省/市：</label>
+                        <div class="selectBox fl" style="width:172px;">
+                            <div class="mySelect">
+                                <select name="region_1" class="selectmenux region_1"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">市：</label>
+                        <div class="selectBox fl" style="width:172px;">
+                            <div class="mySelect">
+                                <select name="region_2" class="selectmenux region_2">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">区/县：</label>
+                        <div class="selectox fl" style="width:172px;">
+                            <div class="mySelect">
+                                <select name="region_3" class="selectmenux region_3">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">镇/街道：</label>
+                        <div class="selectBox fl" style="width:172px;">
+                            <div class="mySelect">
+                                <select name="region_4" class="selectmenux region_4"> 
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">详细地址：</label>
+                        <div class="fl">
+                            <div class="addDelete">
+                                <div class="inputBox  placeholder">
+                                    <input type="text" name="address" style="width:435px;" value="{$address}">
+                                    <span>输入详细地址</span>
+                                </div>
+                            </div>
+                            <a href="javascript:;" class="addBtn2" id="addAddress">+新增地址</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

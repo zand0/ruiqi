@@ -1,0 +1,263 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}气罐盘存{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/new_style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        盘盈列表
+        <span></span>
+    </div>
+    <div class="contRList">
+        <ul class="rqBtn mb30">
+            <li class="active">日</li>
+            <li>周</li>
+            <li>月</li>
+        </ul>
+        <div class="Itembox">
+            <!-- 日 -->
+            <div class="tabItem" style="display:block;">
+                <h3 class="mb10">2016年7月1日-2016年7月12日</h3>
+                <div class="table mb20">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="70">日期</th>
+                                <th width="64">7月1日</th>
+                                <th width="64">7月2日</th>
+                                <th width="64">7月3日</th>
+                                <th width="64">7月4日</th>
+                                <th width="64">7月5日</th>
+                                <th width="64">7月6日</th>
+                                <th width="64">7月7日</th>
+                                <th width="64">7月8日</th>
+                                <th width="64">7月9日</th>
+                                <th width="64">7月10日</th>
+                                <th width="64">7月11日</th>
+                                <th>7月12日</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>盘点库存（吨）</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>计算库存（吨）</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>盈亏</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="container" style="width:850px;height:320px;"></div>
+            </div>
+            <!-- 周 -->
+            <div class="tabItem">
+                <h3 class="mb10">2016年7月1日-2016年9月30日</h3>
+                <div class="table mb20">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="70">日期</th>
+                                <th width="64">7月1日-7月7日</th>
+                                <th width="64">7月8日-7月14日</th>
+                                <th width="64">7月15日-7月22日</th>
+                                <th width="64">7月23日-7月30日</th>
+                                <th width="64">7月31日-8月6日</th>
+                                <th width="64">8月7日-8月14日</th>
+                                <th width="64">8月15日-8月22日</th>
+                                <th width="64">8月23日-8月30日</th>
+                                <th width="64">8月31日-9月6日</th>
+                                <th width="64">9月7日-9月14日</th>
+                                <th width="64">9月15日-9月22日</th>
+                                <th>9月23日-9月30日</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>盈亏</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="container2" style="width:850px;height:320px;"></div>
+            </div>
+            <!-- 月 -->
+            <div class="tabItem">
+                <h3 class="mb10">2016年1月-2016年12月</h3>
+                <div class="table mb20">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="70">日期</th>
+                                <th width="64">1月</th>
+                                <th width="64">2月</th>
+                                <th width="64">3月</th>
+                                <th width="64">4月</th>
+                                <th width="64">5月</th>
+                                <th width="64">6月</th>
+                                <th width="64">7月</th>
+                                <th width="64">8月</th>
+                                <th width="64">9月</th>
+                                <th width="64">10月</th>
+                                <th width="64">11月</th>
+                                <th>12月</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>盈亏</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="container3" style="width:850px;height:320px;"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        库存盘点
+        <span></span>
+        <a href="javascript:void(0);" class="addBtn" id="addZp">+添加今日重瓶</a>
+    </div>
+    <div class="contRList">
+        <!-- 按日期搜索 -->
+        <div class="clearfix mb30">
+            <a href="javascript:;" class="searchBtn fr ml20">搜索</a>
+            <div class="fr rqRili">
+                <label class="fl">日期</label>
+                <div class="rili fl">
+                    <input type="text" class="datepicker" readonly="readonly">
+                </div>
+            </div>
+        </div>
+        <!-- 搜索结果 -->
+        <div class="result table">
+            <p>2016-07-21</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>规格</td>
+                        <td colspan="2">昨日重瓶</td>
+                        <td>今日充装重瓶</td>
+                        <td>今日配送</td>
+                        <td colspan="2">理论值</td>
+                        <td>今日重瓶</td>
+                    </tr>
+                    <tr>
+                        <td>5kg</td>
+                        <td colspan="2">300</td>
+                        <td>150</td>
+                        <td>200</td>
+                        <td colspan="2">--</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>15kg</td>
+                        <td colspan="2">500</td>
+                        <td>200</td>
+                        <td>300</td>
+                        <td colspan="2">--</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>50kg</td>
+                        <td colspan="2">300</td>
+                        <td>150</td>
+                        <td>200</td>
+                        <td colspan="2">--</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">昨日盘库</td>
+                        <td colspan="2">今日槽车入库</td>
+                        <td colspan="2">今日充装</td>
+                        <td colspan="2">今日盘库</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">15.3吨</td>
+                        <td colspan="2">--</td>
+                        <td colspan="2">--</td>
+                        <td colspan="2">--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/panyingkucunCtrl.js"></script>{/block}

@@ -1,0 +1,157 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工钢瓶库存{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        出入库记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <a href="/stock/shipperflow?pagetype=log" target="_blank"><li class="tabBtn active">历史库存记录<span></span></li></a>
+            </ul>
+            <ul class="tabItembox">
+                <li class="tabItem" style="display:block;">
+                    <form name="form" method="POST">
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqRadio rqOption4">
+                                <label class="fl">出入库状态：</label>
+                                <div class="myradio fl">
+                                    <div class="radiobox clearfix">
+                                        <input type="radio" name="type" value ="1" class="active" />入库
+                                        <input type="radio" name="type" value ="2" class="active" />出库
+                                        <input type="radio" name="type" value ="" class="active" />全部
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine clearfix">
+                            <div class="rqOption fl rqOption4">
+                                <label class="fl">钢瓶状态：</label>
+                                <div class="mySelect fl">
+                                    <select name="goods_type" id="goods_type" class="selectmenu" style="width:150px;">
+                                        <option selected="selected" value="">选择钢瓶状态</option>
+                                        {foreach $statusData as $skey => $sVal}
+                                        {if $param['goods_type'] eq $skey}
+                                        <option value="{$skey}" selected="selected">{$sVal}</option>
+                                        {else}
+                                        <option value="{$skey}">{$sVal}</option>
+                                        {/if}
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">钢瓶规格：</label>
+                                <div class="mySelect fl">
+                                    <select name="fs_type_id" class="selectmenu" style="width:150px;">
+                                        <option selected="selected" value="">选择钢瓶规格</option>
+                                        {foreach $bottleTypeObject as $bKey => $bVal}
+                                        {if $param['fs_type_id'] eq $bVal['id']}
+                                        <option value="{$bVal['id']}" selected="selected">{$bVal['bottle_name']}</option>
+                                        {else}
+                                        <option value="{$bVal['id']}">{$bVal['bottle_name']}</option>
+                                        {/if}
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">送气工：</label>
+                                <div class="mySelect fl">
+                                    <select name="shipper_id" class="selectmenu" style="width:150px;">
+                                        <option selected="selected" value="">选择送气工</option>
+                                        {foreach $shipperObject as $sKey => $sVal}
+                                        {if $param['shipper_id'] eq $sVal['shipper_id']}
+                                        <option value="{$sVal['shipper_id']}" selected="selected">{$sVal['shipper_name']}</option>
+                                        {else}
+                                        <option value="{$sVal['shipper_id']}">{$sVal['shipper_name']}</option>
+                                        {/if}
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine clearfix">
+                            <div class="rqOption fl rqOption4">
+                                <label class="fl">出入库时间：</label>
+                                <div class="riliInputBox fl">
+                                    <div class="riliInput fl">
+                                        <input type="text" style="width:152px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                                    </div>
+                                    <span class="fl">至</span>
+                                    <div class="riliInput fl">
+                                        <input type="text" id="time_end" style="width:152px;" name="time_end" value="{$param['time_end']}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                                <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="rq_tab">
+                        <ul class="tabBtnbox clearfix rqbtnbox mb20">
+                            <li class="tabBtn active">全部<span></span></li>
+                            <li class="tabBtn">新瓶<span></span></li>
+                            <li class="tabBtn">空瓶<span></span></li>
+                            <li class="tabBtn">待检瓶<span></span></li>
+                            <li class="tabBtn">待修瓶<span></span></li>
+                            <li class="tabBtn">废瓶<span></span></li>
+                        </ul>
+                        <ul class="tabItembox rqTabItem">
+                            <li class="tabItem" style="display:block;">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>钢瓶规格</th>
+                                            <th>数量</th>
+                                            <th>合计</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td rowspan="5">2016-01-22</td>
+                                            <td>2KG</td>
+                                            <td>552</td>
+                                            <td rowspan="5">2336</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5KG</td>
+                                            <td>552</td>
+                                        </tr>
+                                        <tr>
+                                            <td>15KG</td>
+                                            <td>552</td>
+                                        </tr>
+                                        <tr>
+                                            <td>30KG</td>
+                                            <td>552</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50KG</td>
+                                            <td>552</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/qizhangangpingkucun.js"></script>{/block}

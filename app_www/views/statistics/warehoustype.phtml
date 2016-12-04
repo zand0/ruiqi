@@ -1,0 +1,114 @@
+{extends file='main.phtml'}
+{block name=rtitle}订单统计{/block}
+{block name=operate}<a href="/statistics/warehousing">按照门店统计</a>{/block}
+{block name=body}
+{literal}
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column',
+                margin: [50, 50, 100, 80]
+            },
+            title: {
+                text: '配件统计'
+            },
+            xAxis: {
+                categories: {/literal}{$title}{literal},
+                labels: {
+                    rotation: -45,
+                    align: 'right',
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '配件统计'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '配件数量: <b>{point.y:.1f} 个</b>',
+            },
+            series: [{
+                    name: 'Population',
+                    data: {/literal}{$show}{literal},
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        x: 4,
+                        y: 10,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif',
+                            textShadow: '0 0 3px black'
+                        }
+                    }
+                }]
+        });
+    });
+</script>
+{/literal}
+<div id="container" style="min-width:700px;height:400px"></div>
+<div class="orderList contRList">
+    <form name="form" method="POST">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">时间：</label>
+                <div class="riliInputBox fl">
+                    <div class="riliInput fl">
+                        <input type="text" style="width:150px;" name="start_time" id="time_start">
+                    </div>
+                    <span class="fl">至</span>
+                    <div class="riliInput fl">
+                        <input type="text" id="time_end" name="end_time" style="width:150px;">
+                    </div>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">门店列表：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="shop_id" class="selectmenu">
+                            <option value="0">请选择</option>
+                            {foreach $shopObject as $k=>$v}
+                            <option value="{$k}">{$v['shop_name']}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fr">
+                <a href="javascript:document.form.submit();" class="blueBtn">搜索</a>
+            </div>
+        </div>
+    </form>
+    <table>
+        <tr>
+            <td>配件名称</td>
+            <td>配件数量</td>
+        </tr>
+
+        {if $data neq ''}
+        {foreach $data as $value}
+        <tr>
+            <td>{$pjObject[$value['product_id']]['products_name']}</td>
+            <td>{$value['total']}</td>
+        </tr>
+        {/foreach} 
+        {/if}
+
+    </table>
+</div>
+{/block}

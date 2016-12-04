@@ -1,0 +1,131 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}罐装站管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRTitle">
+        罐装站管理
+        <span></span>
+    </div>
+    <div class="contRItem">
+        <div class="contRList">
+            <form name="form" method="POST" action="/gasstation/add"> 
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">名称：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="gas_name" value="{$gas_name}" style="width:150px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">站长：</label>
+                        <div class="selectBox fl" style="width:172px;">
+                            <select name="admin_id" class="selectmenu" id="admin_id">
+                                <option value="0">请选择</option>
+                                {if $userdata neq ''}
+                                {foreach $userdata as $k=>$v}
+                                {if $v['user_id'] eq $admin_id}
+                                <option value="{$v['user_id']}|{$v['real_name']}|{$v['mobile_phone']}" selected="selected">{$v['real_name']}</option>
+                                {else}
+                                <option value="{$v['user_id']}|{$v['real_name']}|{$v['mobile_phone']}">{$v['real_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">座机：</label>
+                        <div class="inputBox fl">
+                            <input type="text" name="tel_phone" value="{$tel_phone}" style="width:150px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">省/市：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_province" name="region_1" style="width:150px;" class="selectmenu region_1"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">区县：</label>
+                        <div class="fl areaSelect">
+                            <select id="loc_city" name="region_2" style="width:150px;" class="selectmenu region_2"></select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">街道：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select id="loc_town" name="region_3" style="width:150px;" class="selectmenu region_3"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <label class="fl">村：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select id="loc_town" name="region_4" style="width:150px;" class="selectmenu region_4"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqLine clearfix">
+                        <div class="inputBox fl">
+                            <input type="text" name="address" value="{$address}" style="width:250px;" id="address">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">地址坐标：</label>
+                        <div class="inputBox fl">
+                            <input type="text" name="coordinate" value="{$coordinate}" style="width:150px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">备注：</label>
+                        <div class="inputBox fl placeholder">
+                            <textarea type="text" name="comment">{$comment}</textarea>
+                            <span>输入备注</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"></label>
+                        <div class="fl">
+                            <div class="rqLine">
+                                <div class="rqOption fl">
+                                    <input type="hidden" name="gas_id" value="{$gas_id}" />
+                                    <input type="hidden" id="xid" value="{$region_2}" />
+                                    <input type="hidden" id="pid" value="{$region_3}" />
+                                    <input type="hidden" id="cid" value="{$region_4}" />
+                                    <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                                </div>
+                                <div class="rqOption fl">
+                                    <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </form> 
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/quyuManage.js"></script>{/block}

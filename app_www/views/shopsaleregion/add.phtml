@@ -1,0 +1,89 @@
+{extends file='main.phtml'}
+{block name=head}
+<script type="text/javascript" src="{$_PUBLIC}/js/region_select.js"></script>
+<script>
+var adminShopId = {$adminShopId};
+{literal}
+$(function ($) {
+    region_util({
+        v1_select:'.region_1',
+        v2_select:'.region_2',
+        v3_select:'.region_3', 
+        v4_select:'.region_4',
+        request_param : {
+            opt_cat:'unallot_sale',
+            shop_id:adminShopId
+        }
+    });
+});
+{/literal}
+</script>
+{/block}
+
+{block name=rtitle}
+添加管理区域
+{/block}
+{block name=body}
+<div class=" contRList">
+<form name="form" method="POST" action="/shopsaleregion/add"> 
+    <div class="rqLine clearfix">
+        <div class="rqOption fl">
+            <label class="fl">市：</label>
+            <div class="selectBox fl placeholder">
+                <select name="region_1" class="selectmenux region_1"></select>
+            </div>
+        </div>
+    </div>
+    <div class="rqLine clearfix">
+        <div class="rqOption fl">
+            <label class="fl">县：</label>
+            <div class="selectBox fl">
+                <select name="region_2" class="selectmenux region_2"></select>
+            </div>
+        </div>
+    </div>
+    <div class="rqLine clearfix">
+        <div class="rqOption fl">
+            <label class="fl">镇：</label>
+            <div class="selectBox fl">
+                <select name="region_3" class="selectmenux region_3"></select>
+            </div>
+        </div>
+    </div>
+    <div class="rqLine clearfix">
+        <div class="rqOption fl">
+            <label class="fl">村：</label>
+            <div class="selectBox fl">
+                <select name="region_4" class="selectmenux region_4"></select>
+            </div>
+        </div>
+    </div>
+    <div class="rqLine clearfix">
+        <div class="rqOption fl">
+            <label class="fl">配送费用：</label>
+            <div class="inputBox fl">
+                <input type="text" name="ship_price" value="" style="width:150px;">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="rqLine">
+        <div class="rqOption clearfix">
+            <label class="fl"></label>
+            <div class="fl">
+                <div class="rqLine">
+                    <div class="rqOption fl">
+                        <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                    </div>
+                    <div class="rqOption fl">
+                        <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div> 
+    <input type='hidden' name='shop_id' value='{$shop_id}' style="width:150px;"/>
+</form> 
+</div>
+{/block}

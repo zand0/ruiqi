@@ -1,0 +1,38 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}同步日志{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        同步日志
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>日期</td>
+                    <td>操作</td>
+                </tr>
+                {section name=loop loop=$daynum}
+                <tr>
+                    <td>{$nowDate}-{$smarty.section.loop.index + 1} </td>
+                    <td>
+                        <a href="">钢瓶初始化</a>|
+                        <a href="">钢瓶充装</a>
+                    </td>
+                </tr>
+                {/section}
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/gangpingchushihuajilu.js"></script>{/block}

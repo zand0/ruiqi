@@ -1,0 +1,48 @@
+<div class="header header2">
+    <div class="headCont clearfix">
+        
+        <div class="fl head_left">
+            <a href="/index/index" class="fl rqLogo"><img src="{$_PUBLIC}/images/logo.png"></a>
+            <ul class="fl">
+                <li>
+                    <a href="/index/index">首页</a>
+                </li>
+                <li>
+                    <a href="/about/index">关于我们</a>
+                </li>
+                <li class="active">
+                    <a href="zaixiandingqi.html">在线订气</a>
+                </li>
+                <li>
+                    <a href="/dynamic/index">企业动态</a>
+                </li>
+                <li>
+                    <a href="/safety/index">安全常识</a>
+                </li>
+                <li>
+                    <a href="/contact/index">联系我们</a>
+                </li>
+                <li>
+                    <a href="/index/login">后台登陆</a>
+                </li>
+            </ul>
+        </div>
+        {if $smarty.session.kehu_info neq ''}
+        <div class="fr head_right head_right2">
+            <p>Hi! 
+                <a href="/my/home/index">{$smarty.session.kehu_info.user_name}</a>
+                <span>|</span>
+                <a href="/my/passport/logout" class="exit">退出</a>
+            </p>
+        </div>
+        {else}
+        <div class="fr head_right">
+            <div class="inputarea placeholder">
+                <input type="text">
+                <span>站内搜索</span>
+                <a href="javascript:;"></a>
+            </div>
+        </div>
+        {/if}
+    </div>
+</div>

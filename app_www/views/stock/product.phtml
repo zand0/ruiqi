@@ -1,0 +1,46 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}配件库存{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        配件库存
+        <span></span>
+        <a href="/stock/product?pagetype=log" target="_blank" class="blueBtn11">出入库记录</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>配件类别</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $dataTotal neq ''}
+                    {foreach $dataTotal as $val}
+                    <tr>
+                        <td><a href="/stock/product?pagetype=log&goods_id={$val['fs_type_id']}" target="_blank">{$val['fs_name']}</a></td>
+                        <td>{$val['total']}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr>
+                        <td colspan="2">暂时没有数据</td>
+                    </tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/peijiankucun.js"></script>{/block}

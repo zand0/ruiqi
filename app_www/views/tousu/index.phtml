@@ -1,0 +1,129 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}投诉管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            投诉管理
+            <span></span>
+        </div>
+        <div class="contRList">
+            <form name="form" method="POST">
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">客户姓名：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="kname" value="{$param['kname']}" style="width:158px;">
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        {if isset($is_show_shop) && !empty($is_show_shop)}
+                        <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                        {else}
+                        <label class="fl">隶属门店：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="shop_id" class="selectmenu" style="width:170px;">
+                                    <option value="">隶属门店</option>
+                                    {if $shopObject neq ''}
+                                    {foreach $shopObject as $sVal}
+                                    {if $sVal['shop_id'] eq $param['shop_id']}
+                                    <option value="{$sVal['shop_id']}" selected="selected">{$sVal['shop_name']}</option>
+                                    {else}
+                                    <option value="{$sVal['shop_id']}">{$sVal['shop_name']}</option>
+                                    {/if}
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                        {/if}
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">投诉时间：</label>
+                        <div class="riliInputBox fl">
+                            <div class="riliInput fl">
+                                <input type="text" style="width:150px;" name="time_start" id="time_start" value="{$param['time_start']}">
+                            </div>
+                            <span class="fl">至</span>
+                            <div class="riliInput fl">
+                                <input type="text" id="time_end" name="time_end" style="width:150px;" value="{$param['time_end']}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                        <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="contRItem">
+        <div class="contRTitle">
+            投诉列表
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>客户姓名</th>
+                            <th>投诉内容</th>
+                            <th>隶属门店</th>
+                            <th>投诉时间</th>
+                            <th>处理结果</th>
+                            <th>处理人</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $ext['list'] neq ''}
+                        {foreach $ext['list'] as $value}
+                        <tr>
+                            <td>{$value['encode_id']}</td>
+                            <td>{$value['kname']}</td>
+                            <td>{$value['comment']}</td>
+                            <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                            <td>{date('Y-m-d H:i:s',$value['ctime'])}</td>              
+                            <td>{$value['treatment']}</td>
+                            <td>{$value['admin_user_name']}</td>
+                            <td class="tableBtn">
+                                {if $value['status'] eq 1}
+                                已处理
+                                {else}
+                                <a href="javascript:;" class="chuli" tid="{$value['id']}">处理</a>
+                                {/if}
+                            </td>
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr><td colspan="8">暂时没有投诉数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix sqspBottom">
+                <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                <input type="hidden" class="currentPage" value="{$param['page']}">
+                <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                <input type="hidden" class="paramlist" value="{$getparamlist}" />
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/tousuManage.js"></script>{/block}

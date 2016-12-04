@@ -1,0 +1,75 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}区域管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        区域管理
+        <span></span>
+        <a href="/area/add" class="blueBtn6 addGuize">添加区域</a>
+    </div>
+    <div class="contRList">
+        <form method="post" name="form" id="area">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">关键词：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" value="{$name}" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>区域名称</th>
+                        <th>区域经理</th>
+                        <th>联系方式</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) > 0}
+                    {foreach $ext['list'] as $regionRow}
+                    <tr>
+                        <td>{$regionRow['area_code']}</td>
+                        <td>{$regionRow['title']}</td>
+                        <td>{$regionRow['admin_name']}</td>
+                        <td>{$regionRow['mobile_phone']}</td>
+                        <td class="tableBtn">
+                            <a href="/area/add?area_id={$regionRow['area_id']}">编辑</a>|
+                            <a href="/area/list?area_id={$regionRow['area_id']}">区域门店</a>
+                        </td> 
+                    </tr> 
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="6">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{count($ext['list'])}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($count/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

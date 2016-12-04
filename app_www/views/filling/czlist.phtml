@@ -1,0 +1,120 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}充装数据同步{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        充装数据同步列表
+        <span></span>
+        <a href="javascript:;" class="blueBtn10" id="tbfilling">手动同步充装记录</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">钢印号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="number" id="number" value="{$param['number']}" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">芯片号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="xinpian" id="xinpian" value="{$param['xinpian']}" style="width:148px;">
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">规格：</label>
+                    <div class="selectBox fl" style="width:170px;">
+                        <div class="mySelect">
+                            <select name="type" id="type" class="selectmenu">
+                                <option selected="selected" value="">全部</option>
+                                {foreach $btypes as $bKey => $bVal}
+                                {if $param['type'] eq $bKey}
+                                <option value="{$bKey}" selected="selected">{$bVal}</option>
+                                {else}
+                                <option value="{$bKey}">{$bVal}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl mr0">
+                    <div class="rqOption3 fl">
+                        <label class="fl">发布时间：</label>
+                        <div class="riliInputBox fl">
+                            <div class="riliInput fl">
+                                <input type="text" style="width:148px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                            </div>
+                            <span class="fl">至</span>
+                            <div class="riliInput fl">
+                                <input type="text" id="time_end" style="width:148px;" name="time_end" value="{$param['time_end']}">
+                            </div>
+                        </div>
+                    </div>
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>钢印号</th>
+                        <th>芯片号</th>
+                        <th>类型</th>
+                        <th>充装单号</th>
+                        <th>初始重量</th>
+                        <th>目标重量</th>
+                        <th>充装重量</th>
+                        <th>充装时间</th>
+                        <th>充装耗时</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $key => $value}
+                    <tr>
+                        <td>{$key+1}</td>
+                        <td>{$value['number']}</td>
+                        <td>{$value['xinpian']}</td>
+                        <td>{$btypes[$value['ggxh']]}</td>
+                        <td>{$value['filling_no']}</td>
+                        <td>{$value['cszl']}</td>
+                        <td>{$value['mbzl']}</td>
+                        <td>
+                            {$value['total']}
+                        </td>
+                        <td>{$value['czsj']}</td>
+                        <td>{$value['yxsj']}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="10">暂时还没有充装记录</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$param['page']}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/chongzhuangtongbubiao.js"></script>{/block}

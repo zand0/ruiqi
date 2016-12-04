@@ -1,0 +1,45 @@
+<div class="fl left-nav">
+    <ul index="1" style="display:block;">
+        {if isset($user_auth[1]) && !empty($user_auth[1])}
+        {foreach $user_auth[1] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active"><a href="{$value['name']}?temptype=new" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="2" style="display: none;">
+        {if isset($user_auth[2]) && !empty($user_auth[2])}
+        {foreach $user_auth[2] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active"><a href="{$value['name']}?temptype=new" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="3" style="display: none;">
+        {if isset($user_auth[3]) && !empty($user_auth[3])}
+        {foreach $user_auth[3] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active"><a href="{$value['name']}?temptype=new" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="4" style="display: none;">
+        {if isset($user_auth[4]) && !empty($user_auth[4])}
+        {foreach $user_auth[4] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active"><a href="{$value['name']}?temptype=new" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="5" style="display: none;">
+        {if isset($user_auth[5]) && !empty($user_auth[5])}
+        {foreach $user_auth[5] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active"><a href="{$value['name']}?temptype=new" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="6" style="display: none;">
+        {if isset($user_auth[6]) && !empty($user_auth[6])}
+        {foreach $user_auth[6] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active"><a href="{$value['name']}?temptype=new" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <span></span>
+</div>

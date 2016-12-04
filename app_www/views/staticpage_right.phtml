@@ -1,0 +1,67 @@
+<div class="contLeft fl">
+    <ul index="1" style="display:block;">
+        <li class="show_active sonLi4 active"><a href="/index/home" id="show_url_list" class="show_url">统计汇总<span></span></a></li>
+        {if isset($user_auth[1]) && !empty($user_auth[1])}
+        {foreach $user_auth[1] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active sonLi5"><a href="{$value['name']}" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="2">
+        {if isset($user_auth[2]) && !empty($user_auth[2])}
+        {foreach $user_auth[2] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active sonLi5"><a href="{$value['name']}" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="3">
+        {if isset($user_auth[3]) && !empty($user_auth[3])}
+        {foreach $user_auth[3] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active sonLi5"><a href="{$value['name']}" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="4">
+        {if isset($user_auth[4]) && !empty($user_auth[4])}
+        {foreach $user_auth[4] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active sonLi5"><a href="{$value['name']}" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="5">
+        {if isset($user_auth[5]) && !empty($user_auth[5])}
+        {foreach $user_auth[5] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active sonLi5"><a href="{$value['name']}" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+    <ul index="6">
+        {if isset($user_auth[6]) && !empty($user_auth[6])}
+        {foreach $user_auth[6] as $value}
+        {if isset($auth_roles[$value['name']])}<li class="show_active sonLi5"><a href="{$value['name']}" id="show_url_list" class="show_url">{$value['title']}<span></span></a></li>{/if}
+        {/foreach}
+        {/if}
+    </ul>
+</div>
+{literal}
+<script>
+    $(function(){
+        var url = document.location.href;  //得到链接地址 
+        //字符串去空
+        String.prototype.trim = function() {
+            return this.replace(/(^\s*)|(\s*$)/g, "");
+        }
+        if (url) {
+            $('.show_url').each(function() {
+                var myIndex = $(this).attr('href').lastIndexOf("/");
+                var href = $(this).attr('href');
+                var test = new RegExp(href); //创建正则表达式对象
+                var result = url.match(test);
+                if (result) {
+                    $(this).parents("li.show_active ").addClass('active').siblings().removeClass("active");
+                }
+            });
+        }
+    });
+</script>
+{/literal}

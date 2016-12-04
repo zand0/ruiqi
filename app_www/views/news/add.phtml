@@ -1,0 +1,86 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}报修管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        消息管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/news/add">
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">接收对象：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="object_id" id="object_id" class="selectmenu" style="width:200px" >
+                                <option value="">选择接收对象</option>
+                                <option value="1">气站</option>
+                                <option value="2">门店</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="deparment_id" id="deparment_id" class="selectmenu" style="width:200px" >
+                                <option value="0">选择部门</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="selectBox">
+                        <div class="mySelect">
+                            <select name="user_id" id="user_id" class="selectmenu" style="width:200px" >
+                                <option value="0">选择用户</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">标题：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="message_title" value="{$message_title}" />
+                        <span>标题</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">内容：</label>
+                    <div class="inputBox fl placeholder">
+                        <textarea name="message_content" id="content" style="width:700px;height:300px;">{$message_content}</textarea>
+                        <span>内容</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="message_id" value="{$message_id}" id="message_id">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

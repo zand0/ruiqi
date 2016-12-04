@@ -1,0 +1,97 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}消息通知{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        消息管理
+        <span></span>
+        <a href="/news/add" class="blueBtn6 releaseBtn">发布消息</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">关键词：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="message_title" value="{$param['message_title']}" style="width:152px;">
+                        <span>请输入搜索关键词</span>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">发布时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:152px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:152px;" name="time_end" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl mr0">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="mesgList mt80">
+            <div class="msgTitle clearfix">
+                <span class="fl">全部消息</span>
+                <div class="fr msgTitleRight">
+                    <p><span>1</span>/<font>{ceil($data['ext']['count'] / 15)}</font></p>
+                    <a href="javascript:void(0);" class="prevBtn"></a>
+                    <a href="javascript:void(0);" class="nextBtn active"></a>
+                </div>
+            </div>
+            <div class="mesgItem">
+                <ul>
+                    {if $data['ext']['list'] neq ''}
+                    {foreach $data['ext']['list'] as $value}
+                    <li class="clearfix">
+                        <a href="javascript:;" class="editBtn"></a>
+                        <div class="myheadface fl">
+                            <a href="javascript:void(0);">
+                                <img src="/statics/images/rq_img2.jpg">
+                            </a>
+                        </div>
+                        <div class="fl mesgCont">
+                            <div class="mesgTxt">
+                                <h3>
+                                    <a href="/news/info?message_id={$value['message_id']}">{$value['message_title']}</a>
+                                </h3>
+                                <a href="/news/info?message_id={$value['message_id']}">
+                                    <p>{$value['message_content']}</p>
+                                </a>
+                            </div>
+                            <div class="mesgBottom">
+                                <span>发布部门：<font></font></span>&nbsp;
+                                <span>发布人：<a href="javascript:void(0);">{$value['admin_user']}</a></span>&nbsp;
+                                <span>{date('Y-m-d H:i:s',$value['time_created'])}</span>
+                            </div>
+                        </div>
+                    </li>
+                    {/foreach}
+                    {/if}
+                </ul>
+            </div>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/messageInform.js"></script>{/block}

@@ -1,0 +1,32 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}残液价格管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        残液回收价格管理
+        <span></span>
+        <a href="/raffinate/add" class="blueBtn8">添加收购价格</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                {if $price neq ''}
+                <tr>
+                    <td>残液回收价格</td>
+                    <td>{$price}元/kg</td>
+                </tr>
+                {else}
+                <tr><td colspan="2">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

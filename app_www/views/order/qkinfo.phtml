@@ -1,0 +1,79 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}订单管理{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            订单管理
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="path">
+                <a href="/order/index">订单列表</a>&nbsp;
+                <i></i>&nbsp;
+                <a href="javascript:void(0);" class="active">订单详情</a>
+            </div>
+            <div class="detailTable">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="7" class="clearfix">
+                                <div class="fl">
+                                    <font>{date('Y-m-d H:i:s',$orderData['ctime'])} 订单号：{$orderData['order_sn']}</font>&nbsp;&nbsp;
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan='{count($qkorderData)+1}'>
+                                <p class="name"><i></i>{$orderData['username']}</p>
+                                <p class="tel">{$orderData['mobile']}</p>
+                            </td>
+                            <td rowspan='{count($qkorderData)+1}'>
+                                <p class="area"><i></i>客户地址</p>
+                                <p>{$orderData['address']}</p>
+                            </td>
+                            <td rowspan='{count($qkorderData)+1}'>
+                                <div class="tableCont">
+                                    <p>
+                                        <font>配送站点：</font><span>{$shopObject[$orderData['shop_id']]['shop_name']}</span>
+                                    </p>
+                                    <p>
+                                        <font>送气工：</font><span>{$orderData['shipper_name']}</span>
+                                    </p>
+                                    <p>
+                                        <font>配送电话：</font>{$orderData['shipper_mobile']}
+                                    </p>
+                                </div>
+                            </td>
+                            <td>欠款类型</td>
+                            <td>合同号</td>
+                            <td>欠款金额</td>
+                            <td>是否归还</td>
+                        </tr>
+                        {if !empty($qkorderData)}
+                        {foreach $qkorderData as $qkVal}
+                        <tr>
+                            <td>{($qkVal['arrears_type'] eq 1) ? '液化气欠款' : (($qkVal['arrears_type'] eq 2) ? '押金欠款' : '配件欠款')}</td>
+                            <td>{$qkVal['contractno']}</td>
+                            <td>{$qkVal['money']}</td>
+                            <td>{if $qkVal['is_return'] eq 1}已收缴{else}未收缴{/if}</td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/orderDetail.js"></script>{/block}

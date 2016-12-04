@@ -1,0 +1,84 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}安检管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <form name="form" method="POST" action="/security/addsecurity">
+            <!--div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">类型名称：</label>
+                    <div class="inputBox fl placeholder">
+                        {if $typeObject neq ''}
+                        {foreach $typeObject as $value}
+                        <input type="checkbox" name="type[]" value="{$value['id']}" />{$value['title']}
+                        {/foreach}
+                        {/if}
+                    </div>
+                </div>
+            </div-->
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">客户姓名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="username" value="{$username}" style="width:150px;">
+                        <span>客户姓名</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">安检时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:150px;" name="time" value="{$time}" id="time_start">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">安检员：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="admin_id" class="selectmenu">
+                            <option value="">安检员</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">安检结果：</label>
+                    <div class="inputBox fl">
+                        <textarea type="text" name="comment">{$comment}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

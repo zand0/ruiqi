@@ -1,0 +1,117 @@
+{extends file='main.phtml'}
+{block name=rtitle}门店管理{/block}
+{block name=operate}<a href="/shopsaleregion/add">添加销售区域>>></a>{/block}
+{block name=head}
+<script type="text/javascript" src="{$_PUBLIC}/js/region_select.js"></script>
+<script>
+    {literal}
+    $(function($) {
+        region_util({
+            v1_select: '.region_1',
+            v2_select: '.region_2',
+            v3_select: '.region_3',
+            v4_select: '.region_4',
+            request_param: {
+                opt_cat: 'manage',
+                shop_id: 3
+            }
+        });
+    });
+    {/literal}
+</script>
+{/block}
+{block name=body} 
+<div class="orderList contRList">
+    <div class="contCent clearfix">  
+        <form method="GET" >
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">市：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="region_1" class="selectmenux region_1"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">县/区：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="region_2" class="selectmenux region_2">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">镇/街道：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="region_3" class="selectmenux region_3">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">村/社区：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="region_4" class="selectmenux region_4"> 
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <input type="submit" class="blueBtn" value='查询'>
+                </div>
+                <div class="rqOption fl">
+                    <input type="reset" class="grayBtn" value='清除'> 
+                </div>
+            </div>  
+        </form>
+
+
+
+
+
+        <div class="rq_tab">
+            <ul class="tabItembox rq_itembox">
+                <li class="tabItem" style="display:block;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:10%">编号</th>
+                                <th style="width:10%">市</th>
+                                <th style="width:10%">县</th>
+                                <th style="width:10%">镇</th>
+                                <th style="width:10%">村</th>
+                                <th style="width:10%">配送费</th>
+                                <th style="width:10%">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach $list as $region}
+                            <tr>
+                                <td>{$region['ssr_id']}</td>
+                                <td>{if $region['region_1'] gt 0}{$regionMap[$region['region_1']]}{/if}</td>
+                                <td>{if $region['region_2'] gt 0}{$regionMap[$region['region_2']]}{/if}</td>
+                                <td>{if $region['region_3'] gt 0}{$regionMap[$region['region_3']]}{/if}</td>  
+                                <td>{if $region['region_4'] gt 0}{$regionMap[$region['region_4']]}{/if}</td> 
+                                <td>{$region['ship_price']}</td>
+                                <td> 
+                                    <a href="/shopsaleregion/del/id/{$region['ssr_id']}">删除</a> 
+                                </td> 
+                            </tr> 
+                            {/foreach}  
+
+                        </tbody>
+                    </table>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+{$page && $page->show()}
+{/block}

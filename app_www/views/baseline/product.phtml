@@ -1,0 +1,56 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}配件库存报警设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        配件库存报警设置
+        <span></span>
+        <a href="/baseline/add?type=3" class="blueBtn6 addBaojing">添加报警</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>报警编号</th>
+                        <th>规格</th>
+                        <th>报警数量</th>
+                        <th>操作人</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['baseline_sno']}</td>
+                        <td>{$value['goods_name']}</td>
+                        <td>{$value['num']}</td>
+                        <td>{$value['admin_user_name']}</td>
+                        <td>
+                            <a href="/baseline/edit?id={$value['id']}&type={$value['type']}">修改</a>
+                            <span>|</span>
+                            <a href="/baseline/del?id={$value['id']}&type={$value['type']}">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="5">暂时还没有数据</td></tr>
+                    {/if}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/peijianbaojing.js"></script>{/block}

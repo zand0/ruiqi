@@ -1,0 +1,109 @@
+{extends file='main.phtml'}
+{block name=rtitle}出库管理{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/filling/adddelivery">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">瓶类型：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="btype[]" class="selectmenu">
+                        {foreach $btypes as $k=>$v}
+                        <option value="{$k}">{$v}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="bnum[]" value="{$num}" style="width:180px;">
+                </div>
+            </div>
+            <div class="rqOption fl"><a href="javascript:;" class="add">+</a></div>
+        </div>
+        <div class="rqLine clearfix" id="product">
+            <div class="rqOption fl">
+                <label class="fl">配件类型：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="product[]" class="selectmenu">
+                        {foreach $products as $k=>$v}
+                        <option value="{$k}">{$v['products_name']}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">数量：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="pnum[]" value="{$num}" style="width:180px;">
+                </div>
+            </div>
+            <div class="rqOption fl"><a href="javascript:;" class="add">+</a></div>
+        </div>
+        <div class="rqLine clearfix" id="comment">
+            <div class="rqOption fl">
+                <label class="fl">车辆：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="license_plate" id="license_plate" class="selectmenu">
+                        {foreach $car as $k=>$v}
+                        <option value="{$v['license_plate']}">{$v['license_plate']}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">押运员：</label>
+                <div class="inputBox fl">
+                    <input type="text" name="guards" id="guards" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">备注：</label>
+                <div class="inputBox fl">
+                    <textarea type="text" name="comment"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl"></label>
+                <div class="fl">
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:if(confirm('提交后不可更改，确定提交？')){ document.form.submit(); }" class="blueBtn">下一步</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$kid}">
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('.add').live('click', function () {
+            var pt = $(this).parents('.rqLine'), bottle = pt.clone();
+            bottle.find('select').show().removeAttr('id').selectmenu().next().next().remove();
+            bottle.find('select').selectmenu('refresh').next().attr('style', pt.find('.ui-selectmenu-button').attr('style'));
+            bottle.find('div:last>a').removeClass('add').addClass('del').html('-');
+            bottle.find('input:first').val('');
+            if (pt.attr('id') == 'product') {
+                $('#comment').before(bottle);
+            } else {
+                $('#product').before(bottle);
+            }
+        });
+        $('.del').live('click', function () {
+            $(this).parents('.rqLine').remove();
+        });
+    });
+</script>
+{/block}

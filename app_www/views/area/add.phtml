@@ -1,0 +1,76 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}区域管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        区域管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/area/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">区域名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="title" value="{$title}" style="width:200px;">
+                        <span>区域名称</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">区域负责人：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <select name="admin_id" class="selectmenu" id="admin_id">
+                            <option value="0">请选择</option>
+                            {if $userdata neq ''}
+                            {foreach $userdata as $k=>$v}
+                            {if $v['user_id'] eq $admin_id}
+                            <option value="{$v['user_id']}|{$v['real_name']}|{$v['mobile_phone']}" selected="selected">{$v['real_name']}</option>
+                            {else}
+                            <option value="{$v['user_id']}|{$v['real_name']}|{$v['mobile_phone']}">{$v['real_name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">备注：</label>
+                    <div class="inputBox fl placeholder">
+                        <textarea type="text" name="comment">{$comment}</textarea>
+                        <span>输入备注</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <input type="hidden" name="area_id" value="{$area_id}">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

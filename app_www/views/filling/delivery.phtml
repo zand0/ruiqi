@@ -1,0 +1,149 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}气站配送出库单{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        气站配送出库单
+        <span></span>
+        <a href="javascript:;" class="blueBtn11 addChukudan">添加出库单</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine">
+                <div class="rqOption fl clearfix">
+                    <label class="fl">单号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="delivery_no" id="delivery_no" value="{$param['delivery_no']}" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">门店：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu"  style="width:124px;">
+                                <option value="">选择门店</option>
+                                {foreach $shopObject as $skey => $sVal}
+                                {if $skey eq $param['shop_id']}
+                                <option value="{$skey}" selected="selected">{$sVal['shop_name']}</option>
+                                {else}
+                                <option value="{$skey}">{$sVal['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">状态：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="status" class="selectmenu"  style="width:104px;">
+                                <option value="">选择状态</option>
+                                {if $param['status'] eq 1}
+                                <option value="1" selected="selected">已处理</option>
+                                <option value="2">未处理</option>
+                                {else if $param['status'] eq 2}
+                                <option value="1">已处理</option>
+                                <option value="2" selected="selected">未处理</option>
+                                {else}
+                                <option value="1">已处理</option>
+                                <option value="2">未处理</option>
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">出库时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:148px;" name="time_end" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>单号</th>
+                        <th>车牌号</th>
+                        <th>押运员</th>
+                        <th>配送内容</th>
+                        <th>配送门店</th>
+                        <th>操作人</th>
+                        <th>出库时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) neq 0}
+                    {foreach $ext['list'] as $value}
+                    {assign var=deliveryshop value=$datainfo[$value['delivery_no']]}
+                    {assign var=dshopnum value=count($deliveryshop)}
+                    <tr>
+                        <td rowspan="{$dshopnum}">{$value['delivery_no']}</td>
+                        <td rowspan="{$dshopnum}">{$value['license_plate']}</td>
+                        <td rowspan="{$dshopnum}">{$value['guards']}</td>
+                        <td rowspan="{$dshopnum}" class="tableBtn">
+                            <a href="/filling/deliveryinfo?sno={$value['delivery_no']}" target="_blank">配送详情</a>
+                        </td>
+                        <td>{(isset($deliveryshop[0]) && !empty($deliveryshop[0])) ? $deliveryshop[0]['shop_name'] : ''}</td>
+                        <td rowspan="{$dshopnum}">{$value['admin_user_name']}</td>
+                        <td rowspan="{$dshopnum}">{$value['ck_time']}</td>
+                        {if $value['status'] eq 0}
+                        <td rowspan="{$dshopnum}">
+                            <a href="javascript:;" class="blueColor shenheBtn" dso="{$value['delivery_no']}">未处理</a>
+                            <span>|</span>
+                            <a href="javascript:;" class="editChukudan" dso="{$value['delivery_no']}">修改</a>
+                        </td>
+                        {else}
+                        <td rowspan="{$dshopnum}" class="grayColor">已处理</td>
+                        {/if}
+                    </tr>
+                    {foreach $deliveryshop as $dKey => $dVal}
+                    {if $dKey gt 0}
+                    <tr>
+                        <td>{$dVal['shop_name']}</td>
+                    </tr>
+                    {/if}
+                    {/foreach}
+                    {/foreach}
+                    {else}
+                    <tr>
+                        <td colspan="8">暂时还没有配送出库单</td>
+                    </tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/peisongchukudan.js"></script>{/block}

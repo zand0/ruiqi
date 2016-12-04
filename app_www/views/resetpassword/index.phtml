@@ -1,0 +1,20 @@
+{extends file='main_other.phtml'}
+{block name=body}
+<div class="content">
+    <div class="yzbox">
+        <h2>找回密码</h2>
+        <div class="clearfix telbox">
+            <div class="inputBox placeholder fl">
+                <input type="text" style="width:256px;">
+                <span>请输入手机号</span>
+            </div>
+            <a href="javascript:;" class="blueBtn5 fl">获取验证码</a>
+        </div>
+        <div class="inputBox placeholder">
+            <input type="text" style="width:378px;">
+            <span>输入验证码</span>
+        </div>
+        <a href="/resetpassword/password" class="blueBtn4">重置密码</a>
+    </div>
+</div>
+{/block}

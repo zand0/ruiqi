@@ -1,0 +1,106 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}规则管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        规则管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/quarters/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">岗位名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="title" value="{$title}" style="width:150px;">
+                        <span>输入岗位名称</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">所属部门：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="org_parent_id" id="org_parent_id" class="selectmenu"style="width:172px" >
+                                <option value="0">请选择上级</option>
+                                {$orglist}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">岗位职能：</label>
+                    <div class="selectBox fl" style="width:142px;">
+                        <div class="mySelect">
+                            <select name="quarters_id" id="quarters_id" class="selectmenu"style="width:142px" >
+                                <option value="0">选择岗位职能</option>
+                                {if $typeObject neq ''}
+                                {foreach $typeObject as $tkey => $tval}
+                                {if $tkey eq $quarters_id}
+                                <option value="{$tkey}" selected="selected">{$tval}</option>
+                                {else}
+                                <option value="{$tkey}">{$tval}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqOption clearfix">
+                <label class="fl">上级岗位：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="quarters_parent_id" id="quarters_parent_id" class="selectmenu"style="width:200px" >
+                            <option value="0">请选择上级</option>
+                            {$quarterList}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">状态：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            {if !$status or $status == 1}
+                            <input type="radio" name="status" value="1" checked="checked" id='s1'><label for='s1'>启用</label>
+                            <input type="radio" name="status" value="2" id='s2'><label for='s2'>禁止</label>
+                            {elseif $status == 2}
+                            <input type="radio" name="status" value="1" id='s1'><label for='s1'>启用</label>
+                            <input type="radio" name="status" value="2" checked="checked" id='s2'><label for='s2'>禁止</label>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">备注：</label>
+                    <div class="fl">
+                        <textarea name="comment">{$comment}</textarea>
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

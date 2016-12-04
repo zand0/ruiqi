@@ -1,0 +1,140 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工统计{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+{literal}
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+    $(function () {
+    $('#container').highcharts({
+            chart: {
+            type: 'column',
+                    margin: [50, 50, 100, 80]
+            },
+            title: {
+            text: '订单统计'
+            },
+            xAxis: {
+            categories: {/literal}{$title}{literal},
+                    labels: {
+                    rotation: - 45,
+                            align: 'right',
+                            style: {
+                            fontSize: '13px',
+                                    fontFamily: 'Verdana, sans-serif'
+                            }
+                    }
+            },
+            yAxis: {
+            min: 0,
+                    title: {
+                    text: '订单统计'
+                    }
+            },
+            legend: {
+            enabled: false
+            },
+            tooltip: {
+            pointFormat: '订单数量: <b>{point.y:.1f} 个</b>',
+            },
+            series: [{
+            name: 'Population',
+            data: {/literal}{$show}{literal},
+                    dataLabels: {
+                    enabled: true,
+                            rotation: - 90,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            x: 4,
+                            y: 10,
+                            style: {
+                            fontSize: '13px',
+                                    fontFamily: 'Verdana, sans-serif',
+                                    textShadow: '0 0 3px black'
+                            }
+                    }
+            }]
+        });
+     });
+</script>
+{/literal}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工统计
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div id="container"></div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工统计记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqLine clearfix">
+            <form name="form" method="POST">
+                <div class="rqOption3 fl">
+                    <label class="fl">选择门店：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu"  style="width:144px;">
+                                <option selected="selected">选择门店</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">送气工名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="shipper_name" value="{$param['shipper_name']}" style="width:130px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </form>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>隶属门店</th>
+                        <th>送气工姓名</th>
+                        <th>订单数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $data neq ''}
+                    {foreach $data as $value}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="tableBtn">{$shipperObject[$value['shipper_id']]['shipper_name']}</td>
+                        <td>{$value['total']}</td>
+                    </tr>
+                    {/foreach} 
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/songqigongtongji.js"></script>{/block}

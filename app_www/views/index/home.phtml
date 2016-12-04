@@ -1,0 +1,409 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}综合统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        综合统计
+        <span></span>
+        <a href="/index/home?temptype=new" class="blueBtn6" target="_blank">新版页面</a>
+    </div>
+    <div class="contRList">
+        <div class="clearfix rqlist">
+            <div class="fl" style="width:410px;">
+                <div class="rq_data">
+                    <ul class="clearfix">
+                        <li class="rq_up">
+                            <div class="leftTxt">
+                                <p>本月销售金额</p>
+                                <span class="rq_num"><strong>￥{$monthTotal}</strong></span>
+                            </div>
+                            <font>+0</font>
+                            <span class="percent">%</span>
+                            <i></i>
+                        </li>
+                    </ul>
+                </div>
+                {literal}
+                    <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+                    <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+                    <script>
+                        $(function () {
+                            var salesArr = {/literal}{$salesArr}{literal};
+                            $('#container').highcharts({
+                                chart: {
+                                    type: 'pie'
+                                },
+                                title: {
+                                    text: '本月销售金额统计',
+                                    x: -20 //center
+                                },
+                                credits:{
+                                    enabled:false // 禁用版权信息
+                                },
+                                plotOptions: {
+                                    pie: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: {
+                                            enabled: true,
+                                            color: '#666',
+                                            connectorColor: '#666',
+                                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                        }
+                                    }
+                                },
+                                colors: ['#98d7a0', '#f7de6a', '#f8b566','#72dad9','#f8825e','#46bddd'],
+                                legend: {
+                                    enabled:false
+                                },
+                                tooltip: {
+                                    valueDecimals: 2,
+                                    valueSuffix: '元'
+                                },
+                                series: [{
+                                    "name":"销售金额",
+                                    "data":salesArr
+                                }]
+                            });
+                        });
+                    </script>
+                {/literal}
+                <div id="container" style="height:300px;"></div>
+            </div>
+            <div class="fr zhichuItem" style="width:410px;">
+                <div class="rq_data">
+                    <ul class="clearfix">
+                        <li class="rq_down">
+                            <div class="leftTxt">
+                                <p>本月支出金额</p>
+                                <span class="rq_num"><strong>￥{$zcMoney}</strong></span>
+                            </div>
+                            <font>-0</font>
+                            <span class="percent">%</span>
+                            <i></i>
+                        </li>
+                    </ul>
+                </div>
+                {literal}
+                    <script>
+                        $(function () {
+                            var zcMoneyArr = {/literal}{$zcMoneyArr}{literal};
+                            $('#container2').highcharts({
+                                    chart: {
+                                        type: 'pie'
+                                    },
+                                    title: {
+                                        text: '本月支出金额统计',
+                                        x: -20 //center
+                                    },
+                                    credits:{
+                                                enabled:false // 禁用版权信息
+                                            },
+                                            plotOptions: {
+                                        pie: {
+                                            allowPointSelect: true,
+                                            cursor: 'pointer',
+                                            dataLabels: {
+                                                enabled: true,
+                                                color: '#666',
+                                                connectorColor: '#666',
+                                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                            }
+                                        }
+                                    },
+                                    colors: ['#98d7a0', '#f7de6a', '#f8b566','#72dad9','#f8825e','#46bddd','#525066'],
+                                    legend: {
+                                        enabled:false
+                                    },
+                                    tooltip: {
+                                            valueDecimals: 2,
+                                        valueSuffix: '元'
+                                    },
+                                    series: [{
+                                            "name":"支出金额",
+                                            "data":zcMoneyArr
+                                    }]
+                                });
+                        });
+                    </script>
+                {/literal}
+                <div id="container2" style="height:300px;"></div>
+            </div>
+        </div>
+        <div class="cuttingLine mb20"></div>
+        <div class="clearfix rqlist">
+            <div class="fl xinkaihuItem" style="width:410px;">
+                <div class="rq_data">
+                    <ul class="clearfix">
+                        <li class="rq_up">
+                            <div class="leftTxt">
+                                <p>本月新开户统计</p>
+                                <span class="rq_num"><strong>{$kehuTotal}</strong></span>
+                            </div>
+                            <font>+0</font>
+                            <span class="percent">%</span>
+                            <i></i>
+                        </li>
+                    </ul>
+                </div>
+                {literal}
+                    <script>
+                        $(function () {
+                            var kehuArr = {/literal}{$kehuArr}{literal};
+                            $('#container3').highcharts({
+                                chart: {
+                                    type: 'pie'
+                                },
+                                title: {
+                                    text: '本月新开户统计',
+                                    x: -20 //center
+                                },
+                                credits:{
+                                            enabled:false // 禁用版权信息
+                                        },
+                                        plotOptions: {
+                                    pie: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: {
+                                            enabled: true,
+                                            color: '#666',
+                                            connectorColor: '#666',
+                                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                        }
+                                    }
+                                },
+                                colors: ['#98d7a0', '#f7de6a', '#f8b566','#72dad9','#f8825e','#46bddd','#525066'],
+                                legend: {
+                                    enabled:false
+                                },
+                                tooltip: {
+                                    valueSuffix: '个'
+                                },
+                                series: [{
+                                        "name":"新开户数",
+                                        "data":kehuArr
+                                }]
+                            });
+                        });
+                    </script>
+                {/literal}
+                <div id="container3" style="height:300px;"></div>
+            </div>
+            <div class="fr yingshoukuanItem" style="width:410px;">
+                <div class="rq_data">
+                    <ul class="clearfix">
+                        <li class="rq_down">
+                            <div class="leftTxt">
+                                <p>本月应收款统计</p>
+                                <span class="rq_num"><strong>￥{$weekTotal}</strong></span>
+                            </div>
+                            <font>-0</font>
+                            <span class="percent">%</span>
+                            <i></i>
+                        </li>
+                    </ul>
+                </div>
+                {literal}
+                    <script>
+                        $(function () {
+                            var shopArr = {/literal}{$shopArr}{literal};
+                            $('#container4').highcharts({
+                                chart: {
+                                    type: 'pie'
+                                },
+                                title: {
+                                    text: '本月应收款统计',
+                                    x: -20 //center
+                                },
+                                credits:{
+                                            enabled:false // 禁用版权信息
+                                        },
+                                        plotOptions: {
+                                    pie: {
+                                        allowPointSelect: true,
+                                        cursor: 'pointer',
+                                        dataLabels: {
+                                            enabled: true,
+                                            color: '#666',
+                                            connectorColor: '#666',
+                                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                        }
+                                    }
+                                },
+                                colors: ['#98d7a0', '#f7de6a', '#f8b566','#72dad9','#f8825e','#46bddd','#525066'],
+                                legend: {
+                                    enabled:false
+                                },
+                                tooltip: {
+                                        valueDecimals: 2,
+                                    valueSuffix: '元'
+                                },
+                                series: [{
+                                        "name":"应收款",
+                                        "data":shopArr
+                                }]
+                            });
+                        });
+                    </script>
+                {/literal}
+                <div id="container4" style="height:300px;"></div>
+            </div>
+        </div>
+        <div class="cuttingLine mb20"></div>
+        <div class="rq_data">
+            <ul class="clearfix">
+                <li class="rq_down dataLi7">
+                    <p>燃气库存合计</p>
+                    <span class="rq_num"><strong>{$tank_gasTotal}</strong></span>
+                    <font>-0</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi8">
+                    <p>钢瓶库存合计</p>
+                    <span class="rq_num"><strong>{$bottleTotal}</strong></span>
+                    <font>+0</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi9">
+                    <p>配件库存合计</p>
+                    <span class="rq_num"><strong>{$productTotal}</strong></span>
+                    <font>+0</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+            </ul>
+        </div>
+        <div class="clearfix ">
+            {literal}
+                <script>
+                    $(function () {
+                        var gasData = {/literal}{$tankKey}{literal};
+                        var gasVal = {/literal}{$tankVal}{literal};
+                        $('#container5').highcharts({
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: '燃气库存统计',
+                                x: -20 //center
+                            },
+                            credits:{
+                                        enabled:false // 禁用版权信息
+                                    },
+                            xAxis: {
+                                    title:'种类',
+                                categories: gasData
+                            },
+                            yAxis: {
+                                title: {
+                                    text: '重量'
+                                },
+                                plotLines: [{
+                                        value: 0,
+                                        width: 1,
+                                        color: '#808080'
+                                    }]
+                            },
+                            legend: {
+                                enabled:false
+                            },
+                            series: [{"name":"重量","data":gasVal,"color":"#fec720"}]
+                        });
+                    });
+                </script>
+            {/literal}
+            <div id="container5" class="fl" style="width:284px;"></div>
+            {literal}
+                <script>
+                    $(function () {
+                        var bottleKey = {/literal}{$bottleKey}{literal};
+                        var bottleVal = {/literal}{$bottleVal}{literal};
+                        $('#container6').highcharts({
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: '钢瓶库存统计',
+                                x: -20 //center
+                            },
+                            credits:{
+                                        enabled:false // 禁用版权信息
+                                    },
+                            xAxis: {
+                                    title:'规格',
+                                categories: bottleKey
+                            },
+                            yAxis: {
+                                title: {
+                                    text: '数量'
+                                },
+                                plotLines: [{
+                                        value: 0,
+                                        width: 1,
+                                        color: '#808080'
+                                    }]
+                            },
+                            legend: {
+                                enabled:false
+                            },
+                            series: [{"name":"数量","data":bottleVal,"color":"#e81d62"}]
+                        });
+                    });
+                </script>
+            {/literal}
+            <div id="container6" class="fl" style="width:284px;"></div>
+            {literal}
+                <script>
+                    $(function () {
+                        var productKey = {/literal}{$productKey}{literal};
+                        var productVal = {/literal}{$productVal}{literal};
+                        $('#container7').highcharts({
+                            chart: {
+                                type: 'column'
+                            },
+                            title: {
+                                text: '配件库存统计',
+                                x: -20 //center
+                            },
+                            credits:{
+                                        enabled:false // 禁用版权信息
+                                    },
+                            xAxis: {
+                                    title:'种类',
+                                categories: productKey
+                            },
+                            yAxis: {
+                                title: {
+                                    text: '数量'
+                                },
+                                plotLines: [{
+                                        value: 0,
+                                        width: 1,
+                                        color: '#808080'
+                                    }]
+                            },
+                            legend: {
+                                enabled:false
+                            },
+                            series: [{"name":"数量","data":productVal,"color":"#8ac249"}]
+                        });
+                    });
+                </script>
+            {/literal}
+            <div id="container7" class="fl" style="width:284px;"></div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/tongjihuizong.js"></script>{/block}

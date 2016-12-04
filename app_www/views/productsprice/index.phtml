@@ -1,0 +1,41 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+配件价格管理
+{/block}
+{block name=operate}
+<a href="/productsprice/add">添加配件价格</a>
+{/block}
+
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>配件编号</td>
+            <td>配件名称</td>
+            <td>配件价格</td>
+            <td>门店</td>
+            <td>备注</td>
+            <td>操作</td>
+        </tr>
+
+        {if $ext neq ''}
+        {foreach $ext['list'] as $value}
+        <tr>
+            <td>{$value['products_no']}</td>
+            <td>{$value['products_name']}</td>
+            <td>{$value['products_price']}</td>
+            <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+            <td>{$value['products_comment']}</td>
+            <td><a href="/productsprice/edite?id={$value['id']}">编辑</a>|<a href="/productsprice/del?id={$value['id']}">删除</a></td>
+        </tr>
+        {/foreach} 
+        {/if}
+    </table>
+    <div class="table-pages pageNav clearfix" id="pageNav"></div>
+</div>
+<script type="text/javascript">
+    var page = {$page};
+    var totalPage = {$count};
+</script>
+<script type="text/javascript" src="{$_PUBLIC}/js/common.js"></script>
+{/block}

@@ -1,0 +1,65 @@
+{extends file='main.phtml'}
+{block name=rtitle}报修管理{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/baoxiu/add">
+        {if $shop_id > 0 }
+        <input type="hidden" name="shop_id" value="{$shop_id}" />
+        {else}
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">报修门店：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <select name="shop_id" class="selectmenu">
+                        <option value="0">未知</option>
+                        {foreach $shop_list as $k=>$v}
+                        <option value="{$v['shop_id']}">{$v['shop_name']}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+        </div>
+        {/if}
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">客户ID：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="kid" value="{$kid}" style="width:200px;">
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">客户名称：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="kname" value="{$kname}" style="width:200px;">
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">报修内容：</label>
+                <div class="inputBox fl placeholder">
+                    <textarea type="text" name="comment">{$comment}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl"></label>
+                <div class="fl">
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$id}" id="updateID">
+    </form>
+</div>
+{/block}

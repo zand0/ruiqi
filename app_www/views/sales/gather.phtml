@@ -1,0 +1,77 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}月销售额统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRItem">
+    <div class="contRTitle">
+        月销售额统计
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="tpData">
+            <ul class="clearfix">
+                <li>
+                    <p>当前月销售额</p>
+                    <span>{$jmTotal+$syTotal}</span>
+                </li>
+                <li  class="greenBg">
+                    <p>居民销售额</p>
+                    <span>{$jmTotal}</span>
+                </li>
+                <li  class="greenBg">
+                    <p>商业销售额</p>
+                    <span>{$syTotal}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        月销售额统计
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>居民用户</th>
+                        <th>销售额</th>
+                        <th>商业用户</th>
+                        <th>销售额</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($returnData) > 0}
+                    {foreach $returnData as $key => $value}
+                    <tr>
+                        <td>{$key}</td>
+                        <td colspan="2">{$value[1]}</td>
+                        <td colspan="2">{$value[2]}</td>
+                        <td class="tableBtn">
+                            <a href="/sales/gatherinfo?datetime={$key}">详情</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="6">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/orderManage.js"></script>{/block}

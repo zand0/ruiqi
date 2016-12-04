@@ -1,0 +1,98 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}安全检查记录{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        安全检查记录
+        <span></span>
+        <!--a href="/security/addsecurity" class="blueBtn6 addRecord">添加记录</a-->
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">编号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="securitysn" value="{$param['securitysn']}" style="width:110px;">
+                        <span>正确编号</span>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">送气工：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="shipper_id" class="selectmenu" style="width:140px;">
+                                <option value="" selected="selected">送气工</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl riliInputBox">
+                    <label class="fl">安检日期：</label>
+                    <div class="fl riliInput">
+                        <input type="text" name="time" value="{$param['time']}" class="datepicker" style="width:130px;" readonly>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        安检记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>用户</th>
+                        <th>安检日期</th>
+                        <th>安检员</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['securitysn']}</td>
+                        <td>{$value['user_name']}</td>
+                        <td>{date('Y-m-d H:i',$value['ctime'])}</td>
+                        <td>{$value['shipper_name']}</td>
+                        <td><a href="/security/listshow?id={$value['id']}&ktype={$value['ktype']}">查看</a></td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="5">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/anquanjianchajilu.js"></script>{/block}

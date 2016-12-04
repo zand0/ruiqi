@@ -1,0 +1,68 @@
+{extends file='main_other.phtml'}
+{block name=body}
+{block name=head}
+<script type="text/javascript" src="{$_PUBLIC}/js/region_select.js"></script>
+{literal}
+<script>
+    $(function ($) {
+        region_util({
+            v1_select: '.region_1',
+            v2_select: '.region_2',
+            v3_select: '.region_3',
+            v4_select: '.region_4',
+            request_param: {
+                opt_cat: 'list'
+            }
+        });
+    });
+</script>
+{/literal}
+{/block}
+<div class="content"> 
+    <form method="post" id="searchform" action="/my/passport/register"> 
+        <div class="yzbox">
+            <h2>新用户注册</h2>
+            <p class="toLogIn">已有账号?&nbsp;&nbsp;<a href="/index/index">马上登录</a></p>
+            <div class="inputBox placeholder">
+                <input type="text" name='username' style="width:378px;">
+                <span>用户名</span>
+            </div>
+            <div class="inputBox placeholder">
+                <input type="text" name='mobile_phone' style="width:378px;">
+                <span>手机号码</span>
+            </div>
+            <div class="inputBox placeholder">
+                <input type="password" name='password' style="width:378px;">
+                <span>设置密码</span>
+            </div>
+            <div class="inputBox placeholder">
+                <input type="password" name='confirm_password' style="width:378px;">
+                <span>确认密码</span>
+            </div>
+            <div class="clearfix telbox">
+                <div class="inputBox placeholder fl">
+                    <select name="region_1" class="selectmenux region_1"></select>
+                    <select name="region_2" class="selectmenux region_2"></select>
+                    <select name="region_3" class="selectmenux region_3"></select>
+                    <select name="region_4" class="selectmenux region_4"></select>
+                </div> 
+            </div>
+            <div class="clearfix telbox">
+                <div class="inputBox placeholder fl">
+                    <select name="shop_id" id="shop_id">
+                        <option value="0">所属门店</option>
+                        {foreach $shopObject as $k=>$v}
+                        <option value="{$k}">{$v['shop_name']}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="inputBox  placeholder">
+                <input type="text" style="width:378px;" name='address' value="">
+                <span>输入详细地址</span>
+            </div>
+            <input type='submit' class="blueBtn4" value='注册'>
+        </div>
+    </form>   
+</div>
+{/block}

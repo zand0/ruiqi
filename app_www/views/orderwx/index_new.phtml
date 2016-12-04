@@ -1,0 +1,165 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}微信订单{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb30">
+        <div class="fl">
+            <h3>微信订单</h3>
+            <p>销售管理 > 微信订单</p>
+        </div>	
+    </div>
+    <!-- 数据统计 -->
+    <div class="dataMenu dataMenu3 mb24  pl186">
+        <div class="bgBtn" style="cursor:pointer;">
+            <p>今日订单数量</p>
+            <strong>{$nowTj}</strong>
+            <span></span>
+            <div class="mySelect" style="display:none;">
+                <i></i>
+                <div>
+                    <a href="javascript:void(0);" data-id="1" class="first">今日订单数量</a>
+                    <a href="javascript:void(0);" data-id="2">本周订单数量</a>
+                    <a href="javascript:void(0);" data-id="3">本月订单数量</a>
+                    <a href="javascript:void(0);" data-id="4">本季订单数量</a>
+                    <a href="javascript:void(0);" data-id="5">本年订单数量</a>
+                </div>
+                <input type="hidden" value="1">
+            </div>
+            <!-- 选中项 -->
+        </div>
+        <ul class="clearfix">
+            {if $statusTj neq ''}
+            {foreach $statusTj as $tVal}
+            <li>
+                <p>{$orderStatus[$tVal['status']]}订单数量</p>
+                <strong>{$tVal['total']}</strong>
+            </li>
+            {/foreach}
+            {/if}
+            <li>
+                <p>累计订单数量</p>
+                <strong>{$ext['count']}</strong>
+            </li>
+        </ul>	
+    </div>
+    <!-- 条件查询 -->
+    <div class="refer mb34">
+        <div class="mb20 clearfix lineData">
+            <div class="fl">
+                <label class="fl">接线员：</label>
+                <select name="operator" class="fl mr10" style="width:178px;">
+                    {if $ordersource neq ''}
+                    {foreach $ordersource as $otVal}
+                    {if $otVal eq $param['operator']}
+                    <option value="{$otVal}" selected="selected">{$otVal}</option>
+                    {else}
+                    <option value="{$otVal}">{$otVal}</option>
+                    {/if}
+                    {/foreach}
+                    {/if}
+                </select>
+            </div>
+            <div class="fl mr60">
+                <label class="fl">客户电话：</label>
+                <input type="text" style="width:135px" name="mobile" value="{$param['mobile']}" placeholder="输入客户电话"  class="fl">
+            </div>
+            <div class="fl">
+                <label class="fl">订单状态：</label>
+                <select name="status" class="fl mr10" style="width:178px;">
+                    {if $orderStatus neq ''}
+                    {foreach $orderStatus as $ukey => $usVal}
+                    {if $ukey eq $param['status']}
+                    <option value="{$ukey}" selected="selected">{$usVal}</option>
+                    {else}
+                    <option value="{$ukey}">{$usVal}</option>
+                    {/if}
+                    {/foreach}
+                    {/if}
+                </select>
+            </div>
+        </div>
+        <div class="clearfix lineData">
+            <div class="fl mr15">
+                <label class="fl">详细地址：</label>
+                <input type="text" style="width:330px" name="comment" value="{$param['comment']}" placeholder="输入详细地址"  class="fl">
+            </div>
+            <a href="javascript:void(0);" id="searchBtn" class="fl">搜索</a>
+        </div>
+    </div>
+    <!-- 订单查询结果 -->
+    <div class="result">
+        <div class="clearfix title mb10">
+            <p class="fl">订单查找结果：</p>
+            <div class="fr chooseDate">
+                <span class="fl">选择时段：</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="start" name="time_start" value="{$param['time_start']}" style="width:80px;">
+                </div>
+                <span class="fl plr8">到</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="end" name="time_end" value="{$param['time_end']}" style="width:80px;">
+                </div>
+                <a href="javascript:void(0);" class="fl">确定</a>
+            </div>
+        </div>
+        <div class="table2 mb34">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="borderRight">下单时间</th>
+                        <th>客户信息</th>
+                        <th>订单商品</th>
+                        <th>订单状态</th>
+                        <th>客服工号</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) > 0}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td class="borderRight">{date('Y-m-d H:i:s',$value['time_created'])}</td>
+                        <td>
+                            {$value['mobile']}<br>
+                            {$value['comment']}
+                        </td>
+                        <td>{$value['bottle_text']}</td>
+                        <td class="redColor">{$orderStatus[$value['status']]}</td>
+                        <td>{$value['operator']}</td>
+                        <td class="operate">
+                            {if $value['status'] eq 0}
+                            <a href="dingdanDetail.html">派发 &gt;</a>
+                            {else}
+                            已处理
+                            {/if}
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="10">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom mb50">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/weixindingdanCtrl.js"></script>
+{/block}

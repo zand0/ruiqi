@@ -1,0 +1,53 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}角色管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        角色管理
+        <span></span>
+        <a href="/authrole/add" class="blueBtn6">添加角色</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>角色名称</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+                {if count($ext['list']) neq 0}
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['title']}</td>
+                    <td>{if $value['status'] eq '1'}正常{else}禁用{/if}</td>
+                    <td>
+                        {if $value['id'] > 1}
+                        <a href="/authrole/edite?id={$value['id']}">修改</a>
+                        {if $value['id'] gt 10}|<a href="/authrole/del?id={$value['id']}" onclick="if(confirm('确定删除?')==false)return false;">删除</a>{/if}
+                        {/if}
+                    </td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr>
+                    <td colspan="3">暂时还没有数据</td>
+                </tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$param['page']}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

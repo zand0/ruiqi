@@ -1,0 +1,55 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}申请审批{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        审批申请
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="path">
+            <a href="/approval/index">审批列表</a>&nbsp;
+            <i></i>&nbsp;
+            <a href="javascript:void(0);" class="active">审批详情</a>
+        </div>
+        <div class="mesgDetail">
+            <h3>{$title}</h3>
+            <div class="mesgBottom">
+                <span>申请人：<a href="javascript:void(0);">{$username}</a></span>&nbsp;
+                <span>申请状态：<font>{(($approval_status eq 0) ? '未审核' : (($approval_status eq 1) ? '批准' : '拒绝'))}</font></span>&nbsp;
+                <span>申请类型：<i></i></span>&nbsp;
+                <span>{date('m-d H:i',$time_created)}</span>
+                {if $approval_documents neq ''}
+                <span>单据详情：<i></i></span>&nbsp;
+                <span><a href="{$url}" target="_blank">{$approval_documents}</a></span>
+                {/if}
+            </div>
+            <p>{$comment}</p>
+        </div>
+        <div class="sp_result">
+            <div class="msgTitle mb20">
+                <span>处理意见</span>
+            </div>
+            <div class="textbox mb20">
+                <input type="hidden" name="aid" value="{$id}" id="aid" />
+                <textarea id="comment">{$reason}</textarea>
+            </div>
+            {if ($approval_user eq $user_id) && ($approval_status eq 0)}
+            <div class="shenpiBtn clearfix">
+                <a href="javascript:void(0);" class="fr blueBtn7 ml10 shenpi">批准</a>
+                <a href="javascript:void(0);" class="fr grayBtn2 nshenpi">拒批</a>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shenqingshenpi.js"></script>{/block}

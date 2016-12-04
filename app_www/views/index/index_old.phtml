@@ -1,0 +1,215 @@
+{extends file='main_other.phtml'}
+{block name=body}
+<div class="content">
+    <div class="contRItem contRItem2 clearfix">
+        <div class="rqTab fl" id="tab">
+            <ul class="clearfix">
+                <li>
+                    <a href="javascript:;">
+                        <img src="{$_PUBLIC}/images/rq_img1.jpg">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="{$_PUBLIC}/images/rq_img1.jpg">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="{$_PUBLIC}/images/rq_img1.jpg">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="{$_PUBLIC}/images/rq_img1.jpg">
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
+                        <img src="{$_PUBLIC}/images/rq_img1.jpg">
+                    </a>
+                </li>
+            </ul>
+            <span class="mask"></span>
+            <p>· 国庆节充值优惠活动</p>
+            <ol class="clearfix">
+                <li class="active">
+                    <a href="javascript:;"></a>
+                </li>
+                <li>
+                    <a href="javascript:;"></a>
+                </li>
+                <li>
+                    <a href="javascript:;"></a>
+                </li>
+                <li>
+                    <a href="javascript:;"></a>
+                </li>
+                <li>
+                    <a href="javascript:;"></a>
+                </li>
+            </ol>
+        </div>
+        <div class="loginBox fl">
+            <div class="blueTitle">
+                <span></span>
+                会员登录
+            </div>
+            <form name="login" method="post" action='/my/passport/login'>
+            <div class="inputBox placeholder username">
+                <input type="text" name="username" style="width:248px;">
+                <span>登录手机号</span>
+            </div>
+            <div class="inputBox placeholder psd">
+                <input type="password" name="password" style="width:248px;">
+                <span>登录密码</span>
+            </div>
+            <input type='submit' class="loginBtn" id="loginBtn" value='登录'>
+            <div class="operationBtn clearfix">
+                <div class="checkList fl"><a href="javascript:;">记住登录状态</a></div>
+                <a href="register/index" class="blueColor fr">快速注册</a>
+                <span class="fr">|</span>
+                <a href="/resetpassword/index" class="fr">忘记密码？</a>
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="clearfix">
+        <div class="contRItem fl" style="width:728px;height:352px;">
+            <div class="iconTitle clearfix">
+                <h3 class="fl">企业概况</h3>
+                <a href="javascript:;" class="allBtn fr">阅读详情 >>></a>
+            </div>
+            <div class="gaikaung">
+                <p>北京瑞气科技有限责任公司以液化石油气公司生产和销售信息化建设的软件工程项目为背景，从液化石油气管理销售现状信息化建设需求出发，通过技术创新，探索瓶装液化石油气服务新模式，深入研发出依托互联网及移动端技术的智能型瓶装液化气销售管理信息系统。</p>
+                <p>本系统是为液化气公司设计的一套操作简单，功能全面、技术领先的管理软件，其功能包括了液化气公司所属气站的进销存管理，客户管理，财务管理、人员管理及客服中心等，气站下属的液化气配送门店的进销存管理、送气工管理、客户管理、订单管理及财务管理，各门店送气工的进销存管理，订单管理及财务管理等。通过系统可以随时了解到各个门店当前的销售、库存及订单处理情况，并可以随时获知每个订单当前的处理进度。</p>
+                <p>本系统支持客户通过电话订气、网站订气、微信订气及APP订气等多途径下单订气，同时支持现金、月结(欠款)、网上支付等多种付款方式，便于客户购买付费。通过配合智能芯片钢瓶的使用，气站可以准确获知每位客户当前在使用的钢瓶情况及具体用气数据，通过系统内数据分析让气站及门店能准确为客户提供主动送气上门服务。...</p>
+            </div>
+        </div>
+        <div class="contRItem fr todayPrice" style="width:358px;height:352px;">
+            <div class="iconTitle clearfix">
+                <h3 class="fl">今日气价</h3>
+                <div class="selectBox fr">
+                    <div class="mySelect">
+                        <select name="" class="selectmenu" style="width:140px;">
+                            <option>1</option>
+                            <option>2</option>
+                            <option selected="selected">北京市</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="dingqi">
+                <div class="rqTabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>规格</th>
+                                <th>价格</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>5KG</td>
+                                <td>35元</td>
+                                <td>不含运费</td>
+                            </tr>
+                            <tr>
+                                <td>5KG</td>
+                                <td>35元</td>
+                                <td>不含运费</td>
+                            </tr>
+                            <tr>
+                                <td>5KG</td>
+                                <td>35元</td>
+                                <td>不含运费</td>
+                            </tr>
+                            <tr>
+                                <td>5KG</td>
+                                <td>35元</td>
+                                <td>不含运费</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix">
+                    <a href="javascript:;" class="blueBtn fr">马上订气</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix contBottom">
+        <div class="contRItem fl" style="width:542px;">
+            <div class="iconTitle clearfix">
+                <h3 class="fl">企业动态</h3>
+                <a href="javascript:;" class="allBtn fr">更多 >>></a>
+            </div>
+            <div class="dianList">
+                <ul>
+                    <li class="clearfix">
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li class="clearfix">
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li class="clearfix">
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li class="clearfix">
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li class="clearfix">
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li class="clearfix">
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="contRItem fr" style="width:542px;">
+            <div class="iconTitle clearfix">
+                <h3 class="fl">安全常识</h3>
+                <a href="javascript:;" class="allBtn fr">更多 >>></a>
+            </div>
+            <div class="dianList">
+                <ul>
+                    <li>
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li>
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li>
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li>
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li>
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                    <li>
+                        <a href="javascript:;">中国平安第十届董事会第四次会议决议公告</a>
+                        <span>2015-11-30</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,40 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}app角色管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        app角色管理
+        <span></span>
+        <a href="/authrole/add" class="blueBtn6">添加角色</a>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>角色名称</td>
+                    <td>状态</td>
+                    <td>操作</td>
+                </tr>
+                {foreach $list as $value}
+                <tr>
+                    <td>{$value['title']}</td>
+                    <td>{if $value['status'] eq '1'}正常{else}禁用{/if}</td>
+                    <td>
+                        {if $value['id'] > 1}
+                        <a href="/authrole/appedit?id={$value['id']}">修改</a>
+                        {/if}
+                    </td>
+                </tr>
+                {/foreach}
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

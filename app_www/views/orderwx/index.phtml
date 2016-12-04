@@ -1,0 +1,153 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}微信订单管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRItem">
+    <div class="contRTitle">
+        微信订单管理
+        <span></span>
+        <a href="/orderwx/index?temptype=new" class="blueBtn6" target="_blank">新版页面</a>
+    </div>
+    <div class="contRList">
+        <div class="tpData">
+            <ul class="clearfix">
+                <li>
+                    <p>今日订单数量</p>
+                    <span>{$nowTj}</span>
+                </li>
+                {if $statusTj neq ''}
+                {foreach $statusTj as $tVal}
+                <li>
+                    <p>{$orderStatus[$tVal['status']]}订单数量</p>
+                    <span>{$tVal['total']}</span>
+                </li>
+                {/foreach}
+                {/if}
+                <li  class="greenBg">
+                    <p>累计订单数量</p>
+                    <span>{$ext['count']}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        微信订单列表
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">接线员：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="operator" class="selectmenu"  style="width:144px;">
+                                <option value="">选择类型</option>
+                                {if $ordersource neq ''}
+                                {foreach $ordersource as $otVal}
+                                {if $otVal eq $param['operator']}
+                                <option value="{$otVal}" selected="selected">{$otVal}</option>
+                                {else}
+                                <option value="{$otVal}">{$otVal}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">订单状态：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="status" class="selectmenu"  style="width:144px;">
+                                <option value="">选择状态</option>
+                                {if $orderStatus neq ''}
+                                {foreach $orderStatus as $ukey => $usVal}
+                                {if $ukey eq $param['status']}
+                                <option value="{$ukey}" selected="selected">{$usVal}</option>
+                                {else}
+                                <option value="{$ukey}">{$usVal}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">订单时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="time_start" style="width:152px;" id="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" name="time_end" id="time_end" style="width:152px;" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>下单时间</th>
+                        <th>客户电话</th>
+                        <th>客户名称</th>
+                        <th>详情</th>
+                        <th>备注</th>
+                        <th>接线员</th>
+                        <th>订单状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($ext['list']) > 0}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{date('Y-m-d H:i:s',$value['time_created'])}</td>
+                        <td>{$value['mobile']}</td>
+                        <td>{$value['username']}</td>
+                        <td>{$value['bottle_text']}</td>
+                        <td>{$value['comment']}</td>
+                        <td>{$value['operator']}</td>
+                        <td>
+                            {$orderStatus[$value['status']]}|<a href="javascript:;" order_id="{$value['id']}" class="del_btn">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="10">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

@@ -1,0 +1,137 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}商品种类设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        商品种类管理
+        <span></span>
+        <a href="/commodity/add" class="blueBtn8 addShangpin">添加商品种类</a>
+    </div>
+    <div class="contRList">
+        <div class="rqLine clearfix">
+            <form name="form" method="POST">
+                <div class="rqOption fl">
+                    <label class="fl">关键词：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" id="name" value="{$param['name']}" style="width:120px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">商品类型：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="type" id="typeID" class="selectmenu typeID"  style="width:120px;">
+                                <option selected="selected" value="">商品类型</option>
+                                <option value="1">液化气</option>
+                                <option value="2">配件</option>
+                                <option value="4">体验套餐</option>
+                                <option value="5">优惠套餐</option>
+                                <option value="3">其它</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl sptype">
+                    <label class="fl">商品规格：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="norm_id" id="norm_id" class="selectmenu"  style="width:120px;">
+                                <option selected="selected" value="">选择规格</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">商品品牌：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="brands" id="brands" value="{$param['brands']}" style="width:128px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">生产厂家：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="manufacturer_id" id="manufacturer_id" class="selectmenu"  style="width:120px;">
+                                <option selected="selected" value="">选择厂家</option>
+                                {if $manufacturerData neq ''}
+                                {foreach $manufacturerData as $mkey => $mVal}
+                                {if $param['manufacturer_id'] eq $mkey}
+                                <option value="{$mkey}" selected="selected">{$mVal['name']}</option>
+                                {else}
+                                <option value="{$mkey}">{$mVal['name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </form>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>商品名称</th>
+                        <th>商品规格</th>
+                        <th>类型</th>
+                        <th>套餐瓶数量</th>
+                        <th>套餐单价</th>
+                        <th>套餐总价</th>
+                        <th>套餐瓶押金</th>
+                        <th>厂家</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['commoditysn']}</td>
+                        <td>{$value['name']}</td>
+                        {if $value['type'] eq 1 || $value['type'] eq 4 || $value['type'] eq 5}
+                        <td>{$bottleTypeData[$value['norm_id']]['bottle_name']}</td>
+                        {else}
+                        <td>{$porductTypeData[$value['norm_id']]['name']}</td>
+                        {/if}
+                        <td>{$commdity_type[$value['type']]}</td>
+                        <td>{$value['num']}</td>
+                        <td>{$value['price']}</td>
+                        <td>{$value['money']}</td>
+                        <td>{$value['deposit']}</td>
+                        <td>{$manufacturerData[$value['manufacturer_id']]['name']}</td>
+                        <td class="tableBtn">
+                            <a href="/commodity/edite?id={$value['id']}">修改</a>|
+                            <a href="/commodity/del?id={$value['id']}" onclick="if (confirm('确定删除?') == false) return false;">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="10">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shangpinzhongleiManage.js"></script>{/block}

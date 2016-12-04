@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="renderer" content="webkit">
+        <title>{block name=title}瑞气科技管理系统{/block}</title>
+        {block name=head}{/block}
+    </head>
+    <body>
+        <div class="wrap">
+            {include file='ztemp/staticpage_header.phtml'}
+            <div class="content">
+                {include file='ztemp/staticpage_top.phtml'}
+                <div class="contCent clearfix">
+                    {block name=right}{include file='ztemp/staticpage_right.phtml'}{/block}
+                    <div class="contRight fr">
+                        {block name=operate}{/block}
+                        {block name=body}{/block}
+                    </div>
+                </div>
+            </div>
+            {include file='ztemp/staticpage_footer.phtml'}
+        </div>
+        {block name=fjs}{/block}
+    </body>
+</html>

@@ -1,0 +1,74 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}安全报告{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <form name="form" method="POST" action="/report/add">
+            <div class="rqOption clearfix rqRadio">
+                <label class="fl">类型：</label>
+                <div class="myradio fl">
+                    <div class="radiobox clearfix">
+                        {if $type eq 1 || $type eq 0}
+                        <input type="radio" name="type" value="1" class='typeID' checked="checked"><label for='s1'>居民</label>
+                        <input type="radio" name="type" value="2" class='typeID'><label for='s1'>商业</label>
+                        <input type="radio" name="type" value="3" class='typeID'><label for='s1'>工业</label>
+                        {else if $type eq 2}
+                        <input type="radio" name="type" value="1" class='typeID'><label for='s1'>居民</label>
+                        <input type="radio" name="type" value="2" class='typeID' checked="checked"><label for='s1'>商业</label>
+                        <input type="radio" name="type" value="3" class='typeID'><label for='s1'>工业</label>
+                        {else}
+                        <input type="radio" name="type" value="1" class='typeID'><label for='s1'>居民</label>
+                        <input type="radio" name="type" value="2" class='typeID'><label for='s1'>商业</label>
+                        <input type="radio" name="type" value="3" class='typeID' checked="checked"><label for='s1'>工业</label>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">安全报告：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="title" value="{$title}" style="width:200px;">
+                        <span>安全报告</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">排序：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="listorder" id="list_sort" value="{$listorder}" style="width:200px;">
+                        <span>输入标记</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">备注</label>
+                    <div class="fl">
+                        <textarea name="comment" id="comment">{$comment}</textarea>
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}" id="updateID">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

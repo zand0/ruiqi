@@ -1,0 +1,93 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+配件价格管理
+{/block}
+{block name=body}
+{literal}
+<script>
+    $(function () {
+
+    });
+</script>
+{/literal}
+<div class="contRList">
+    <form name="form" method="POST" action="/productsprice/add">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">配件编号：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="product_id" class="selectmenu">
+                            <option value="">配件编号</option>
+                            {foreach $productobject as $value}
+                            {if $products_no eq $value['products_no']}
+                            <option value="{$value['id']}" selected="selected">{$value['products_name']}</option>
+                            {else}
+                            <option value="{$value['id']}">{$value['products_name']}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--div class="rqOption fl">
+                <label class="fl">配件名称：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="products_name" value="{$products_name}" style="width:150px;">
+                    <span>配件名称</span>
+                </div>
+            </div-->
+        </div>
+        <div class="rqLine clearfix">
+            {if $shop_id > 0 }
+            <input type="hidden" name="shop_id" value="{$shop_id}" />
+            {else}
+            <div class="rqOption fl">
+                <label class="fl">站点：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="shop_id" class="selectmenu" id="shop_id">
+                            <option value="">站点</option>
+                            {if $shopObject neq ''}
+                            {foreach $shopObject as $value}
+                            {if $shop_id eq $value['shop_id']}
+                            <option value="{$value['shop_id']}" selected="selected">{$value['shop_name']}</option>
+                            {else}
+                            <option value="{$value['shop_id']}">{$value['shop_name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {/if}
+            <div class="rqOption fl">
+                <label class="fl">配件价格：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="products_price" value="{$products_price}" style="width:150px;">
+                    <span>配件价格</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="rqLine clearfix pd">
+            <div class="rqOption clearfix">
+                <label class="fl">备注：</label>
+                <div class="fl">
+                    <textarea name="products_comment">{$products_comment}</textarea>
+                    <div  class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">提交</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$id}">
+    </form>
+</div>
+{/block}

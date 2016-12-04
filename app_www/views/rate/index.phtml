@@ -1,0 +1,67 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+回流率
+{/block}
+{block name=body}
+<div class="orderList contRList">
+    <form method="POST">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">时间：</label>
+                <div class="riliInputBox fl">
+                    <div class="riliInput fl">
+                        <input type="text" style="width:150px;" name="begin_time" id="time_start">
+                    </div>
+                    <span class="fl">至</span>
+                    <div class="riliInput fl">
+                        <input type="text" id="time_end" name="end_time" style="width:150px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">类型：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="type" class="selectmenu">
+                            <option value="1">按季度</option>
+                            <option value="2">按半年</option>
+                            <option value="3">按年</option>
+                            <option value="4">按月</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <a href="javascript:;" class="blueBtn">搜索</a>
+            </div>
+        </div>
+    </form>
+    <div class="rq_table">
+        <table>
+            <tr>
+                <td>所属门店</td>
+                <td>门店电话</td>
+                <td>门店经理</td>
+                <td>送出数量</td>
+                <td>回来数量</td>
+                <td>回流率</td>
+            </tr>
+
+            {if $data['in_data'] neq ''}
+            {foreach $data['in_data'] as $key => $value}
+            <tr>
+                <td>{$shopArray[$key]['shop_name']}</td>
+                <td>{$shopArray[$key]['mobile_phone']}</td>
+                <td>{$shopArray[$key]['admin_name']}</td>
+                <td>{$value}</td>
+                <td>{if isset($data['out_data'][$key])}{$data['out_data'][$key]}{/if}</td>
+                <td>{if (isset($data['out_data'][$key]))}{$value*100/$data['out_data'][$key]}%{/if}</td>
+            </tr>
+            {/foreach}
+            {/if}
+        </table>
+    </div>
+</div>
+{/block}

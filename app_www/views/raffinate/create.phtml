@@ -1,0 +1,84 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}折旧瓶回收价格设置{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        折旧瓶回收价格设置
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/raffinate/create">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">规格：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="bottle_type" class="selectmenu" id="bottle_type">
+                            <option value="">规格</option>
+                            {if $bottleTypeData neq ''}
+                            {foreach $bottleTypeData as $k => $bVal}
+                            {if $bottle_type eq $k}
+                            <option value="{$k}" selected="selected">{$bVal['bottle_name']}</option>
+                            {else}
+                            <option value="{$k}">{$bVal['bottle_name']}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">年限：</label>
+                    <div class="selectBox fl" style="width:150px;">
+                        <select name="year" class="selectmenu" id="year">
+                            <option value="">年限</option>
+                            {if $years neq ''}
+                            {foreach $years as $ky=>$yVal}
+                            {if $year eq $ky}
+                            <option value="{$ky}" selected="selected">{$yVal}</option>
+                            {else}
+                            <option value="{$ky}">{$yVal}</option>
+                            {/if}
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">价格：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="price" value="{$price}" style="width:150px;">
+                        <span>价格</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

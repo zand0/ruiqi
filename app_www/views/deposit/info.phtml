@@ -1,0 +1,87 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}押金管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        退瓶管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="path">
+            <a href="/deposit/index">退瓶列表</a>&nbsp;
+            <i></i>&nbsp;
+            <a href="javascript:void(0);" class="active">退瓶详情</a>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>客户姓名</th>
+                        <th>客户电话</th>
+                        <th>客户地址</th>
+                        <th>下单时间</th>
+                        <th>配送站点</th>
+                        <th>送气工</th>
+                        <th>送气工电话</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{$data['depositsn']}</td>
+                        <td>{$data['username']}</td>
+                        <td>{$data['mobile']}</td>
+                        <td>{$data['address']}</td>
+                        <td>{date('Y-m-d',$data['ctime'])}</td>
+                        <td>{$shopObject[$data['shop_id']]['shop_name']}</td>
+                        <td class="tableBtn"><a href="javascript:;">{$data['shipper_name']}</a></td>
+                        <td>{$data['shipper_mobile']}</td>
+                    </tr>
+                    <tr class="tableTitle">
+                        <td><strong>钢瓶规格</strong></td>
+                        <td><strong>租瓶数量</strong></td>
+                        <td><strong>芯片号</strong></td>
+                        <td><strong>应退金额</strong></td>
+                        <td><strong>欠款金额</strong></td>
+                        <td><strong>上门费</strong></td>
+                        <td><strong>实退金额</strong></td>
+                        <td><strong>订单状态</strong></td>
+                    </tr>
+                    {if $bottleData neq ''}
+                    {foreach $bottleData as $k => $value}
+                    <tr>
+                        <td>{$value['goods_name']}</td>
+                        <td>{$value['goods_num']}</td>
+                        <td>{$value['xinpian']}</td>
+                        
+                        {if $k eq 0}
+                        <td rowspan="{$count}">{$data['money']}</td>
+                        <td rowspan="{$count}">0</td>
+                        {/if}
+                        <td>{$data['doormoney']}</td>
+                        {if $k eq 0}
+                        <td rowspan="{$count}">{$data['money']}</td>
+                        <td rowspan="{$count}">{if $data['status'] eq 0}未派发{else if $data['status'] eq 1}配送中{else}已完成{/if}</td>
+                        {/if}
+                    </tr>
+                    {/foreach}
+                    {/if}
+                    <tr>
+                        <td>备注</td>
+                        <td colspan="7">{$data['comment']}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/tuipingManage.js"></script>{/block}

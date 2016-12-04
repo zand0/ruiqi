@@ -1,0 +1,588 @@
+{extends file='main.phtml'}
+{block name=rtitle}综合简报{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<style>
+    .totalbox{
+        width:170px;
+        height:80px;
+        border:1px;
+        border-style:solid;
+        border-color:#999;
+        border-radius:10px;
+        margin-left:20px;
+        box-shadow:0px 2px 3px #ddd;	
+    } 
+    .pd10{padding:10px;}
+    /* margin */
+    .mg10{margin:10px;}
+
+    .ml1{margin-left:1px;}
+    .ml2{margin-left:2px;}
+    .ml3{margin-left:3px;}
+    .ml4{margin-left:4px;}
+    .ml5{margin-left:5px;}
+    .ml6{margin-left:6px;}
+    .ml7{margin-left:7px;}
+    .ml8{margin-left:8px;}
+    .ml9{margin-left:9px;}
+    .ml10{margin-left:10px;}
+    .ml11{margin-left:11px;}
+    .ml12{margin-left:12px;}
+    .ml13{margin-left:13px;}
+    .ml14{margin-left:14px;}
+    .ml15{margin-left:15px;}
+    .ml16{margin-left:16px;}
+    .ml17{margin-left:17px;}
+    .ml18{margin-left:18px;}
+    .ml19{margin-left:19px;}
+    .ml20{margin-left:20px;}
+
+    .mr1{margin-right:1px;}
+    .mr2{margin-right:2px;}
+    .mr3{margin-right:3px;}
+    .mr4{margin-right:4px;}
+    .mr5{margin-right:5px;}
+    .mr6{margin-right:6px;}
+    .mr7{margin-right:7px;}
+    .mr8{margin-right:8px;}
+    .mr9{margin-right:9px;}
+    .mr10{margin-right:10px;}
+    .mr11{margin-right:11px;}
+    .mr12{margin-right:12px;}
+    .mr13{margin-right:13px;}
+    .mr14{margin-right:14px;}
+    .mr15{margin-right:15px;}
+    .mr16{margin-right:16px;}
+    .mr17{margin-right:17px;}
+    .mr18{margin-right:18px;}
+    .mr19{margin-right:19px;}
+    .mr20{margin-right:20px;}
+
+    .mtf20{margin-top:-20px;}
+    .mt1{margin-top:1px;}
+    .mt2{margin-top:2px;}
+    .mt3{margin-top:3px;}
+    .mt4{margin-top:4px;}
+    .mt5{margin-top:5px;}
+    .mt6{margin-top:6px;}
+    .mt7{margin-top:7px;}
+    .mt8{margin-top:8px;}
+    .mt9{margin-top:9px;}
+    .mt10{margin-top:10px;}
+    .mt11{margin-top:11px;}
+    .mt12{margin-top:12px;}
+    .mt13{margin-top:13px;}
+    .mt14{margin-top:14px;}
+    .mt15{margin-top:15px;}
+    .mt16{margin-top:16px;}
+    .mt17{margin-top:17px;}
+    .mt18{margin-top:18px;}
+    .mt19{margin-top:19px;}
+    .mt20{margin-top:20px;}
+
+    .mb1{margin-bottom:1px;}
+    .mb2{margin-bottom:2px;}
+    .mb3{margin-bottom:3px;}
+    .mb4{margin-bottom:4px;}
+    .mb5{margin-bottom:5px;}
+    .mb6{margin-bottom:6px;}
+    .mb7{margin-bottom:7px;}
+    .mb8{margin-bottom:8px;}
+    .mb9{margin-bottom:9px;}
+    .mb10{margin-bottom:10px;}
+    .mb11{margin-bottom:11px;}
+    .mb12{margin-bottom:12px;}
+    .mb13{margin-bottom:13px;}
+    .mb14{margin-bottom:14px;}
+    .mb15{margin-bottom:15px;}
+    .mb16{margin-bottom:16px;}
+    .mb17{margin-bottom:17px;}
+    .mb18{margin-bottom:18px;}
+    .mb19{margin-bottom:19px;}
+    .mb20{margin-bottom:20px;}
+    #main{width:683px; overflow:hidden;}
+    /* padding */
+    .pd10{padding:10px;}
+    .pd20{padding:20px;}
+    .pd30{padding:30px;}
+    .pd40{padding:40px;}
+
+    .pl1{padding-left:1px;}
+    .pl2{padding-left:2px;}
+    .pl3{padding-left:3px;}
+    .pl4{padding-left:4px;}
+    .pl5{padding-left:5px;}
+    .pl6{padding-left:6px;}
+    .pl7{padding-left:7px;}
+    .pl8{padding-left:8px;}
+    .pl9{padding-left:9px;}
+    .pl10{padding-left:10px;}
+    .pl11{padding-left:11px;}
+    .pl12{padding-left:12px;}
+    .pl13{padding-left:13px;}
+    .pl14{padding-left:14px;}
+    .pl15{padding-left:15px;}
+    .pl16{padding-left:16px;}
+    .pl17{padding-left:17px;}
+    .pl18{padding-left:18px;}
+    .pl19{padding-left:19px;}
+    .pl20{padding-left:20px;}
+    .pl30{padding-left:30px;}
+
+    .pr1{padding-right:1px;}
+    .pr2{padding-right:2px;}
+    .pr3{padding-right:3px;}
+    .pr4{padding-right:4px;}
+    .pr5{padding-right:5px;}
+    .pr6{padding-right:6px;}
+    .pr7{padding-right:7px;}
+    .pr8{padding-right:8px;}
+    .pr9{padding-right:9px;}
+    .pr10{padding-right:10px;}
+    .pr11{padding-right:11px;}
+    .pr12{padding-right:12px;}
+    .pr13{padding-right:13px;}
+    .pr14{padding-right:14px;}
+    .pr15{padding-right:15px;}
+    .pr16{padding-right:16px;}
+    .pr17{padding-right:17px;}
+    .pr18{padding-right:18px;}
+    .pr19{padding-right:19px;}
+    .pr20{padding-right:20px;}
+    .pr30{padding-right:30px;}
+
+    .pt1{padding-top:1px;}
+    .pt2{padding-top:2px;}
+    .pt3{padding-top:3px;}
+    .pt4{padding-top:4px;}
+    .pt5{padding-top:5px;}
+    .pt6{padding-top:6px;}
+    .pt7{padding-top:7px;}
+    .pt8{padding-top:8px;}
+    .pt9{padding-top:9px;}
+    .pt10{padding-top:10px;}
+    .pt11{padding-top:11px;}
+    .pt12{padding-top:12px;}
+    .pt13{padding-top:13px;}
+    .pt14{padding-top:14px;}
+    .pt15{padding-top:15px;}
+    .pt16{padding-top:16px;}
+    .pt17{padding-top:17px;}
+    .pt18{padding-top:18px;}
+    .pt19{padding-top:19px;}
+    .pt20{padding-top:20px;}
+    .pt30{padding-top:30px;}
+
+    .pb1{padding-bottom:1px;}
+    .pb2{padding-bottom:2px;}
+    .pb3{padding-bottom:3px;}
+    .pb4{padding-bottom:4px;}
+    .pb5{padding-bottom:5px;}
+    .pb6{padding-bottom:6px;}
+    .pb7{padding-bottom:7px;}
+    .pb8{padding-bottom:8px;}
+    .pb9{padding-bottom:9px;}
+    .pb10{padding-bottom:10px;}
+    .pb11{padding-bottom:11px;}
+    .pb12{padding-bottom:12px;}
+    .pb13{padding-bottom:13px;}
+    .pb14{padding-bottom:14px;}
+    .pb15{padding-bottom:15px;}
+    .pb16{padding-bottom:16px;}
+    .pb17{padding-bottom:17px;}
+    .pb18{padding-bottom:18px;}
+    .pb19{padding-bottom:19px;}
+    .pb20{padding-bottom:20px;}
+    .pb30{padding-bottom:30px;}
+    /**** Base styles ****/
+    .fontc_000{color:#000}
+    .fontc_333{color:#333}
+    .fontc_777{color:#777}
+    .fontc_FFF{color:#FFF}
+    .fontc_ccc{color:#ccc}
+    .fontc_gray{color:#8B9AA7}
+    .fontc_grey{color:#C9EFD3}
+    .fontc_green{color:#093}
+    .fontc_blue{color:#09F}
+    .fontc_orange{color:#F60}
+    .fontc_deepgreen{color:#390}
+    .fontc_dg{color:#55bd9c;}
+    .fontc_do{color:#EB964E;}
+
+    .fonts_12{font-size:12px;}
+    .fonts_14{font-size:14px;}
+    .fonts_16{font-size:16px;}
+    .fonts_18{font-size:18px;}
+    .fonts_22{font-size:22px;}
+    .fonts_24{font-size:24px;}
+    .fonts_30{font-size:30px;}
+    .fonts_36{font-size:36px;}
+
+    .fontf_back{font-family:"黑体";}
+    .fontw_bold{font-weight:bold;}
+    .fontw_normal{font-weight:normal;}
+    .fontu_line{text-decoration:underline;}
+    .ds_inblcok{display:inline-block}
+    .ds_block{display:block}
+    .tx_indent{text-indent:28px;}
+    .height24{line-height:24px;}
+    .height30{line-height:30px;}
+    .height40{line-height:40px;}
+
+    .bgc_white{background:#fff;}
+    .bgc_green{background:#00B22D;}
+    .bgc_red{background:#dd3333;}
+    .bgc_blue{background:#5CB7B8;}
+    .bgc_black{background:#000;}
+    .bgc_gray{background:#f9f9f9;}
+
+    .border_e{border:1px solid #E4E5E5;}
+    .border_dg{border:1px solid #55bd9c;}
+    .border_do{border:1px solid #EB964E;}
+    .border_green{border-color:#008C00;}
+    .commonbox {
+        clear:both;
+        display: block;
+        margin:0;
+        padding:10px 5px;
+        height:auto;
+        overflow-y:auto;
+        overflow-x:hidden;
+        border:none;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -khtml-border-radius: 10px;
+        border-radius: 10px;
+    }
+    /*//表单统一样式用div布局 end*/
+</style>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <div class="rqLine clearfix">
+            <div class="totalbox fl pd10">
+                本月销售<br>
+                <div class="fonts_36 fontc_orange fontw_bold fl">{$bottleSalesTotal['total']}瓶 </div><div class="bgc_green fonts_12 fl ml5">5%</div>
+            </div>
+            <div class="totalbox fl pd10">
+                今日库存<br>
+                <div class="fonts_36 fontc_green fontw_bold fl">{$gasSalesTotal['total']}吨 </div><div class="bgc_red fonts_12 fl ml5">75%</div>
+            </div>
+            <div class="totalbox fl pd10">
+                新增客户<br>
+                <div class="fonts_36 fontc_blue fontw_bold fl">{$kehuTotal['total']}个 </div>
+            </div>
+            <div class="totalbox fl pd10">
+                钢瓶数量<br>
+                <div class="fonts_36 fontc_do fontw_bold fl">{$bottleTotal['total']}个 </div><div class="bgc_blue fonts_12 fl ml5">6.5%</div>
+            </div>
+
+            <div class="fl border_dg mt15 ml20 pt10 pl20" style="width:390px">
+                <div class="fl fonts_20 mt5 fontc_dg fontw_bold">本月&nbsp;&nbsp;&nbsp;&nbsp;订单收入</div><div class="fl ml20 fonts_36 fontc_gray">{$orderMoney['total']}元</div>
+            </div>
+            <div class="fl border_do mt15 pt10 pl20" style="width:390px">
+                <div class="fl fonts_20 mt5 fontc_do fontw_bold">采购支出</div> <div class="fl ml20 fonts_36 fontc_gray">{$expenditureTotal['total']}元</div>
+            </div> 
+        </div>
+
+        <div class="rqLine clearfix">
+            {literal}
+            <script>
+                $(function () {
+                    $('#container').highcharts({
+                        title: {
+                            text: '充装统计',
+                            x: -20 //center
+                        },
+                        subtitle: {
+                            text: '每日充装数',
+                            x: -20
+                        },
+                        xAxis: {
+                            categories: {/literal}{$title}{literal}
+                        },
+                        yAxis: {
+                            title: {
+                                text: '(个)'
+                            },
+                            plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                    color: '#808080'
+                                }]
+                        },
+                        tooltip: {
+                            valueSuffix: '个'
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            borderWidth: 0
+                        },
+                        series: {/literal}{$show}{literal}
+                    });
+                });
+            </script>
+            {/literal}
+            <div id="container" style="min-width:700px;height:400px"></div>
+        </div>           
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        销售简报
+        <span></span>
+    </div>
+    <div class="orderList contRList">
+        <div class="rq_data">
+            <ul class="clearfix">
+                <li class="rq_down dataLi4">
+                    <p>总额</p>
+                    <span class="rq_num">￥<strong>1685.00</strong></span>
+                    <font>-8</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi2">
+                    <p>总额</p>
+                    <span class="rq_num">￥<strong>1685.00</strong></span>
+                    <font>+8</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi3">
+                    <p>总额</p>
+                    <span class="rq_num">￥<strong>1685.00</strong></span>
+                    <font>+8</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+            </ul>
+        </div>
+        <div class="rqLine clearfix">
+            {literal}
+            <script>
+                $(function () {
+                    $('#container1').highcharts({
+                        title: {
+                            text: '销售统计',
+                            x: -20 //center
+                        },
+                        subtitle: {
+                            text: '每日销售金额',
+                            x: -20
+                        },
+                        xAxis: {
+                            categories: {/literal}{$daytitle}{literal}
+                        },
+                        yAxis: {
+                            title: {
+                                text: '(元)'
+                            },
+                            plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                    color: '#808080'
+                                }]
+                        },
+                        tooltip: {
+                            valueSuffix: '元'
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            borderWidth: 0
+                        },
+                        series: {/literal}{$dayshow}{literal}
+                    });
+                });
+            </script>
+            {/literal}
+            <div id="container1" style="min-width:700px;height:400px"></div>
+        </div>
+        <div class="rqLine clearfix">
+            {literal}
+            <script>
+                $(function () {
+                    $('#container2').highcharts({
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        title: {
+                            text: ''
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true,
+                                    color: '#000000',
+                                    connectorColor: '#000000',
+                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                }
+                            }
+                        },
+                        series: [{
+                                type: 'pie',
+                                name: '所占比重',
+                                /*data: [
+                                 ['Firefox', 45.0],
+                                 ['IE', 26.8],
+                                 {
+                                 name: 'Chrome',
+                                 y: 12.8,
+                                 sliced: true,
+                                 selected: true
+                                 },
+                                 ['Safari', 8.5],
+                                 ['Opera', 6.2],
+                                 ['Others', 0.7]
+                                 ]*/
+                                data: {/literal}{$json_data}{literal}
+                            }]
+                    });
+                });
+            </script>
+            {/literal}
+            <div id="container2" class="fl" style="min-width:420px;height:300px"></div>
+            {literal}
+            <script>
+                $(function () {
+                    $('#container3').highcharts({
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        title: {
+                            text: ''
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true,
+                                    color: '#000000',
+                                    connectorColor: '#000000',
+                                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                }
+                            }
+                        },
+                        series: [{
+                                type: 'pie',
+                                name: '所占比重',
+                                /*data: [
+                                 ['Firefox', 45.0],
+                                 ['IE', 26.8],
+                                 {
+                                 name: 'Chrome',
+                                 y: 12.8,
+                                 sliced: true,
+                                 selected: true
+                                 },
+                                 ['Safari', 8.5],
+                                 ['Opera', 6.2],
+                                 ['Others', 0.7]
+                                 ]*/
+                                data: {/literal}{$xsTypeData}{literal}
+                            }]
+                    });
+                });
+            </script>
+            {/literal}
+            <div id="container3" class="fl" style="min-width:400px;height:300px"></div>	
+        </div>					
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        用户简报
+        <span></span>
+    </div>
+    <div class="orderList contRList">
+        <div class="rq_data">
+            <ul class="clearfix">
+                <li class="rq_down dataLi4">
+                    <p>新开户数（户）</p>
+                    <span class="rq_num"><strong>1685</strong></span>
+                    <font>＋2</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi2">
+                    <p>新开户数（户）</p>
+                    <span class="rq_num"><strong>16342</strong></span>
+                    <font>+14</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi3">
+                    <p>新开户数（户）</p>
+                    <span class="rq_num"><strong>90865</strong></span>
+                    <font>+8</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+            </ul>
+        </div>
+        <div class="rqLine clearfix">                      
+            {literal}
+            <script>
+                $(function () {
+                    $('#container4').highcharts({
+                        title: {
+                            text: '用户统计',
+                            x: -20 //center
+                        },
+                        subtitle: {
+                            text: '每日新开户数',
+                            x: -20
+                        },
+                        xAxis: {
+                            categories: {/literal}{$kehutitle}{literal}
+                        },
+                        yAxis: {
+                            title: {
+                                text: '(户)'
+                            },
+                            plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                    color: '#808080'
+                                }]
+                        },
+                        tooltip: {
+                            valueSuffix: '个'
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            borderWidth: 0
+                        },
+                        series: {/literal}{$kehushow}{literal}
+                    });
+                });
+            </script>
+            {/literal}
+            <div id="container4" style="min-width:700px;height:400px"></div>
+        </div>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,168 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}门店订单分类统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb30">
+        <div class="fl mr200">
+            <h3>公司订单统计</h3>
+            <p>销售管理 > 门店订单分类统计</p>
+        </div>	
+        <div class="fl chooseDate pt16">
+            <form action="/sales/shoporder" method="post" id="formtable">
+                <span class="fl">选择时段：</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="start" name="start_time" value="{$start_time}" style="width:80px;">
+                </div>
+                <span class="fl plr8">到</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="end" name="end_time" value="{$end_time}" style="width:80px;">
+                </div>
+                <a href="javascript:void(0);" class="fl" id="formbtn">确定</a>
+            </form>
+        </div>
+    </div>
+    <!-- 选项卡-->
+    <div class="tabContrl clearfix myDate mb30">
+        <a href="javascript:void(0);" class="active searchtype" typeid="1">今日</a>
+        <a href="javascript:void(0);" class="searchtype" typeid="3">本周</a>
+        <a href="javascript:void(0);" class="searchtype" typeid="5">本月</a>
+        <a href="javascript:void(0);" class="searchtype" typeid="7">本季度</a>
+        <a href="javascript:void(0);" class="searchtype" typeid="4">上周</a>
+        <a href="javascript:void(0);" class="searchtype" typeid="6">上月</a>
+        <a href="javascript:void(0);" class="searchtype" typeid="8">全年</a>
+    </div>
+    <div class="tabItem">
+        <div class="listItem" style="display:block;">
+            <!-- 订单量 -->
+            <div class="border_count mb30">
+                <ul class="clearfix">
+                    <!-- 加on 边框为红色 -->
+                    <li class="on mr20"><strong>订单量合计：{$orderData['total']}</strong><span></span><i></i></li>
+                    <li class="mr20"><strong>自营订单量：{(isset($orderData['order_total'][1])) ? $orderData['order_total'][1] : 0}</strong><span></span><i></i></li>
+                    <li><strong>加盟订单量：{(isset($orderData['order_total'][2])) ? $orderData['order_total'][2] : 0}</strong><span></span><i></i></li>
+                </ul>
+            </div>
+            <!-- 数据统计 -->
+            <div class="dataMenu dataMenu4 mb30  pl186">
+                <div class="bgBtn">
+                    <p>已完成订单</p>
+                    <strong>{(isset($orderData['order_type'][4])) ? $orderData['order_type'][4]['total'] : 0}</strong>
+                    {assign var=wc_order value=((isset($orderData['order_type'][4])) ? $orderData['order_type'][4]['list'] : '')}
+                    <div class="mt6">工业：{(isset($wc_order[3])) ? $wc_order[3] : 0}</div>
+                    <div>商业：{(isset($wc_order[2])) ? $wc_order[2] : 0}</div>
+                    <div>居民：{(isset($wc_order[1])) ? $wc_order[1] : 0}</div>
+                </div>
+                <ul class="clearfix">
+                    {if count($orderData['order_type']) > 0}
+                    {foreach $orderData['order_type'] as $key => $value}
+                    {if isset($orderStatus[$key]) && $key neq 4}
+                    {assign var=fl_order value=$value['list']}
+                    <li>
+                        <p>{$orderStatus[$key]}订单</p>
+                        <strong>{$value['total']}</strong>
+                        <div class="mt6">工业：{(isset($fl_order[3])) ? $fl_order[3] : 0}</div>
+                        <div>商业：{(isset($fl_order[2])) ? $fl_order[2] : 0}</div>
+                        <div>居民：{(isset($fl_order[1])) ? $fl_order[1] : 0}</div>
+                    </li>
+                    {/if}
+                    {/foreach}
+                    {/if}
+                </ul>	
+            </div>
+            <!-- 订单明细 -->
+            <div class="result mb30">
+                <div class="title mb10">
+                    <p>订单明细：</p>
+                </div>
+                <div class="table2 mb34">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="borderRight textLeft">气库名称 / 类型</th>
+                                <th></th>
+                                <th>已完成</th>
+                                <th>配送中</th>
+                                <th>未派发</th>
+                                <th>问题订单</th>
+                                <th class="borderRight">已关闭</th>
+                                <th>订单总量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 自营 -->
+                            {if count($orderData['order_shop'])>0}
+                            {foreach $orderData['order_shop'] as $skey => $sValue}
+                            {assign var=shoplist_arr value=$sValue['list']}
+
+                            {assign var=i value=1}
+                            {assign var=wc_num value = 0}
+                            {assign var=ps_num value = 0}
+                            {assign var=pf_num value = 0}
+                            {assign var=wt_num value = 0}
+                            {assign var=gb_num value = 0}
+                            {foreach $shoplist_arr as $lkey => $lValue}
+                            
+                            <tr class="border_none">
+                                {if $i eq 1}
+                                <td class="borderRight font_15 textLeft" rowspan="{count($shoplist_arr)+1}">
+                                    <strong>{$sValue['shop_name']}</strong>
+                                    {if $sValue['shop_type'] eq 1}
+                                    <div class="style">自营</div>
+                                    {else}
+                                    <div class="style style_2">加盟</div>
+                                    {/if}
+                                </td>
+                                {/if}
+                                <td><div class="use_style use_style{$lkey}">{$kehuType[$lkey]}</div></td>
+                                <td>{(isset($lValue[4])) ? $lValue[4] : 0}</td>
+                                <td>{(isset($lValue[2])) ? $lValue[2] : 0}</td>
+                                <td>{(isset($lValue[1])) ? $lValue[1] : 0}</td>
+                                <td>{(isset($lValue[5])) ? $lValue[5] : 0}</td>
+                                <td class="borderRight">{(isset($lValue[-1])) ? $lValue[-1] : 0}</td>
+                                {if $i eq 1}
+                                <td rowspan="{count($shoplist_arr)+1}" class="redColor font_15"><strong>{$sValue['total']}</strong></td>
+                                {/if}
+                            </tr>
+                            
+                            {assign var=i value=$i+1}
+                            {assign var=wc_num value=$wc_num+((isset($lValue[4])) ? $lValue[4] : 0)}
+                            {assign var=ps_num value=$ps_num+((isset($lValue[2])) ? $lValue[2] : 0)}
+                            {assign var=pf_num value=$pf_num+((isset($lValue[1])) ? $lValue[1] : 0)}
+                            {assign var=wt_num value=$wt_num+((isset($lValue[5])) ? $lValue[5] : 0)}
+                            {assign var=gb_num value=$gb_num+((isset($lValue[-1])) ? $lValue[-1] : 0)}
+                            {/foreach}
+                            <tr>
+                                <td class="small"><div class="use_style">合计</div></td>
+                                <td class="small">{$wc_num}</td>
+                                <td class="small">{$ps_num}</td>
+                                <td class="small">{$pf_num}</td>
+                                <td class="small">{$wt_num}</td>
+                                <td class="borderRight">{$gb_num}</td>
+                            </tr>
+                            {/foreach}
+                            {else}
+                            <tr>
+                                <td colspan="8">暂时没有数据</td>
+                            </tr>
+                            {/if}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/gongsiddtjCtrl.js"></script>
+{/block}

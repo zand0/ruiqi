@@ -1,0 +1,179 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}门店订单分类统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb30">
+        <div class="fl mr200">
+            <h3>门店订单统计</h3>
+            <p>销售管理 > 订单统计</p>
+        </div>	
+        <div class="fl chooseDate pt16">
+            <form action="/sales/shoporder" method="post" id="formtable">
+                <span class="fl">选择时段：</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="start" name="start_time" value="{$start_time}" style="width:80px;">
+                </div>
+                <span class="fl plr8">到</span>
+                <div class="doubleRili fl">
+                    <input type="text" id="end" name="end_time" value="{$end_time}" style="width:80px;">
+                </div>
+                <a href="javascript:void(0);" class="fl" id="formbtn">确定</a>
+            </form>
+        </div>
+        <div class="fr">
+            <a href="javascript:void(0);" class="createBtn createBtn2 mt10">订单导出</a>
+        </div>
+    </div>
+    <!-- 选项卡-->
+    <div class="tabContrl clearfix myDate mb30">
+        <a href="javascript:void(0);" class="active">今日</a>
+        <a href="javascript:void(0);">本周</a>
+        <a href="javascript:void(0);">本月</a>
+        <a href="javascript:void(0);">本季度</a>
+        <a href="javascript:void(0);">上半年</a>
+        <a href="javascript:void(0);">下半年</a>
+        <a href="javascript:void(0);">全年</a>
+    </div>
+    <div class="tabItem">
+        <div class="listItem" style="display:block;">
+            <!-- 订单量 -->
+            <div class="border_count mb30 border_count2">
+                <ul class="clearfix">
+                    <!-- 加on 边框为红色 -->
+                    <li class="on mr15"><strong>订单量合计：{(isset($orderData['total'])) ? $orderData['total'] : 0}</strong><span></span><i></i></li>
+                    <li class="mr15 li_2"><strong>居民订单：{(isset($orderData['order_total'][1])) ? $orderData['order_total'][1] : 0}</strong><span></span><i></i></li>
+                    <li class="mr15 li_3"><strong>商业订单：{(isset($orderData['order_total'][2])) ? $orderData['order_total'][2] : 0}</strong><span></span><i></i></li>
+                    <li class="li_4"><strong>工业订单：{(isset($orderData['order_total'][3])) ? $orderData['order_total'][3] : 0}</strong><span></span><i></i></li>
+                </ul>
+            </div>
+            <!-- 数据统计 -->
+            <div class="dataMenu dataMenu2 mb30  pl220 order_count">
+                <div class="bgBtn">
+                    <p>已完成订单</p>
+                    <strong>{(isset($orderData['order_type'][4])) ? $orderData['order_type'][4] : 0}</strong>
+                </div>
+                <ul class="clearfix">
+                    {if count($orderData['order_type']) > 0}
+                    {foreach $orderData['order_type'] as $key => $value}
+                    {if isset($orderStatus[$key]) && $key neq 4}
+                    <li>
+                        <p>{$orderStatus[$key]}订单</p>
+                        <strong>{$value}</strong>
+                    </li>
+                    {/if}
+                    {/foreach}
+                    {/if}
+                </ul>	
+            </div>
+            <!-- 条件查询 -->
+            <p  class="sub_title mb10">订单列表：</p>
+            <div class="refer mb34">
+                <div class="mb20 clearfix lineData">
+                    <div class="fl mr60">
+                        <label class="fl">订单号：</label>
+                        <input type="text" style="width:135px" placeholder="输入订单号"  class="fl">
+                    </div>
+                    <div class="fl">
+                        <label class="fl">订单状态：</label>
+                        <div class="fl chooseOption" style="width:490px">
+                            <a href="javascript:void(0);" class="active" data-value="未派发">未派发</a>
+                            <a href="javascript:void(0);" data-value="配送中">配送中</a>
+                            <a href="javascript:void(0);" data-value="已送达">已送达</a>
+                            <a href="javascript:void(0);" data-value="问题订单">问题订单</a>
+                        </div>
+                        <input type="hidden" value="">
+                    </div>
+                </div>
+                <div class="mb20 clearfix lineData">
+                    <div class="fl mr60">
+                        <label class="fl">客户姓名：</label>
+                        <input type="text" style="width:135px" placeholder="输入客户姓名"  class="fl">
+                    </div>
+                    <div class="fl mr60">
+                        <label class="fl">客户电话：</label>
+                        <input type="text" style="width:135px" placeholder="输入客户电话"  class="fl">
+                    </div>
+                    <div class="fl">
+                        <label class="fl">发展渠道：</label>
+                        <select class="fl" style="width:157px;">
+                            <option selected="selected">请选择</option>
+                            <option>居民用户</option>
+                            <option>商业用户</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="clearfix lineData">
+                    <div class="fl mr60">
+                        <label class="fl">送气工：</label>
+                        <select class="fl" style="width:157px;">
+                            <option selected="selected">请选择</option>
+                            <option>罗希婷</option>
+                            <option>佟丽娅</option>
+                        </select>
+                    </div>
+                    <a href="javascript:void(0);" id="searchBtn" class="fr" style="margin-right:52px;">搜索</a>
+                </div>
+            </div>
+            <!-- 订单查询结果 -->
+            <div class="result mb30">
+                <div class="table2 mb34">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="borderRight">下单时间</th>
+                                <th>订单号</th>
+                                <th>客户信息</th>
+                                <th>订单金额</th>
+                                <th>订单来源</th>
+                                <th>隶属门店</th>
+                                <th>订单状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="borderRight">2016-03-20</td>
+                                <td>Dd201602201545</td>
+                                <td>朱金娥[居民用户]<br>13825458958</td>
+                                <td class="redColor"><strong>￥78.00</strong></td>
+                                <td>呼叫中心下单</td>
+                                <td>沧县九洲店</td>
+                                <td>已送达</td>
+                                <td class="operate"><a href="dingdanDetail.html">详情 &gt;</a></td>
+                            </tr>
+                            <tr>
+                                <td class="borderRight">2016-03-20</td>
+                                <td>Dd201602201545</td>
+                                <td>朱金娥[居民用户]<br>13825458958</td>
+                                <td class="redColor"><strong>￥78.00</strong></td>
+                                <td>呼叫中心下单</td>
+                                <td>沧县九洲店</td>
+                                <td>已送达</td>
+                                <td class="operate"><a href="dingdanDetail.html">详情 &gt;</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="clearfix sqspBottom">
+                    <p class="fl">共 <span>223</span> 条记录</p>
+                    <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                    <input type="hidden" class="currentPage" value="1">
+                    <input type="hidden" class="totalPage" value="10">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/mendianddtjCtrl.js"></script>
+{/block}

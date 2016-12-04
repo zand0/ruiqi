@@ -1,0 +1,137 @@
+{extends file='main.phtml'}
+{block name=rtitle}组织机构{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRList clearfix detailCont">
+            <div class="detailTitle">
+                {$shopData['shop_name']}
+                <span></span>
+                <i></i>
+            </div>
+            <div class="clearfix mb20">
+                <div class="fl storeName">门店负责人
+                    <i></i>
+                </div>
+                <div class="fr storeMember">
+                    <div class="myheadface">
+                        <img src="/statics/upload/photo/{$shopData['photo']}">
+                    </div>
+                    <p>姓名：{$shopData['username']}&nbsp;&nbsp;&nbsp;联系电话：{$shopData['mobile_phone']}</p>
+                    <p>详细地址：{$shopData['address']}</p>
+                </div>
+            </div>
+            <div class="peisongyuan">
+                <p>配送员如下：</p>
+                <div class="clientList">
+                    <ul class="clearfix">
+                        {if $shipperData neq ''}
+                        {foreach $shipperData as $sVal}
+                        <li>
+                            <a href="javascript:;" class="clearfix">
+                                <div class="fl myheadface">
+                                    <img src="/statics/upload/photo/touxiang.jpg">
+                                </div>
+                                <div class="fl">
+                                    <h3>{$sVal['shipper_name']}</h3>
+                                    <p>{$sVal['mobile_phone']}</p>
+                                </div>
+                                <span class="active"></span>
+                            </a>
+                        </li>
+                        {/foreach}
+                        {/if}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contRItem">
+        <div class="contRTitle">
+            店铺状况
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="dianpuData">
+                <ul class="clearfix">
+                    <li class="greenBg">
+                        <i></i>
+                        <div class="dianpuTxt">
+                            <p>新增客户数（户）</p>
+                            <strong>{$kehuTotal['total']}</strong>
+                        </div>
+                    </li>
+                    <li class="blueBg">
+                        <i></i>
+                        <div class="dianpuTxt">
+                            <p>重瓶数量（个）</p>
+                            <strong>{$znum}</strong>
+                        </div>
+                    </li>
+                    <li class="purpleBg">
+                        <i></i>
+                        <div class="dianpuTxt">
+                            <p>空瓶数量（个）</p>
+                            <strong>{$knum}</strong>
+                        </div>
+                    </li>
+                    <li class="redBg">
+                        <i></i>
+                        <div class="dianpuTxt">
+                            <p>当日订单数（单）</p>
+                            <strong>{$orderTotal['total']}</strong>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="rqLine clearfix">
+            {literal}
+            <script>
+                $(function () {
+                    $('#container1').highcharts({
+                        title: {
+                            text: '销售统计',
+                            x: -20 //center
+                        },
+                        subtitle: {
+                            text: '每日销售金额',
+                            x: -20
+                        },
+                        xAxis: {
+                            categories: {/literal}{$daytitle}{literal}
+                        },
+                        yAxis: {
+                            title: {
+                                text: '(元)'
+                            },
+                            plotLines: [{
+                                    value: 0,
+                                    width: 1,
+                                    color: '#808080'
+                                }]
+                        },
+                        tooltip: {
+                            valueSuffix: '元'
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            borderWidth: 0
+                        },
+                        series: {/literal}{$dayshow}{literal}
+                    });
+                });
+            </script>
+            {/literal}
+            <div id="container1" style="min-width:700px;height:400px"></div>
+        </div>
+        </div>
+    </div>
+</div>
+{/block}

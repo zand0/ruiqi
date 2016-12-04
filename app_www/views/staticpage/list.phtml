@@ -1,0 +1,275 @@
+{extends file='footer.phtml'}
+
+{block name=title}
+静态页面展示
+{/block}
+
+{block name=head}
+{include file='staticpage.phtml'}
+{/block}
+
+{block name=body}
+<div class="wrap">
+    {include file='staticpage_header.phtml'}
+    <div class="content">
+        {include file='staticpage_top.phtml'}
+        <div class="contCent clearfix">
+            {include file='staticpage_right.phtml'}
+            <div class="contRight fr">
+                <div class="contRItem">
+                    <div class="contRTitle">
+                        订单查询
+                        <span></span>
+                    </div>
+                    <div class="contRList">
+                        <div class="rqLine clearfix">
+                            <div class="rqOption fl">
+                                <label class="fl">订单号：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:150px;">
+                                    <span>输入订单号</span>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">订单类型：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="" class="selectmenu">
+                                            <option>紧急订单</option>
+                                            <option>Slow</option>
+                                            <option selected="selected">Medium</option>
+                                            <option>Fast</option>
+                                            <option>Faster</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">八里庄站：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="" class="selectmenu">
+                                            <option>紧急订单</option>
+                                            <option>Slow</option>
+                                            <option selected="selected">Medium</option>
+                                            <option>Fast</option>
+                                            <option>Faster</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine clearfix">
+                            <div class="rqOption fl">
+                                <label class="fl">送气工：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:150px;">
+                                    <span>输入送气工姓名</span>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">客户姓名：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:150px;">
+                                    <span>输入客户姓名</span>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">客户电话：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:150px;">
+                                    <span>输入正确电话号码</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine clearfix">
+                            <div class="rqOption fl">
+                                <label class="fl">客户类型：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="" class="selectmenu">
+                                            <option>居民用户</option>
+                                            <option>Slow</option>
+                                            <option selected="selected">Medium</option>
+                                            <option>Fast</option>
+                                            <option>Faster</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">订单状态：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name=""class="selectmenu">
+                                            <option>已完成</option>
+                                            <option>Slow</option>
+                                            <option selected="selected">Medium</option>
+                                            <option>Fast</option>
+                                            <option>Faster</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="rqLine clearfix">
+                            <div class="rqOption fl">
+                                <label class="fl">客户类型：</label>
+                                <div class="riliInputBox fl">
+                                    <div class="riliInput fl">
+                                        <input type="text" style="width:150px;" id="time_start">
+                                    </div>
+                                    <span class="fl">至</span>
+                                    <div class="riliInput fl">
+                                        <input type="text" id="time_end" style="width:150px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine clearfix">
+                            <div class="rqOption fl">
+                                <label class="fl">详细地址：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:435px;">
+                                    <span>输入详细地址</span>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:;" class="blueBtn">查询</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:;" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contRItem">
+                    <div class="contRTitle">
+                        订单列表
+                        <span></span>
+                    </div>
+                    <div class="orderList contRList">
+                        <table>
+                            <tr class="titleBg">
+                                <td>订单号</td>
+                                <td>客户姓名</td>
+                                <td colspan="2">客户电话</td>
+                                <td colspan="4">客户地址</td>
+                                <td colspan="2">客户类型</td>
+                                <td colspan="2">订单时间</td>
+                                <td colspan="2">配送站点</td>
+                                <td>送气工</td>
+                                <td>送气工</td>
+                            </tr>
+                            <tr>
+                                <td>商品名称</td>
+                                <td>客户姓名</td>
+                                <td colspan="2">客户电话</td>
+                                <td colspan="4">客户地址</td>
+                                <td colspan="2">客户类型</td>
+                                <td colspan="2">订单时间</td>
+                                <td colspan="2">配送站点</td>
+                                <td>送气工</td>
+                                <td>订单号电话</td>
+                            </tr>
+                            <tr class="titleBg">
+                                <td class="w85">商品名称</td>
+                                <td class="w50">规格</td>
+                                <td class="w50">单价</td>
+                                <td colspan="2"  class="w50">数量</td>
+                                <td class="w50">单位</td>
+                                <td class="w50">押金</td>
+                                <td colspan="2" class="w50">运费</td>
+                                <td colspan="2" class="w50">优惠</td>
+                                <td colspan="2" class="w70">应收金额</td>
+                                <td colspan="2" class="w85">订单类型</td>
+                                <td class="w85">订单状态</td>
+                            </tr>
+                            <tr>
+                                <td>商品名称</td>
+                                <td>规格</td>
+                                <td>单价</td>
+                                <td colspan="2">数量</td>
+                                <td>单位</td>
+                                <td rowspan="3">押金</td>
+                                <td colspan="2" rowspan="3">运费</td>
+                                <td colspan="2" rowspan="3">优惠</td>
+                                <td colspan="2" rowspan="3">应收金额</td>
+                                <td colspan="2" rowspan="3">订单类型</td>
+                                <td rowspan="3"><a href="javascript:;">派发</a><a href="javascript:;">取消</a</td>
+                            </tr>
+                            <tr class="titleBg">
+                                <td>商品名称</td>
+                                <td>规格</td>
+                                <td>单价</td>
+                                <td colspan="2">数量</td>
+                                <td>单位</td>
+                            </tr>
+                            <tr>
+                                <td>商品名称</td>
+                                <td>规格</td>
+                                <td>单价</td>
+                                <td colspan="2">数量</td>
+                                <td>></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr class="titleBg">
+                                <td>订单号</td>
+                                <td>客户姓名</td>
+                                <td colspan="2">客户电话</td>
+                                <td colspan="4">客户地址</td>
+                                <td colspan="2">客户类型</td>
+                                <td colspan="2">订单时间</td>
+                                <td colspan="2">配送站点</td>
+                                <td>送气工</td>
+                                <td>订单号电话</td>
+                            </tr>
+                            <tr>
+                                <td>商品名称</td>
+                                <td>客户姓名</td>
+                                <td colspan="2">客户电话</td>
+                                <td colspan="4">客户地址</td>
+                                <td colspan="2">客户类型</td>
+                                <td colspan="2">订单时间</td>
+                                <td colspan="2">配送站点</td>
+                                <td>送气工</td>
+                                <td>订单号电话</td>
+                            </tr>
+                            <tr class="titleBg">
+                                <td class="w85">商品名称</td>
+                                <td class="w50">规格</td>
+                                <td class="w50">单价</td>
+                                <td colspan="2"  class="w50">数量</td>
+                                <td class="w50">单位</td>
+                                <td class="w50">押金</td>
+                                <td colspan="2" class="w50">运费</td>
+                                <td colspan="2" class="w50">优惠</td>
+                                <td colspan="2" class="w70">应收金额</td>
+                                <td colspan="2" class="w85">订单类型</td>
+                                <td class="w85">订单状态</td>
+                            </tr>
+                            <tr>
+                                <td>商品名称商品名称商品名称</td>
+                                <td>规格</td>
+                                <td>单价</td>
+                                <td colspan="2">数量</td>
+                                <td>单位</td>
+                                <td>押金</td>
+                                <td colspan="2">运费</td>
+                                <td colspan="2">优惠</td>
+                                <td colspan="2">应收金额</td>
+                                <td colspan="2">订单类型</td>
+                                <td>订单状态</td>
+                            </tr>
+                        </table>
+                        <div class="table-pages pageNav clearfix" id="pageNav">	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {include file='staticpage_footer.phtml'}
+</div>
+<script type="text/javascript" src="{$_PUBLIC}/js/common.js"></script>
+{/block}

@@ -1,0 +1,106 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}客户详情{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb24">
+        <div class="fl">
+            <h3>客户详情</h3>
+            <p>销售管理 > 客户管理 > 客户详情</p>
+        </div>	
+        <div class="fr">
+            <a href="javascript:void(0);" class="backBtn mt10">&lt; 返回</a>
+        </div>
+    </div>
+    <!-- 订单详情 -->
+    <div class="detailCont mb34">
+        <p class="p1 mb10"><label>编号：</label><strong>{$data['kehu_sn']}</strong></p>
+        <div class="clearfix mb34">
+            <p class="fl" style="width:340px;"><label>开户时间：</label>{date('Y-m-d',$data['ctime'])}</p>
+            <p class="fl" style="width:340px;"><label>客户类型：</label>{$kehuType[$data['ktype']]['typemanagername']}</p>
+            <p class="fr p2" style="width:180px;"><label>客户状态：</label>正常</p>
+        </div>
+        <div class="clearfix cols mb40">
+            <div class="fl" style="width:410px;margin-right:50px;">
+                <p class="p1 mb10"><label>客户姓名：</label>{$data['user_name']}</p>
+                <p class="mb10"><label>客户电话：</label>{$data['mobile_phone']}></p>
+                <p><label>客户地址：</label>{$data['address']}</p>
+            </div>
+            <div class="fl mt15">
+                <p class="mb10"><label>推荐人：</label>{$data['recommended']}</p>
+                <p><label>所属门店：</label>{$shopObject[$data['shop_id']]['shop_name']}></p>
+            </div>
+            <span></span>
+        </div>
+        <div class="clearfix cols cols2">
+            <div class="fl" style="margin-right:50px;">
+                <div class="fl" style="width:205px;">
+                    <p class="mb10"><label>开户类型：</label>{$payType[$data['paytype']]}</p>
+                    <p><label>发展渠道：</label>{$data['source']}</p>
+                </div>
+                <div class="fl" style="width:205px;">
+                    <p class="mb10"><label>结算方式：</label>现金</p>
+                    <p><label>订气次数：</label><strong>{$ext['count']}</strong></p>
+                </div>
+            </div>
+            <div class="fl">
+                <div class="fl" style="width:205px;">
+                    <p class="mb10 p3"><label>押金：</label><strong>￥{$data['pay_money']}</strong></p>
+                    <p class="p4"><label>欠款金额：</label><strong>￥{$data['money']}</strong></p>
+                </div>
+                <div class="fl" style="width:205px;">
+                    <p class="mb10 p3"><label>账户余额：</label><strong>￥{$data['balance']}</strong></p>
+                    <p class="p5"><label>账户积分：</label><strong>{$data['point']}</strong></p>
+                </div>
+            </div>
+            <span></span>
+        </div>
+    </div>
+    <!-- 订单查询结果 -->
+    <div class="table2 mb34">
+        <table>
+            <thead>
+                <tr>
+                    <th>订单号</th>
+                    <th>价格</th>
+                    <th>送气工</th>
+                    <th>送气工电话</th>
+                    <th>运送费</th>
+                    <th>押金</th>
+                    <th>折旧</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                {if $ext['list'] neq ''}
+                {foreach $ext['list'] as $value}
+                <tr>
+                    <td>{$value['order_sn']}</td>
+                    <td>{$value['shipper_id']}</td>
+                    <td>{$value['shipper_mobile']}</td>
+                    <td class="redColor"><strong>￥{($value['status'] eq 4) ? $value['pay_money'] : $value['money']}</strong></td>
+                    <td class="redColor"><strong>0</strong></td>
+                    <td class="redColor"><strong>￥{$value['deposit']}</strong></td>
+                    <td class="redColor"><strong>￥{$value['depreciation']}</strong></td>
+                    <td class="w150">{$value['comment']}</td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr><td colspan="8">暂时还没有数据</td></tr>
+                {/if}
+            </tbody>
+        </table>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/dingdanguanliCtrl.js"></script>
+{/block}

@@ -1,0 +1,333 @@
+{extends file='main_new.phtml'}
+{block name=body}
+<div id="content">
+    <div class="option">
+        <div class="cont">
+            <a href="JavaScript:void(0);" class="mr125 active btn">订气</a>
+            <a href="JavaScript:void(0);" class="btn mr414">评价</a>
+            <a href="JavaScript:void(0);" class="mr125 btn">报修</a>
+            <a href="JavaScript:void(0);" class="btn">退瓶</a>
+        </div>
+        <div class="headImg">
+            <a href="JavaScript:void(0);">
+                {if $smarty.session.kehu_info.photo neq ''}
+                <img src="/statics/upload/photo/{$smarty.session.kehu_info.photo}" style="width:84px; height: 84px">
+                {else}
+                <img src="/statics/newhome/images/head.png">
+                {/if}
+            </a>
+        </div>
+    </div>
+    <!-- 选项卡 -->
+    <div class="tabList">
+        <div class="w1170">
+            <!-- 订气 -->
+            <div class="item" style="display:block;">
+                <div class="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="w344">选择液化气：</th>
+                                <th class="w220 pl120">输入数量：</th>
+                                <th colspan="2" class="w490">价格：</th>
+                                <th class="clearfix w232" colspan="2"><span class="fl">账户余额：</span><span class="fr">585元</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="top">
+                                <td class="guige clearfix">
+                                    <a href="javascript:void(0);" class="active" data-price="40">15kg</a>
+                                    <a href="javascript:void(0);" data-price="120">50kg</a>
+                                    <a href="javascript:void(0);" class="last" data-price="300">150kg</a>
+                                </td>
+                                <td class="number pl120"><input type="text" value="" id="num">瓶</td>
+                                <td class="price" colspan="2"><strong>￥112.00</strong></td>
+                                <td class="addBtn" colspan="2"><a href="javascript:void(0);" id="addBtn">添加到订单</a></td>
+                            </tr>	
+                            <tr class="title">
+                                <td class="textCenter">规格</td>
+                                <td class="pl120">数量</td>
+                                <td class="w140">单价</td>
+                                <td>运送费</td>
+                                <td>优惠</td>
+                                <td>总金额</td>
+                            </tr>
+                            <tr class="order">
+                                <td class="textCenter">液化气-15KG</td>
+                                <td class="pl120">1瓶</td>
+                                <td>￥42</td>
+                                <!-- 运送费 -->
+                                <td></td>
+                                <!-- 优惠 -->
+                                <td></td>
+                                <td>￥42</td>
+                            </tr>
+                        </tbody>	
+                    </table>
+                </div>
+                <div class="clearfix">
+                    <div class="fl">
+                        <p class="address">收货人：尤俊珂<span></span>电话：15501287788<span></span>收货地址：河北省沧州市沧县青年路康家沟102号</p>
+                        <div class="beizhu">
+                            订单备注：
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="fr dqRight">
+                        <p class="clearfix"><strong class="fr">￥112.00</strong></p>
+                        <div class="clearfix">
+                            <div class="fl choosetype">
+                                <div class="type">
+                                    <a href="javascript:void(0);">押金用户</a>
+                                    <a href="javascript:void(0);">紧急用户</a>
+                                </div>
+                                <div class="checkbox" style="display:none;">
+                                    <input type="checkbox">押金用户
+                                    <input type="checkbox">紧急用户	
+                                </div>
+                            </div>
+                            <a href="javascript:void(0);" class="fr" id="submit">提交订单</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 评价 -->
+            <div class="item">
+                <!-- 评价 -->
+                <div class="eval">
+                    <ul>
+                        <li class="clearfix">
+                            <p class="fl">送气效率：</p>
+                            <div class="starBox fl">
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                            </div>
+                            <!-- 星星个数 -->
+                            <input type="hidden" value="">
+                        </li>
+                        <li class="clearfix">
+                            <p class="fl">服务态度：</p>
+                            <div class="starBox fl">
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                            </div>
+                            <!-- 星星个数 -->
+                            <input type="hidden" value="">
+                        </li>
+                        <li class="clearfix">
+                            <p class="fl">气体质量：</p>
+                            <div class="starBox fl">
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                                <a href="javascript:void(0);"></a>
+                            </div>
+                            <!-- 星星个数 -->
+                            <input type="hidden" value="">
+                        </li>
+                    </ul>	
+                    <div class="cont clearfix">
+                        <label>评价内容：</label>
+                        <textarea rows="8" style="width:500px;"></textarea>
+                    </div>
+                    <a href="javascript:;" class="blueBtn ml95">发布评价</a>
+                </div>
+                <!-- 历史订单 -->
+                <div class="oldOrder">
+                    <h3>历史订单（26）</h3>
+                    <div class="table2">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="borderRight">订单号</th>
+                                    <th>规格</th>
+                                    <th>数量</th>
+                                    <th>单价</th>
+                                    <th>运送费</th>
+                                    <th>送气工</th>
+                                    <th>送气工电话</th>
+                                    <th>总金额</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="borderRight">Dd20160601001</td>
+                                    <td class="font14">液化气-5KG  </td>
+                                    <td class="font14">1瓶</td>
+                                    <td class="font14">￥42</td>
+                                    <td></td>
+                                    <td>沧县第一送气工</td>
+                                    <td>13610456688</td>
+                                    <td class="total">￥42</td>
+                                    <td class="operate">
+                                        <a href="javascript:;">投诉</a>
+                                        <span>|</span>
+                                        <a href="javascript:;">评价</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="borderRight">Dd20160601001</td>
+                                    <td class="font14">液化气-5KG  </td>
+                                    <td class="font14">1瓶</td>
+                                    <td class="font14">￥42</td>
+                                    <td></td>
+                                    <td>沧县第一送气工</td>
+                                    <td>13610456688</td>
+                                    <td class="total">￥42</td>
+                                    <td class="operate">
+                                        <a href="javascript:;">投诉</a>
+                                        <span>|</span>
+                                        <a href="javascript:;">评价</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- 报修 -->
+            <div class="item baoxiu">
+                <div class="rqLine mb16">
+                    <div class="rqOption clearfix">
+                        <label class="fl first">报修原因：</label>
+                        <div class="checkList fl">
+                            <a href="javascript:;">气瓶漏气</a>
+                            <a href="javascript:;">阀门打不开</a>
+                            <a href="javascript:;">阀门关不紧</a>
+                            <a href="javascript:;">灶具打不着火</a>
+                            <a href="javascript:;">热水器打不着火</a>
+                            <a href="javascript:;">压力低，火小无力</a>
+                        </div>
+                        <div class="checkbox" style="display:none;">
+                            <input type="checkbox" name="baoxiu">气瓶漏气
+                            <input type="checkbox" name="baoxiu">阀门打不开
+                            <input type="checkbox" name="baoxiu">阀门关不紧
+                            <input type="checkbox" name="baoxiu">灶具打不着火
+                            <input type="checkbox" name="baoxiu">热水器打不着火
+                            <input type="checkbox" name="baoxiu">压力低，火小无力
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">报修备注：</label>
+                        <textarea class="fl" rows="6" style="width:500px;"></textarea>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">预约日期：</label>
+                        <div class="fl rili">
+                            <input type="text" class="datepicker" style="width:130px;" readonly>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <div class="selectBox">
+                            <select name="" class="selectmenu"  style="width:152px;">
+                                <option selected="selected">上午</option>
+                                <option>下午</option>
+                                <option>晚上</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <div class="selectBox">
+                            <select name="" class="selectmenu" style="width:152px;">
+                                <option selected="selected">5点</option>
+                                <option>6点</option>
+                                <option>7点</option>
+                                <option>8点</option>
+                                <option>9点</option>
+                                <option>10点</option>
+                                <option>11点</option>
+                                <option>12点</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption">
+                        <a href="javascript:;" class="blueBtn ml95">提交报修</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 退瓶 -->
+            <div class="item tuiping">
+                <div class="rqTabItem">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>商品名称</th>
+                                <th>规格</th>
+                                <th>数量</th>
+                                <th>上门费</th>
+                                <th>押金</th>
+                                <th>租瓶日期</th>
+                                <th>订气数</th>
+                                <th>使用费</th>
+                                <th>应退金额</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>液化石油瓶</td>
+                                <td>15KG</td>
+                                <td>1</td>
+                                <td>5</td>
+                                <td>150</td>
+                                <td>2015-08-22</td>
+                                <td>8</td>
+                                <td>10</td>
+                                <td>135</td>
+                                <td class="checkBtn">
+                                    <a href="javascript:;"></a>
+                                    <input type="hiddden" value="" style="display:none;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>液化石油瓶</td>
+                                <td>15KG</td>
+                                <td>1</td>
+                                <td>5</td>
+                                <td>150</td>
+                                <td>2015-08-22</td>
+                                <td>8</td>
+                                <td>10</td>
+                                <td>135</td>
+                                <td class="checkBtn">
+                                    <a href="javascript:;"></a>
+                                    <input type="hiddden" value="" style="display:none;">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl">退瓶备注：</label>
+                        <textarea class="fl" rows="5" style="width:500px;"></textarea>
+                    </div>
+                </div>
+                <div class="rqLine rqLineBtn">
+                    <div class="rqOption">
+                        <a href="javascript:;" class="blueBtn ml95">提交退瓶</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="line"></span>
+    </div>
+
+    <!-- 行业动态 安全常识 -->
+    {include file='main_new_dynamic.phtml'}
+</div>
+{/block}

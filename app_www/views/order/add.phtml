@@ -1,0 +1,146 @@
+{extends file='main.phtml'}
+{block name=rtitle}订单管理{/block}
+{block name=body}
+{literal}
+<script>
+    $(function() {
+        $("#shop_id").live('selectmenuchange',function() {
+            var shop_id = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                url: "/order/shipperlist",
+                data: "shop_id=" + shop_id,
+                dataType: "json",
+                success: function(data) {
+                    if (data['status'] == 200) {
+                        var option_arr = data['data'];
+                        var option_html = '<option value="0">请选择</option>';
+                        if ($.isArray(option_arr)) {
+                            for (var key in option_arr) {
+                                option_html += '<option value="' + option_arr[key]['shipper_id'] + '">' + option_arr[key]['shipper_name'] + '</option>';
+                            }
+                        }
+                        $(".shipper").empty().append(option_html).selectmenu('refresh');
+                        $(".shipper").change();
+                        return true;
+                    }
+                }
+            });
+        });
+    });
+</script>
+{/literal}
+<div class="contRList">
+    <form name="form" method="POST" action="/order/add">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">客户电话：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="kehu_mobile" style="width:150px;">
+                    <span>客户电话</span>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">客户名称：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="kehu_name" style="width:150px;">
+                    <span>客户名称</span>
+                </div>
+            </div>    
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">配送站点：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="shop_id" class="selectmenu" id="shop_id">
+                            <option value="">配送站点</option>
+                            {if $shopObject neq ''}
+                            {foreach $shopObject as $value}
+                            <option value="{$value['shop_id']}">{$value['shop_name']}</option>
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">站点电话：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="shop_mobile" style="width:150px;">
+                    <span>站点电话</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl clearfix">
+                <label class="fl">详细地址：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="address" style="width:435px;">
+                    <span>输入详细地址</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption clearfix rqRadio">
+                <label class="fl">客户类型：</label>
+                <div class="myradio fl">
+                    <div class="radiobox clearfix">
+                        <input type="radio" name="kehu_type" value="1"> 居民用户
+                        <input type="radio" name="kehu_type" value="2"> 商业用户
+                        <!--a href="javascript:;" class="active" data-value="居民用户">居民用户</a>
+                        <a href="javascript:;" data-value="商业用户">商业用户</a-->
+                    </div>
+                    <!--input type="hidden" value="居民用户"-->
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix rqRadio">
+                <label class="fl">发展渠道：</label>
+                <div class="myradio fl">
+                    <div class="radiobox clearfix">
+                        <input type="radio" name="order_type" value="1"> 呼叫中心
+                        <input type="radio" name="order_type" value="2"> 门店拓展
+                        <input type="radio" name="order_type" value="3"> 活动促销
+                        <input type="radio" name="order_type" value="4"> 他人推荐
+                    </div>
+                    <!--input type="hidden" value="呼叫中心"-->
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix rqRadio">
+                <label class="fl">附加信息：</label>
+                <div class="myradio fl">
+                    <div class="radiobox clearfix">
+                        <input type="checkbox" name="type[]" value="1"> 紧急订单
+                        <input type="checkbox" name="type[]" value="1"> 安检信息
+                        <!--a href="javascript:;" class="active" data-value="紧急订单">紧急订单</a>
+                        <a href="javascript:;" data-value="安检信息">安检信息</a-->
+                    </div>
+                    <!--input type="hidden" value="呼叫中心"-->
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption clearfix">
+                <label class="fl">订单备注：</label>
+                <div class="fl">
+                    <textarea name="comment"></textarea>
+                    <div  class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">下一步</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="">
+    </form>
+</div>
+{/block}

@@ -1,0 +1,210 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}客户管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        客户管理
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST" action="/custum/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">客户姓名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="user_name" value="{$user_name}" style="width:200px;">
+                        <span>输入客户姓名</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">客户电话：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="mobile_phone" value="{$mobile_phone}" style="width:200px;">
+                        <span>输入客户电话</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">电话列表：</label>
+                    <div class="inputBox fl placeholder">
+                        <textarea name="mobile_list">{$mobile_list}</textarea>
+                        <span>电话列表</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">用户卡：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="card_sn" value="{$card_sn}" style="width:200px;">
+                        <span>绑定用户卡</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">客户性别：</label>
+                    <div class="radiobox clearfix" style="width:380px">
+                        <input type="radio" name="gender" value="0" id="gender0" {if !$gender}checked="checked" {/if}/> <label for="gender0">保密</label>
+                        <input type="radio" name="gender" value="1" id="gender1" {if $gender eq 1}checked="checked" {/if}/> <label for="gender1">男</label>
+                        <input type="radio" name="gender" value="2" id="gender2" {if $gender eq 2}checked="checked" {/if}/> <label for="gender2">女</label>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">省/市：</label>
+                    <div class="fl areaSelect">
+                        <select id="loc_province" name="sheng" style="width:150px;" class="selectmenu region_1"></select>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">区县：</label>
+                    <div class="fl areaSelect">
+                        <select id="loc_city" name="shi" style="width:150px;" class="selectmenu region_2"></select>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">街道：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select id="loc_town" name="qu" style="width:150px;" class="selectmenu region_3"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">村：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select id="loc_town" name="cun" style="width:150px;" class="selectmenu region_4"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="inputBox fl">
+                        <input type="text" name="address" value="{$address}" style="width:250px;" id="address">
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">类型：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            <input type="radio" name="ktype" value="1" {if $ktype eq 1 || empty($ktype)} checked="checked" {/if} /> 普通用户
+                            <input type="radio" name="ktype" value="2" {if $ktype eq 2} checked="checked" {/if} /> 商铺用户
+                            <input type="radio" name="ktype" value="3" {if $ktype eq 3} checked="checked" {/if} /> 工业用户
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">结款方式：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            <input type="radio" name="paytype" value="1" {if $paytype eq 1 || empty($paytype)}checked="checked" {/if} /> 现金
+                            <input type="radio" name="paytype" value="2" {if $paytype eq 2}checked="checked" {/if} /> 网上支付
+                            <input type="radio" name="paytype" value="3" {if $paytype eq 3}checked="checked" {/if} /> 月结
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">发展渠道：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            {foreach $custum_source as $k=>$v}
+                            <input type="checkbox" name="source[]" value="{$k}" id="s{$k}"><label for='s{$k}'>{$v}</label>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {if $is_shop_id > 0 }
+            <input type="hidden" name="shop_id" value="{$is_shop_id}" />
+            {else}
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">所属门店：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <select name="shop_id" class="selectmenu" id="shop_id">
+                            <option value="0">请选择</option>
+                            {foreach $shopObject as $k=>$v}
+                            {if $shop_id eq $k}
+                            <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                            {else}
+                            <option value="{$k}">{$v['shop_name']}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            {/if}
+            <div class="rqLine clearfix">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">状态：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            <input type="radio" name="status" value="0" {if $status eq 0}checked="checked" {/if} /> 启用
+                            <input type="radio" name="status" value="1" {if $status eq 1}checked="checked" {/if} /> 停用
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">推荐人：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="recommended" value="{$recommended}" id="recommended" style="width:200px;">
+                        <span>推荐人</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">备注：</label>
+                    <div class="inputBox fl placeholder">
+                        <textarea type="text" name="comment">{$comment}</textarea>
+                        <span>输入备注</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl"></label>
+                    <div class="fl">
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <input type="hidden" name="kid" value="{$kid}">
+                                <input type="hidden" id="xid" value="{$shi}" />
+                                <input type="hidden" id="pid" value="{$qu}" />
+                                <input type="hidden" id="cid" value="{$cun}" />
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/quyuManage.js"></script>{/block}

@@ -1,0 +1,131 @@
+{extends file='znewtemp/main.phtml'}
+{block name=title}费用支出{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/znewhome/css/style.css">
+<script type="text/javascript" src="/statics/znewhome/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="fr right-cont">
+    <!-- 头部 -->
+    <div class="clearfix title mb30">
+        <div class="fl mr200">
+            <h3>费用支出</h3>
+            <p>财务 > 费用支出 > 采购支出</p>
+        </div>	
+        <div class="fl chooseDate pt16">
+            <span class="fl">选择时段：</span>
+            <div class="doubleRili fl">
+                <input type="text" id="start" style="width:80px;">
+            </div>
+            <span class="fl plr8">到</span>
+            <div class="doubleRili fl">
+                <input type="text" id="end" style="width:80px;">
+            </div>
+            <a href="javascript:void(0);" class="fl">确定</a>
+        </div>
+        <div class="fr total-data pt16">
+            <strong>总支出：￥3,245,125</strong>
+        </div>
+    </div>
+    <!-- 收入数据 -->
+    <div class="dataMenu mb40 caiwuMenu pl290">
+        <div class="bgBtn">
+            <p>采购支出</p>
+            <strong>￥140,120</strong>
+        </div>
+        <ul class="clearfix">
+            <li>
+                <p>其他支出</p>
+                <strong>￥790</strong>
+            </li>
+            <li>
+                <p>钢瓶年检</p>
+                <strong>￥12,324</strong>
+            </li>
+            <li>
+                <p>钢瓶维修</p>
+                <strong>￥12,324</strong>
+            </li>
+        </ul>	
+    </div>
+    <!-- 支出明细 -->
+    <div class="zcDetail">
+        <div class="overf">
+            <div class="list">
+                <h4>燃气&nbsp;<span>￥1,200,421</span></h4>
+                <ul class="clearfix">
+                    <li class="active">纯丁烷<br><span>12.5万</span><i></i></li>
+                    <li>纯丙烷<br><span>4.9万</span><i></i></li>
+                    <li>液化石油气<br><span>4.9万</span><i></i></li>
+                    <li class="last">残夜<br><span>12.5万</span><i></i></li>
+                </ul>
+            </div>	
+            <div class="list">
+                <h4>钢瓶&nbsp;<span>￥1,200,421</span><i></i></h4>
+                <ul class="clearfix">
+                    <li>5kg<br><span>12.5万</span><i></i></li>
+                    <li>15kg<br><span>4.9万</span><i></i></li>
+                    <li>50kg<br><span>4.9万</span><i></i></li>
+                    <li class="last">150kg<br><span>12.5万</span><i></i></li>
+                </ul>
+            </div>	
+            <div class="list">
+                <h4>配件&nbsp;<span>￥1,200,421</span><i></i></h4>
+                <ul class="clearfix">
+                    <li>气垫<br><span>12.5万</span><i></i></li>
+                    <li>阀门<br><span>4.9万</span><i></i></li>
+                    <li>胶皮管<br><span>4.9万</span><i></i></li>
+                    <li class="last">密封圈<br><span>12.5万</span><i></i></li>
+                </ul>
+            </div>	
+        </div>
+    </div>
+    <!-- 表格 -->
+    <div id="container" style="height:360px;" class="mb20"></div>
+    <!-- 查询结果 -->
+    <div class="result">
+        <div class="table2 mb34">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="borderRight">采购时间</th>
+                        <th>单号</th>
+                        <th>产品类别</th>
+                        <th>规格/种类</th>
+                        <th>数量/重量</th>
+                        <th>金额</th>
+                        <th>经办人</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="borderRight">2016-03-20</td>
+                        <td>Dd201602201545</td>
+                        <td>钢瓶</td>
+                        <td>15KG</td>
+                        <td>350KG</td>
+                        <td class="redColor"><strong>￥1,800</strong></td>
+                        <td>谢楠</td>
+                        <td class="operate"><a href="dingdanDetail.html">详情 &gt;</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom mb50">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+<script type="text/javascript" src="/statics/znewhome/js/controllers/comment.js"></script>
+<script type="text/javascript" src="/statics/znewhome/js/controllers/feiyongzhichuCtrl.js"></script>
+{/block}

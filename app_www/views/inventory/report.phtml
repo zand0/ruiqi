@@ -1,0 +1,276 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}库存量统计{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        库存量统计
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rq_data">
+            <ul class="clearfix">
+                <li class="rq_down dataLi7">
+                    <p>燃气库存合计</p>
+                    <span class="rq_num"><strong>{$tank_gasTotal}</strong></span>
+                    <font>0</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi8">
+                    <p>钢瓶库存合计</p>
+                    <span class="rq_num"><strong>{$bottleTotal}</strong></span>
+                    <font>0</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+                <li class="rq_up dataLi9">
+                    <p>配件库存合计</p>
+                    <span class="rq_num"><strong>{$productTotal}</strong></span>
+                    <font>0</font>
+                    <span class="percent">%</span>
+                    <i></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        燃气库存量统计
+        <span></span>
+    </div>
+    <div class="contRList contRList2 clearfix">
+        <div class="fl mr50 pt20 kucuntongji">
+            <h3 class="mb20">燃气库存量统计&nbsp;&nbsp;<span>燃气库存量合计{$tank_gasTotal}吨</span></h3>
+            <div class="rqTabItem" style="width:420px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>储罐名称</th>
+                            <th>储量(吨)</th>
+                            <th>百分比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $tank_gasData neq ''}
+                        {foreach $tank_gasData as $gVal}
+                        <tr>
+                            <td>{$gVal['tank_name']}</td>
+                            <td>{$gVal['volume']}</td>
+                            <td>{($tank_gasTotal>0) ? sprintf("%.2f", ($gVal['volume']/$tank_gasTotal)) : 0}%</td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {literal}
+        <script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+        <script>
+            $(function () {
+                var gasData = {/literal}{$gasData}{literal};
+                $('#container').highcharts({
+		    	chart: {
+		            type: 'pie'
+		        },
+		        title: {
+		            text: '',
+		            x: -20 //center
+		        },
+		        credits:{
+				    enabled:false // 禁用版权信息
+				},
+				plotOptions: {
+		            pie: {
+		                allowPointSelect: true,
+		                cursor: 'pointer',
+		                dataLabels: {
+		                    enabled: true,
+		                    color: '#666',
+		                    connectorColor: '#666',
+		                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+		                }
+		            }
+		        },
+		        colors: ['#98d7a0', '#f7de6a', '#f8b566','#72dad9','#f8825e','#46bddd'],
+		        legend: {
+		            enabled:false
+		        },
+		        tooltip: {
+		            valueSuffix: '吨'
+		        },
+		        series: [{
+		        	"name":"库存量",
+		        	"data":gasData
+		        }]
+		    });
+            });
+        </script>
+        {/literal}
+        <div id="container" class="fl tm40" style="width:380px;"></div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        钢瓶库存量统计
+        <span></span>
+    </div>
+    <div class="contRList clearfix contRList2">
+        <div class="fl mr50 pt20 kucuntongji">
+            <h3 class="mb20">钢瓶库存量统计&nbsp;&nbsp;<span>钢瓶库存量合计{$bottleTotal}支</span></h3>
+            <div class="rqTabItem" style="width:420px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>规格</th>
+                            <th>数量（支）</th>
+                            <th>百分比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $bottleTypeData neq ''}
+                        {foreach $bottleTypeData as $bVal}
+                        <tr>
+                            <td>{$bVal['fs_name']}</td>
+                            <td>{$bVal['total']}</td>
+                            <td>{($bottleTotal>0) ? sprintf("%.2f", ($bVal['total']/$bottleTotal)) : 0}%</td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {literal}
+        <script>
+            $(function () {
+                var bottleData = {/literal}{$bottleData}{literal};
+                $('#container2').highcharts({
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: '',
+                        x: -20 //center
+                    },
+                    credits:{
+                                enabled:false // 禁用版权信息
+                            },
+                            plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#666',
+                                connectorColor: '#666',
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            }
+                        }
+                    },
+                    colors: ['#98d7a0', '#f7de6a', '#f8b566','#72dad9','#f8825e','#46bddd'],
+                    legend: {
+                        enabled:false
+                    },
+                    tooltip: {
+                        valueSuffix: '支'
+                    },
+                    series: [{
+                            "name":"库存量",
+                            "data":bottleData
+                    }]
+                });
+            });
+        </script>
+        {/literal}
+        <div id="container2" class="fl tm40" style="width:380px;"></div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        配件库存量统计
+        <span></span>
+    </div>
+    <div class="contRList contRList2 clearfix">
+        <div class="fl mr50 pt20 kucuntongji">
+            <h3 class="mb20">配件库存量统计&nbsp;&nbsp;<span>配件库存量合计{$productTotal}件</span></h3>
+            <div class="rqTabItem" style="width:420px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>配件名称</th>
+                            <th>数量（件）</th>
+                            <th>百分比</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $productTypeData neq ''}
+                        {foreach $productTypeData as $pVal}
+                        <tr>
+                            <td>{$pVal['fs_name']}</td>
+                            <td>{$pVal['total']}</td>
+                            <td>{($productTotal>0) ? sprintf("%.2f", ($pVal['total']/$productTotal)) : 0}%</td>
+                        </tr>
+                        {/foreach}
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {literal}
+        <script>
+            $(function () {
+                var productData = {/literal}{$productData}{literal};
+                $('#container3').highcharts({
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: '',
+                        x: -20 //center
+                    },
+                    credits:{
+                                enabled:false // 禁用版权信息
+                            },
+                            plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#666',
+                                connectorColor: '#666',
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            }
+                        }
+                    },
+                    colors: ['#98d7a0', '#f7de6a', '#f8b566','#72dad9','#f8825e','#46bddd'],
+                    legend: {
+                        enabled:false
+                    },
+                    tooltip: {
+                        valueSuffix: '支'
+                    },
+                    series: [{
+                            "name":"库存量",
+                            "data":productData
+                    }]
+                });
+            });
+        </script>
+        {/literal}
+        <div id="container3" class="fl tm40" style="width:380px;"></div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/kucunliangjianbao.js"></script>{/block}

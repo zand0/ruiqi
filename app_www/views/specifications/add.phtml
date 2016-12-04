@@ -1,0 +1,109 @@
+{extends file='main.phtml'}
+{block name=rtitle}添加配件种类{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/specifications/add">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">配件：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="products_no" class="selectmenu">
+                        <option value="">选择配件</option>
+                        {foreach $productData as $k=>$v}
+                        <option value="{$k}" {if $k eq $products_no}selected="selected"{/if}>{$v['products_name']}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">规格名称：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="name" value="{$name}" style="width:150px;">
+                    <span>规格名称</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">生产厂家：</label>
+                <div class="selectBox fl" style="width:150px;">
+                    <select name="manufacturer_id" class="selectmenu">
+                        <option value="">选择厂家</option>
+                        {if $manufacturerData neq ''}
+                        {foreach $manufacturerData as $mVal}
+                        {if $manufacturer_id eq $mVal['id']}
+                        <option value="{$mVal['id']}" selected="selected">{$mVal['name']}</option>
+                        {else}
+                        <option value="{$mVal['id']}">{$mVal['name']}</option>
+                        {/if}
+                        {/foreach}
+                        {/if}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">品牌：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="brands" value="{$brands}" style="width:150px;">
+                    <span>品牌</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">零售价格：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="retail_price" value="{$retail_price}" style="width:150px;">
+                    <span>零售价格</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">直营价：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="direct_price" value="{$direct_price}" style="width:150px;">
+                    <span>直营价</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">加盟价：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="affiliate_price" value="{$affiliate_price}" style="width:150px;">
+                    <span>加盟价</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">备注：</label>
+                <div class="inputBox fl">
+                    <textarea type="text" name="comment">{$comment}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl"></label>
+                <div class="fl">
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$id}">
+    </form>
+</div>
+{/block}

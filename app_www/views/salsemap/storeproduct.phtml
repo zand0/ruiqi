@@ -1,0 +1,78 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+门店气瓶销售
+{/block}
+
+{block name=body}
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+ $(function () {
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column',
+                margin: [50, 50, 100, 80]
+            },
+            title: {
+                text: '数量统计'
+            },
+            xAxis: {
+                categories: [{$type}],
+                labels: {
+                    rotation: -45,
+                    align: 'right',
+                    style: {
+                        fontSize: '13px',
+                        fontFamily: 'Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '数量统计'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '数量: <b>point.y:.1f 个</b>',
+            },
+            series: [{
+                    name: 'Population',
+                    data: [{$shoptj}],
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        x: 4,
+                        y: 10,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif',
+                            textShadow: '0 0 3px black'
+                        }
+                    }
+                }]
+        });
+    }); 
+});			
+</script>
+<div id="container" style="min-width:700px;height:400px"></div>
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>气瓶类型</td>
+            <td>数量</td>
+        </tr>
+        {foreach $shop_tj as $value}
+        <tr>
+            <td>{$value['goods_name']}</td>
+            <td>{$value['num']}</td>
+        </tr>
+        {/foreach} 
+    </table>
+</div>
+{/block}

@@ -1,0 +1,88 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工库存回门店{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工库存回门店
+        <span></span>
+    </div>
+    
+    <div class="contRList">
+        {if empty($shop_id)}
+        <form method="POST" action="">
+            <div class="rqLine clearfix">
+
+                <div class="rqOption fl">
+                    <label class="fl">门店：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="shop_id" id="shop_id" class="selectmenu">
+                                <option selected="selected" value="">选择门店</option>
+                                {if $shopObject neq ''}
+                                {foreach $shopObject as $sVal}
+                                {if $param['shop_id'] == $sVal['shop_id']}
+                                <option value="{$sVal['shop_id']}" selected="selected">{$sVal['shop_name']}</option>
+                                {else}
+                                <option value="{$sVal['shop_id']}" >{$sVal['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        {/if}
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>编号</td>
+                    <td>送气工</td>
+                    <td>所属门店</td>
+                    <td>类型</td>
+                    <td>数量</td>
+                    <td>操作人</td>
+                    <td>操作</td>
+                </tr>
+                {if count($ext['list']) > 0}
+                {foreach $ext['list'] as $key => $value}
+                <tr>
+                    <td rowspan="{$value['bottle_num']}">{$value['confirme_no']}</td>
+                    <td rowspan="{$value['bottle_num']}">{$value['shipper_name']}</td>
+                    <td rowspan="{$value['bottle_num']}">{$shopObject[$value['shop_id']]['shop_name']}</td>
+                    <td rowspan="{$value['bottle_num']}">{($value['ftype'] == 1) ? '空瓶' : (($value['ftype']==2) ? '重瓶' : '折旧')}</td>
+                    {$value['list1']}
+                    <td rowspan="{$value['bottle_num']}">{$value['admin_user']}</td>
+                    <td rowspan="{$value['bottle_num']}">{if $value['status'] eq 0}<a href="/shipper/hkinfo?sn={$value['confirme_no']}">确认</a>{else}已确认{/if}</td>
+                </tr>
+                {$value['list2']}
+                {/foreach}
+                {else}
+                <tr><td colspan="6">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

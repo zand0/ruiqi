@@ -1,0 +1,84 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店钢瓶借调{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        门店钢瓶借调
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">钢印号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="number" value="{$param['number']}" style="width:90px;">
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">芯片号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="xinpian" value="{$param['xinpian']}" style="width:130px;">
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="hidden" name="sn" value="{$sn}" />
+                    <input type="hidden" name="shop_id" value="{$shop_id}" />
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>单号</th>
+                        <th>钢印号</th>
+                        <th>芯片号</th>
+                        <th>规格</th>
+                        <th>门店</th>
+                        <th>类型</th>
+                        <th>时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['sn']}</td>
+                        <td>{$value['number']}</td>
+                        <td>{$value['xinpian']}</td>
+                        <td>{$bottleTypeObject[$value['type']]['bottle_name']}</td>
+                        <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                        <td>{($value['is_open'] == 1) ? '重瓶' : '空瓶'}</td>
+                        <td>{date('Y-m-d',$value['time_created'])}</td>
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="7">暂时还没有门店入库确认单</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$param['page']}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/storeManage.js"></script>{/block}

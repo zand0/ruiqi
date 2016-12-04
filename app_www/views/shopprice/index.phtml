@@ -1,0 +1,100 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店价格管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        门店价格管理
+        <span></span>
+        <a href="/shopprice/add" class="blueBtn8 addShangpin">添加门店价格</a>
+    </div>
+    <div class="contRList">
+        <div class="rqLine clearfix">
+            <form name="form" method="POST">
+                <div class="rqOption fl">
+                    <label class="fl">关键词：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="name" id="name" style="width:148px;">
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">商品类型：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="type" id="typeID" class="selectmenu typeID"  style="width:170px;">
+                                <option selected="selected">商品类型</option>
+                                <option value="1">液化气</option>
+                                <option value="2">配件</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </form>
+        </div>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="2">编号</th>
+                        <th rowspan="2">商品</th>
+                        <th colspan="3">零售价</th>
+                        <th rowspan="2">直营价</th>
+                        <th rowspan="2">加盟价</th>
+                        <th rowspan="2">门店</th>
+                        <th rowspan="2">操作</th>
+                    </tr>
+                    <tr>
+                        <th>居民</th>
+                        <th>商业</th>
+                        <th>工业</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td>{$value['commoditysn']}</td>
+                        {if $value['type'] eq 1}
+                        <td>{$value['name']}{$bottleTypeData[$value['norm_id']]['bottle_name']}</td>
+                        {else}
+                        <td>{$value['name']}</td>
+                        {/if}
+                        <td>{$value['retail_price']}</td>
+                        <td>{$value['retail_price_business']}</td>
+                        <td>{$value['retail_price_industry']}</td>
+                        <td>{$value['direct_price']}</td>
+                        <td>{$value['affiliate_price']}</td>
+                        <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                        <td class="tableBtn">
+                            <a href="/shopprice/add?sn={$value['commoditysn']}&shop_id={$value['shop_id']}&norm_id={$value['norm_id']}&type={$value['type']}">价格</a>
+                        </td>
+                    </tr>
+                    {/foreach} 
+                    {else}
+                    <tr><td colspan="9">暂时还没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shangpinjiageManage.js"></script>{/block}

@@ -1,0 +1,101 @@
+{extends file='main.phtml'}
+{block name=rtitle}门店配件进货单管理{/block}
+{block name=body}
+{literal}
+<script>
+    $(function () {
+        $(".add").live('click', function () {
+            var pt = $(this).parents("div .cloneproducts"), list = pt.clone();
+            list.find('select').show().removeAttr('id').selectmenu().next().next().remove();
+            list.find('select').selectmenu('refresh').next().attr('style', pt.find('.ui-selectmenu-button').attr('style'));
+            list.find('a').removeClass('add').addClass('del').html('-');
+            $(".pd").before(list);
+        });
+        $('.del').live('click', function () {
+            $(this).parents('.rqLine').remove();
+        });
+    });
+</script>
+{/literal}
+<div class="contRList">
+    <form name="form" method="POST" action="/outstock/add">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">单据编号：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="documentsn" value="{$documentsn}" style="width:150px;">
+                    <span>单据编号</span>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <label class="fl">单据时间：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="time" value="{$smarty.now|date_format:'%Y-%m-%d'}" style="width:150px;">
+                    <span>单据时间</span>
+                </div>
+            </div>
+        </div>
+        {if $shop_id > 0 }
+        <input type="hidden" name="shop_id" value="{$shop_id}" />
+        {else}
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">配送站点：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="shop_id" class="selectmenu" id="shop_id">
+                            <option value="0">气站</option>
+                            {if $shopObject neq ''}
+                            {foreach $shopObject as $value}
+                            <option value="{$value['shop_id']}">{$value['shop_name']}</option>
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/if}
+        <div class="rqLine clearfix cloneproducts">
+            <div class="rqOption fl">
+                <label class="fl">配件：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="products_id[]" class="selectmenu" id="shop_id">
+                            <option value="">配件</option>
+                            {if $productsObject neq ''}
+                            {foreach $productsObject as $value}
+                            <option value="{$value['id']}">{$value['products_name']}</option>
+                            {/foreach}
+                            {/if}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqOption fl">
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="products_num[]" style="width:150px;" value="0">
+                    <span>配件数量</span>
+                </div>
+                <a href="javascript:;" class="addproducts add">+</a>
+            </div>
+        </div>
+
+        <div class="rqLine clearfix pd">
+            <div class="rqOption clearfix">
+                <div class="fl">
+                    <div  class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">下一步</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="">
+    </form>
+</div>
+{/block}

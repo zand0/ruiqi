@@ -1,0 +1,141 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}人员管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        人员管理
+        <span></span>
+    </div>
+    <div class=" contRList">
+        <form name="form" method="POST" action="/adminuser/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">登录名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="username" value="{$username}" style="width:140px;">
+                        <span>输入登录名</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">姓名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="real_name" value="{$real_name}" style="width:140px;">
+                        <span>请输入姓名</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">手机号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="mobile_phone" value="{$mobile_phone}" style="width:140px;">
+                        <span>请输入正确手机号</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine" style="display: none;">
+                <div class="rqOption clearfix">
+                    <label class="fl">店铺等级：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="shop_level" class="selectmenu" id='shop_level'>
+                                <option value="">请选择</option>
+                                {foreach $shop_levels as $k=>$level}
+                                {if $shop_level && $k == $shop_level}
+                                <option value="{$k}" selected>{$level}</option>
+                                {else}
+                                <option value="{$k}">{$level}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">所属店铺：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="shop_id" class="selectmenu" id="shop_id">
+                                <option value="">全部</option>
+                                {foreach $shop_list as $k=>$v}
+                                {if $v['shop_id'] eq $shop_id}
+                                <option value="{$v['shop_id']}" selected="selected">{$v['shop_name']}</option>
+                                {else}
+                                <option value="{$v['shop_id']}">{$v['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">角色：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="roles" class="selectmenu">
+                                <option value="">全部</option>
+                                {foreach $roleArr as $k=>$role}
+                                {if $roles && (isset($roles[$k]))}
+                                <option value="{$k}" selected="selected">{$role}</option>
+                                {else}
+                                <option value="{$k}">{$role}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">初台密码：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="password" value="{if empty($password)}888888{/if}" style="width:150px;">
+                        <span>请输入初始密码</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix rqRadio">
+                    <label class="fl">状态：</label>
+                    <div class="myradio fl">
+                        <div class="radiobox clearfix">
+                            <input type="radio" name="status" value="0" {if !$status}checked{/if} id="s1"><label for="s1">启用</label> 
+                            <input type="radio" name="status" value="1" {if $status == 1}checked{/if} id="s2"><label for="s2">禁止</label> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">备注说明：</label>
+                    <div class="fl">
+                        <textarea name="remark">{$remark}</textarea>
+                        <div class="rqLine">
+                            <div class="rqOption fl">
+                                <input type="hidden" name="id" value="{$user_id}">
+                                <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

@@ -1,0 +1,123 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}送气工管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        送气工管理
+        <span></span>
+        <a href="/shipper/add" class="blueBtn8 addNjzc">添加送气工</a>
+    </div>
+    <div class="contRList">
+        <form method="POST" action="">
+            <div class="rqLine clearfix">
+                {if empty($shop_id)}
+                <div class="rqOption fl">
+                    <label class="fl">门店：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="shop_id" id="shop_id" class="selectmenu">
+                                <option selected="selected" value="">选择门店</option>
+                                {if $shopObject neq ''}
+                                {foreach $shopObject as $sVal}
+                                {if $param['shop_id'] == $sVal['shop_id']}
+                                <option value="{$sVal['shop_id']}" selected="selected">{$sVal['shop_name']}</option>
+                                {else}
+                                <option value="{$sVal['shop_id']}" >{$sVal['shop_name']}</option>
+                                {/if}
+                                {/foreach}
+                                {/if}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                {/if}
+                <div class="rqOption fl">
+                    <label class="fl">姓名：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name='username' id='username' value="{$param['username']}" style="width:100px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">电话：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name='mobile' id='mobile' style="width:100px;" value="{$param['mobile']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">类型：</label>
+                    <div class="selectBox fl" style="width:172px;">
+                        <div class="mySelect">
+                            <select name="shipper_type" id="shipper_type" class="selectmenu">
+                                <option value="0">请选择</option>
+                                <option value="1" {($param['shipper_type'] == 1) ? "selected='selected'" : "" }>自营</option>
+                                <option value="2" {($param['shipper_type'] == 2) ? "selected='selected'" : "" }>加盟</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <tr>
+                    <td>编号</td>
+                    <td>送气工名称</td>
+                    <td>送气工电话</td>
+                    <td>送气工状态</td>
+		    <td>所属门店</td>
+                    <td>总订单数</td>
+                    <td>账户余额</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+                {if count($ext['list']) > 0}
+                {foreach $ext['list'] as $key => $value}
+                <tr>
+                    <td>{$key + 1}</td>
+                    <td>{$value['shipper_name']}</td>
+                    <td>{$value['mobile_phone']}</td>
+                    <td>{($value['shipper_type'] == 1) ? '自营' : '加盟'}</td>
+		    <td>{$shopObject[$value['shop_id']]['shop_name']}</td>
+                    <td><a href="/order/index?shipper_id={$value['shipper_id']}" target="_blank">{$value['order_no']}</a></td>
+                    <td><a href="/shipper/payment?shipper_id={$value['shipper_id']}" target="_blank">{$value['money']}</a></td>
+                    <td>{($value['ctime']>0) ? date('Y-m-d',$value['ctime']) : ''}</td>
+                    <td>
+                        <a href="/shipper/edite?id={$value['shipper_id']}">修改</a>|<a href="/shipper/paymentlist?shipper_id={$value['shipper_id']}">费用记录</a>
+                        |<a href="javascript:;" {if $value['money'] > 0}class="uppay"{/if} shipper_id="{$value['shipper_id']}" shop_id="{$value['shop_id']}" money="{$value['money']}">上缴</a>
+                    </td>
+                </tr>
+                {/foreach}
+                {else}
+                <tr><td colspan="8">暂时还没有数据</td></tr>
+                {/if}
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/jiaofei.js"></script>{/block}

@@ -1,0 +1,23 @@
+{extends file='main.phtml'}
+{block name=rtitle}配件进货单{/block}
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>配件名称</td>
+            <td>配件数量</td>
+            <td>配件单价</td>
+            <td>配件总价</td>
+        </tr>
+
+        {foreach $data as $value}
+        <tr>
+            <td>{$value['product_name']}</td>
+            <td>{$value['product_num']}</td>
+            <td>{$value['product_price']}</td>
+            <td>{$value['product_total']}</td>
+        </tr>
+        {/foreach} 
+    </table>
+</div>
+{/block}

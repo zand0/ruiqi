@@ -1,0 +1,120 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}其他支出{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        其他支出
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>支出项目</th>
+                        <th>金额</th>
+                        <th>合计</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>残液</td>
+                        <td>{$dataTotal['total']}</td>
+                        <td rowspan="3">{$dataTotal['total']+$dataTotal['money']+$dataTotal['gas_total']}</td>
+                    </tr>
+                    <tr>
+                        <td>折旧</td>
+                        <td>{$dataTotal['money']}</td>
+                    </tr>
+                    <tr>
+                        <td>余气</td>
+                        <td>{$dataTotal['gas_total']}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="contRItem">
+    <div class="contRTitle">
+        其他支出记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqLine clearfix">
+            <form name="form" method="POST">
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">支出时间：</label>
+                        <div class="riliInputBox fl">
+                            <div class="riliInput fl">
+                                <input type="text" style="width:148px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                            </div>
+                            <span class="fl">至</span>
+                            <div class="riliInput fl">
+                                <input type="text" id="time_end" style="width:148px;" name="time_end" value="{$param['time_end']}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                        <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                    </div>
+                </div>
+            </form>
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>用户</th>
+                            <th>支出项目</th>
+                            <th>金额</th>
+                            <th>支出项目</th>
+                            <th>金额</th>
+                            <th>支出项目</th>
+                            <th>金额</th>
+                            <th>支出时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $ext['list'] neq ''}
+                        {foreach $ext['list'] as $val}
+                        <tr>
+                            <td>{$val['order_sn']}</td>
+                            <td>{$val['username']}</td>
+                            <td>残液</td>
+                            <td>{$val['raffinat']}</td>
+                            <td>折旧</td>
+                            <td>{$val['depreciation']}</td>
+                            <td>余气</td>
+                            <td>{$val['residual_gas']}</td>
+                            <td>{date('m-d H:i',$val['ctime'])}</td> 
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr><td colspan="6">暂时还没有数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix sqspBottom">
+                <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                <input type="hidden" class="currentPage" value="{$page}">
+                <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                <input type="hidden" class="paramlist" value="{$getparamlist}" />
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/qitazhichu.js"></script>{/block}

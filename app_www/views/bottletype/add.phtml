@@ -1,0 +1,111 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}钢瓶类型管理{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRList">
+        <form name="form" method="POST" action="/bottletype/add">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">类型名称：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="bottle_name" value="{$bottle_name}" style="width:150px;">
+                        <span>类型名称</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">净重：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="bottle_netweight" value="{$bottle_netweight}" style="width:150px;">
+                        <span>净重</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">直营价格：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="bottle_price" value="{$bottle_price}" style="width:150px;">
+                        <span>直营价格</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">零售价：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="suggested_price" value="{$suggested_price}" style="width:150px;">
+                        <span>零售价</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">加盟价格：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="other_price" value="{$other_price}" style="width:150px;">
+                        <span>加盟价格</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">钢瓶价格：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="price" value="{$price}" style="width:150px;">
+                        <span>钢瓶价格</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">年检费：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="yearly_inspection" value="{$yearly_inspection}" style="width:150px;">
+                        <span>年检费</span>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <label class="fl">维修费：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="repair" value="{$repair}" style="width:150px;">
+                        <span>维修费</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">折旧：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="depreciation" value="{$depreciation}" style="width:150px;">
+                        <span>折旧</span>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix pd">
+                <div class="rqOption clearfix">
+                    <label class="fl">备注：</label>
+                    <div class="fl">
+                        <textarea name="bottle_comment">{$bottle_comment}</textarea>
+                        <div  class="rqLine">
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.submit();" class="blueBtn">提交</a>
+                            </div>
+                            <div class="rqOption fl">
+                                <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{$id}">
+        </form>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

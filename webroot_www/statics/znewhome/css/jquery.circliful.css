@@ -1,0 +1,32 @@
+.circliful {
+    position: relative; 
+}
+
+.circle-text, .circle-info, .circle-text-half, .circle-info-half {
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+    letter-spacing:0;
+}
+
+.circle-info, .circle-info-half {
+	color: #4a4a4a;
+	font-size:14px;
+}
+
+.circliful .fa {
+	margin: -10px 3px 0 3px;
+	position: relative;
+	bottom: 4px;
+}
+/*综合看板*/
+.chart .circle-info{left:-2px;top:-26px;}
+.chart .circle-text{left:0px;top:10px;}
+li.li_4 .circle-info{color: #84750d;}
+li.li_6 .circle-info{color: #67824d;}
+li.li_7 .circle-info{color: #12cefc;}
+/*钢瓶管理*/
+.chartBox .circle-info{left:-2px;top:-30px;}
+.chartBox .circle-text{left:0px;top:16px;}
+.chartBox ul li .circle-info{color: #000;}

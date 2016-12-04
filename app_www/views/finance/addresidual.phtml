@@ -1,0 +1,33 @@
+{extends file='main.phtml'}
+{block name=rtitle}残液处理{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/finance/addresidual">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">总价值：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="money" style="width:150px;">
+                    <span>总价值</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine" id="product">
+            <div class="rqOption clearfix">
+                <label class="fl">备注</label>
+                <div class="fl">
+                    <textarea name="comment"></textarea>
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:if(confirm('提交后不可更改，确定提交？')){ document.form.submit(); }" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{/block}

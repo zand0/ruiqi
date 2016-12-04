@@ -1,0 +1,224 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}优惠折扣活动{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="/statics/js/jquery-ui.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+
+<style type="text/css">
+    body{font-family: Arial, '宋体';margin:0 auto;padding:0; background:url({/literal}{$_PUBLIC}{literal}/upload_photo/images/bg.jpg) repeat;font-size:12px;color:#000;}
+    .container { width:800px; margin:0px auto; }
+    .section { background-color:#fff; padding:20px;}
+    .row{ width:661px; overflow:hidden; margin-top:20px;line-height:30px;padding-left:94px;}
+    .row span.label{float:left;position:relative;line-height:30px;margin-left:-94px;width:84px;text-align:right; color:#5b5b5b;}
+    .btn_submit {background:url({/literal}{$_PUBLIC}{literal}/upload_photo/images/submit.gif) no-repeat;width:70px;height:29px;border:0;}
+</style>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            优惠折扣活动
+            <span></span>
+        </div>
+        <div class="contRList">
+            <form name="form" method="POST" action="/promotions/add">
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">优惠类型：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="type" class="selectmenu" id="yhtype" style="width:144px;">
+                                    <option value="">优惠类型</option>
+                                    {if $typeObject neq ''}
+                                    {foreach $typeObject as $key => $sVal}
+                                    {if $key eq $type}
+                                    <option value="{$key}" selected="selected">{$sVal}</option>
+                                    {else}
+                                    <option value="{$key}">{$sVal}</option>
+                                    {/if}
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">使用范围：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="range_use" class="selectmenu" id="range_use" style="width:144px;">
+                                    <option value="">使用范围</option>
+                                    {if $rangeUse neq ''}
+                                    {foreach $rangeUse as $key => $sVal}
+                                    {if $key eq $range_use}
+                                    <option value="{$key}" selected="selected">{$sVal}</option>
+                                    {else}
+                                    <option value="{$key}">{$sVal}</option>
+                                    {/if}
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix" id="zkproduct" {if $type eq 1} style="display: none;" {/if}>
+                    <div class="rqOption fl">
+                        <label class="fl">折扣配件：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="annex" class="selectmenu" style="width:144px;">
+                                    <option value="">类型</option>
+                                    {if $commdityObject neq ''}
+                                    {foreach $commdityObject as $key => $sVal}
+                                    {if $sVal['id'] eq $product_id}
+                                    <option value="{$sVal['id']}|{$sVal['norm_id']}|{$sVal['name']}|{$sVal['retail_price']}" selected="selected">{$sVal['name']}{$productTypeData[$sVal['norm_id']]['name']}</option>
+                                    {else}
+                                    <option value="{$sVal['id']}|{$sVal['norm_id']}|{$sVal['name']}|{$sVal['retail_price']}">{$sVal['name']}{$productTypeData[$sVal['norm_id']]['name']}</option>
+                                    {/if}
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">优惠价格：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="money" value="{$money}" style="width:200px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">使用条件：</label>
+                        <div class="inputBox fl placeholder">
+                            <input type="text" name="price" value="{$price}" style="width:200px;"><font style="color: red">*使用条件当前订单金额不少于当前金额</font>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">有效期：</label>
+                        <div class="riliInputBox fl">
+                            <div class="riliInput fl">
+                                <input type="text" style="width:150px;" name="time_start" id="time_start" value="{$time_start}">
+                            </div>
+                            <span class="fl">至</span>
+                            <div class="riliInput fl">
+                                <input type="text" id="time_end" name="time_end" style="width:150px;" value="{$time_end}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption clearfix rqRadio">
+                        <label class="fl">是否显示客户端：</label>
+                        <div class="myradio fl">
+                            <div class="radiobox clearfix">
+                                <input type="radio" name="is_show" value="0" checked="checked" /> 否
+                                <input type="radio" name="is_show" value="1" /> 是
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption clearfix rqRadio">
+                        <label class="fl">是否微信活动：</label>
+                        <div class="myradio fl">
+                            <div class="radiobox clearfix">
+                                <input type="radio" name="is_weixin" value="0" checked="checked" /> 否
+                                <input type="radio" name="is_weixin" value="1" /> 是
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="row">
+                        <label class="fl"></label>
+                        <input type="file" name="name" id="fj" value="" />
+                        <img src="{$file_name}" alt="{$comment}" id="imgfile" border="0" width="620" height="305" />
+                        <input type="hidden" name="file_name" id="file_name" value="{$file_name}" />
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">备注：</label>
+                        <div class="inputBox fl placeholder">
+                            <textarea type="text" name="comment">{$comment}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine">
+                    <div class="rqOption clearfix">
+                        <label class="fl"></label>
+                        <div class="fl">
+                            <div class="rqLine">
+                                <div class="rqOption fl">
+                                    <input type="hidden" name="id" value="{$id}" />
+                                    <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                                </div>
+                                <div class="rqOption fl">
+                                    <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}
+{literal}
+<link href="/statics/upload_photo/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/statics/upload_photo/uploadify/jquery.uploadify-3.1.min.js?ver={/literal}{rand(0,9999)}{literal}"></script>
+<script type="text/javascript" src="/statics/upload_photo/jcrop/jquery.Jcrop.min.js"></script>
+<link rel="stylesheet" href="/statics/upload_photo/jcrop/jquery.Jcrop.css" type="text/css" />
+<script type="text/javascript">
+    $(function () {
+        $("#fj").uploadify({
+            'auto': true,
+            'multi': false,
+            'uploadLimit': 1,
+            'buttonText': '选择文件',
+            'height': 20,
+            'width': 90,
+            'removeCompleted': false,
+            'swf': '/statics/upload_photo/uploadify/uploadify.swf',
+            'uploader': '/promotions/upload',
+            'fileTypeExts': '*',
+            'fileSizeLimit': '1024KB',
+            'onUploadSuccess': function (file, data, response) {
+                var msg = $.parseJSON(data);
+                if (msg.result_code == 1) {
+                    $("#file_name").val(msg.result_des);
+                    $("#imgfile").attr('src',msg.result_des);
+                } else {
+                    alert('上传失败');
+                }
+            },
+            'onClearQueue': function (queueItemCount) {
+                alert($('#file_name'));
+            },
+            'onCancel': function (file) {
+                alert('The file ' + file.name + ' was cancelled.');
+            }
+        });
+    });
+</script>
+{/literal}
+<script type="text/javascript" src="/statics/js/controllers/other.js"></script>
+{/block}

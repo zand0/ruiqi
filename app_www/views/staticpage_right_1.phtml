@@ -1,0 +1,95 @@
+<div class="contLeft fl">
+    <ul index="1" style="display:block;">
+        <!--财务管理 -->
+        <li class="sonLi4 active"><a href="/index/home">统计汇总<span></span></a></li>    
+        {if isset($auth_roles['/bottletj/shop'])}<li class="sonLi5"><a href="/bottletj/shop">门店钢瓶库存<span></span></a></li>{/if}
+        {if isset($auth_roles['/bottletj/index'])}<li class="sonLi6"><a href="/bottletj/index">气站钢瓶库存<span></span></a></li>{/if}
+        {if isset($auth_roles['/statistics/warehousing'])}<li class="sonLi7"><a href="/statistics/warehousing">配件库存<span></span></a></li>{/if}
+        {if isset($auth_roles['/gastj/index'])}<li class="sonLi8"><a href="/gastj/index">燃气库存<span></span></a></li>{/if}     
+        {if isset($auth_roles['/bottle/log'])}<li class="sonLi9"><a href="/bottle/log">钢瓶流转日志<span></span></a></li>{/if}
+        {if isset($auth_roles['/organize/index'])}<li class="sonLi4"><a href="/organize/index">组织机构<span></span></a></li>{/if}
+        <li class="sonLi5"><a href="/organize/list">组织架构<span></span></a></li>
+        <li class="sonLi5"><a href="/news/index">消息通知<span></span></a></li>
+    </ul>
+    <ul index="2">
+        {if isset($auth_roles['/order/index'])}<li class="sonLi2"><a href="/order/index">订单数据<span></span></a></li>{/if}
+        {if isset($auth_roles['/filling/index'])}<li class="sonLi11"><a href="/filling/index">门店配送计划<span></span></a></li>{/if}
+        {if isset($auth_roles['/order/index'])}<li class="sonLi2"><a href="/inventory/bottle">钢瓶出入库<span></span></a></li>{/if}
+        {if isset($auth_roles['/order/index'])}<li class="sonLi2"><a href="/inventory/warehouse">配件出入库<span></span></a></li>{/if}  
+        {if isset($auth_roles['/outstock/index'])}<li class="sonLi11"><a href="/outstock/index">门店配件进货单<span></span></a></li>{/if}
+        <!--{if isset($auth_roles['/shipment/index'])}<li class="sonLi11"><a href="/shipment/index">出货(门店)管理<span></span></a></li>{/if}-->
+    </ul>
+    <ul index="3">
+        {if isset($auth_roles['/statistics/order'])}<li class="sonLi4"><a href="/statistics/order">订单统计<span></span></a></li>{/if}
+        {if isset($auth_roles['/statistics/filling'])}<li class="sonLi4"><a href="/statistics/filling">充装统计<span></span></a></li>{/if}
+        {if isset($auth_roles['/statistics/kehu'])}<li class="sonLi4"><a href="/statistics/kehu">客户统计<span></span></a></li>{/if}
+        {if isset($auth_roles['/statistics/shipper'])}<li class="sonLi4"><a href="/statistics/shipper">送气工统计<span></span></a></li>{/if}
+        {if isset($auth_roles['/salsemap/storeproduct?goods_type=1'])}<li class="sonLi2"><a href="/salsemap/storeproduct?goods_type=1">门店钢瓶销售统计<span></span></a></li>{/if}
+        {if isset($auth_roles['/salsemap/storeproduct?goods_type=2'])}<li class="sonLi2"><a href="/salsemap/storeproduct?goods_type=2">门店配件销售统计<span></span></a></li>{/if}
+        {if isset($auth_roles['/salsemap/storebottle?goods_type=1'])}<li class="sonLi2"><a href="/salsemap/storebottle?goods_type=1">气站钢瓶销售统计<span></span></a></li>{/if}
+        {if isset($auth_roles['/salsemap/storebottle?goods_type=2'])}<li class="sonLi2"><a href="/salsemap/storebottle?goods_type=2">气站配件销售统计<span></span></a></li>{/if}
+    </ul>
+    <ul index="4">
+        {if isset($auth_roles['/sales/index'])}<li class="sonLi11"><a href="/sales/index">销售额简报<span></span></a></li>{/if}
+        {if isset($auth_roles['/newuser/index'])}<li class="sonLi12"><a href="/newuser/index">新开户简报<span></span></a></li>{/if}
+        {if isset($auth_roles['/rate/index'])}<li class="sonLi13"><a href="/rate/index">回流率简报<span></span></a></li>{/if}  
+    </ul>
+    <ul index="5">
+        <!--{if isset($auth_roles['/instock/approve'])}<li class="sonLi2"><a href="/instock/approve">入库（气站）管理<span></span></a></li>{/if}
+        {if isset($auth_roles[''])}<li class="sonLi2"><a href="javascript:;">入库（门店）管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/outstock/approve'])}<li class="sonLi3"><a href="/outstock/approve">出库（气站）管理<span></span></a></li>{/if}
+        {if isset($auth_roles[''])}<li class="sonLi3"><a href="javascript:;">出库（门店）管理<span></span></a></li>{/if}-->
+        
+        {if isset($auth_roles['/filling/approve'])}<li class="sonLi5"><a href="/filling/approve">气站充装计划<span></span></a></li>{/if}
+        <li class="sonLi5"><a href="/filling/delivery">气站出库单<span></span></a></li>
+        <li class="sonLi5"><a href="/filling/confirmelist">门店确认单<span></span></a></li>
+        {if isset($auth_roles['/filling/records'])}<li class="sonLi11"><a href="/filling/records">充装数据<span></span></a></li>{/if}
+        <li class="sonLi11"><a href="/gastj/planlist">燃气采购计划单<span></span></a></li>
+        {if isset($auth_roles['/gasinout/index'])}<li class="sonLi11"><a href="/gasinout/index">燃气出入库<span></span></a></li>{/if}   
+        <li class="sonLi11"><a href="/instock/purchase">钢瓶进货单<span></span></a></li>
+        {if isset($auth_roles['/instock/index'])}<li class="sonLi11"><a href="/instock/index">配件进货单<span></span></a></li>{/if}
+        {if isset($auth_roles['/stock/index'])}<li class="sonLi11"><a href="/stock/index">气站库存<span></span></a></li>{/if}
+        {if isset($auth_roles['/stock/flow'])}<li class="sonLi11"><a href="/stock/flow">气站出入库<span></span></a></li>{/if}
+        <li class="sonLi11"><a href="/filling/czlist">充装数据同步记录<span></span></a></li>
+        <li class="sonLi11"><a href="/filling/czbottle">钢瓶初始化记录<span></span></a></li>
+        <li class="sonLi3"><a href="/bottle/transfer">钢瓶流转日志<span></span></a></li>
+        <li class="sonLi3"><a href="/deposit/index">押金管理<span></span></a></li>
+        <li class="sonLi3"><a href="/quota/index">额度管理<span></span></a></li>
+        <li class="sonLi3"><a href="/supplier/gas">燃气供应商<span></span></a></li>
+        <li class="sonLi3"><a href="/supplier/bottle">钢瓶供应商<span></span></a></li>
+        <li class="sonLi3"><a href="/supplier/product">配件供应商<span></span></a></li>
+        <li class="sonLi3"><a href="/baseline/gas">燃气库存报警<span></span></a></li>
+        <li class="sonLi3"><a href="/baseline/bottle">钢瓶库存报警<span></span></a></li>
+        <li class="sonLi3"><a href="/baseline/product">配件库存报警<span></span></a></li>
+        <li class="sonLi3"><a href="/raffinate/index">残液管理<span></span></a></li>
+        <li class="sonLi3"><a href="/raffinate/stock">残液库存<span></span></a></li>
+    </ul>
+    <ul index="6">
+        <li class="sonLi3"><a href="/org/index">部门管理<span></span></a></li>
+        {if isset($auth_roles['/authrole/index'])}<li class="sonLi6"><a href="/authrole/index">角色管理<span></span></a></li>{/if}
+        <li class="sonLi3"><a href="/quarters/index">岗位管理<span></span></a></li>
+        {if isset($auth_roles['/authrule/index'])}<li class="sonLi6"><a href="/authrule/index">规则管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/adminuser/index'])}<li class="sonLi6"><a href="/adminuser/index">员工管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/custum/index'])}<li class="sonLi3"><a href="/custum/index">客户管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/shipper/index'])}<li class="sonLi3"><a href="/shipper/index">送气工管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/shop/index'])}<li class="sonLi3"><a href="/shop/index">门店管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/shopsaleregion/index'])}<li class="sonLi3"><a href="/shopsaleregion/index">销售区域管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/bottletype/index'])}<li class="sonLi3"><a href="/bottletype/index">钢瓶类型管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/bottleprice/index'])}<li class="sonLi3"><a href="/bottleprice/index">钢瓶价格管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/products/index'])}<li class="sonLi3"><a href="/products/index">配件类型管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/productsprice/index'])}<li class="sonLi3"><a href="/productsprice/index">配件价格管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/gas/index'])}<li class="sonLi3"><a href="/gas/index">燃气类型管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/tank/index'])}<li class="sonLi3"><a href="/tank/index">储罐类型管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/bottle/index'])}<li class="sonLi3"><a href="/bottle/index">钢瓶管理<span></span></a></li>{/if}
+        <li class="sonLi3"><a href="/car/index">车辆管理<span></span></a></li>
+        {if isset($auth_roles['/repair/index'])}<li class="sonLi3"><a href="/repair/index">报修类型管理<span></span></a></li>{/if}
+        <li class="sonLi3"><a href="/tousu/list">投诉类型管理<span></span></a></li>
+        {if isset($auth_roles['/tousu/index'])}<li class="sonLi3"><a href="/tousu/index">投诉管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/baoxiu/index'])}<li class="sonLi3"><a href="/baoxiu/index">报修管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/security/index'])}<li class="sonLi3"><a href="/security/index">安检类型管理<span></span></a></li>{/if}
+        {if isset($auth_roles['/security/list'])}<li class="sonLi3"><a href="/security/list">安全检查<span></span></a></li>{/if}
+        {if isset($auth_roles['/map/index'])}<li class="sonLi6"><a href="/map/index">送气工标注<span></span></a></li>{/if}
+        {if isset($auth_roles['/regionmanage/index'])}<li class="sonLi6"><a href="/regionmanage/index">地区管理<span></span></a></li>{/if}
+        <li class="sonLi3"><a href="/syslog/index">登陆日志<span></span></a></li>
+    </ul>
+</div>

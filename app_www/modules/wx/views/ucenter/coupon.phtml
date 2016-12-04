@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
+	<title>优惠券</title>
+	<link rel="stylesheet" href="/statics/css/base.css"/>
+	<link rel="stylesheet" href="/statics/css/style.css"/>
+	<script src="/statics/js/jquery-1.8.3.min.js"></script>
+	<script src="/statics/js/main.js"></script>
+	<script type="text/javascript" src="/statics/js/Vue.min.js"></script>
+	<script type="text/javascript" src="/statics/js/vue-resource.min.js"></script>
+	{include '../header.phtml'}
+	<script type="text/javascript">
+		var jump=GetQueryString('from');
+
+	</script>
+</head>
+
+<body id="Vbody">
+	<div class="t_coupon">
+		<ul>
+			<li class="blue_bottom"><span class="r_tip blue_text">未使用</span></li>
+			<li><span class="r_tip">已使用</span></li>
+			<li><span>已过期</span></li>
+		</ul>
+	</div>
+	<!-- 没有优惠券的情况 -->
+	<div class="coupon_con">
+		<div class="blank">
+			<img src="/statics/images/blank.png" alt="">
+			<p>订单完成后分享即可获取优惠券！</p>
+		</div>
+	</div>
+	<!-- 未使用优惠券 -->
+	<template v-for="p in promo">
+	<div onclick="if(jump=='order')location.href='/wx/order/vorder?promoid=[[p.id]]&pname=[[p.price]]&limit=[[p.money]]'" v-if="p.status==0 && (p.time_end > currtime || p.time_end==0)" class="nouse_c">
+		<img src="/statics/images/nouse.png" alt="" style="width: 100%;height: 100%">
+		<div class="details_c">
+			<div class="l_m">
+				<span class="yang">￥</span>
+				<span class="num_total">[[p.price]]</span>
+			</div>
+			<div class="validity">截止[[p.time_end==0?'  永久':p.time_end_str]]</div>
+		</div>
+	</div>
+	</template>
+	<!-- 已使用优惠券 -->
+	
+	<template v-for="p in promo">
+	<div v-if="p.status==1" class="use_c">
+		<img src="/statics/images/use.png" alt="" style="width: 100%;height: 100%">
+		<div class="details_c">
+			<div class="l_m">
+				<span class="yang">￥</span>
+				<span class="num_total">2.0</span>
+			</div>
+			<div class="validity">截止[[p.time_end==0?'  永久':p.time_end_str]]</div>
+		</div>
+	</div>
+	</template>
+	
+	<!-- 已过期惠券 -->
+	
+	<template v-for="p in promo">
+	<div v-if="p.time_end!=0 && p.time_end < currtime" class="delay_c">
+		<img src="/statics/images/delay.png" alt="" style="width: 100%;height: 100%">
+		<div class="details_c">
+			<div class="l_m">
+				<span class="yang">￥</span>
+				<span class="num_total">2.0</span>
+			</div>
+			<div class="validity">截止[[p.time_end==0?'  永久':p.time_end_str]]</div>
+		</div>
+	</div>
+	</template>
+	
+<script type="text/javascript">
+new Vue({
+	el: '#Vbody',
+	ready: function() {
+		this.$set('currtime',Date.parse(new Date()));
+		this.getPromotion();
+	},
+	methods: {
+		//获取订单
+		getPromotion:function(){
+			
+			this.$http.get('/wx/ucenter/getpromotion', function(data, status, request) {
+				if(data.status==1){
+					this.$set('promo', data.data);
+				}else{
+					
+				}
+				
+				//this.redirect(data);
+				//console.log(data);
+			});
+		},
+	}
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}充装数据汇总{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        充装数据汇总
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine">
+                <div class="rqOption fl">
+                    <label class="fl">时间类型：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="type" class="selectmenu"  style="width:124px;">
+                                <option value="">选择状态</option>
+                                {foreach $timeKey as $tkey => $tVal}
+                                {if $tkey eq $param['type']}
+                                <option value="{$tkey}" selected="selected">{$tVal}</option>
+                                {else}
+                                <option value="{$tkey}">{$tVal}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">充装时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:128px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:128px;" name="time_end" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>规格</th>
+                        <th>数量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if count($dataArray) gt 0}
+                    {assign var=total value=0}
+                    {foreach $dataArray as $value}
+                    {assign var=total value=$total+$value['num']}
+                    <tr>
+                        <td>{$value['title']}</td>
+                        <td>{$value['num']}</td>
+                    </tr>
+                    {/foreach}
+                    <tr>
+                        <td>合计</td>
+                        <td>{$total}</td>
+                    </tr>
+                    {else}
+                    <tr><td colspan="6">暂时还没有充装数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/chongzhuangjihuadan.js"></script>{/block}

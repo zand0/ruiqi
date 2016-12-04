@@ -1,0 +1,26 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}组织架构{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        组织架构
+        <span></span>
+        <a href="/organize/list?temptype=new" class="blueBtn6" target="_blank">新版页面</a>
+    </div>
+    <div class="contRight fr">
+        <div class="zzjgBox">
+            <h2>气站</h2>
+            {$list}
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

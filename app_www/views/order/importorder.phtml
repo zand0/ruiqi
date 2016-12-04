@@ -1,0 +1,44 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}订单导出{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        订单导出
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <div class="inputBox fl placeholder">
+                    <input type="checkbox" name="order_sn" value="order_sn" checked="checked">订单号
+                    <input type="checkbox" name="username" value="username" checked="checked">用户名称
+                    <input type="checkbox" name="kehu_type" value="kehu_type" checked="checked">客户类型
+                    <input type="checkbox" name="money" value="money" checked="checked">订单金额
+                    <input type="checkbox" name="shipper_name" value="shipper_name" >送气工名称
+                    <input type="checkbox" name="shipper_mobile" value="shipper_mobile" >送气工电话
+                    <input type="checkbox" name="pay_money" value="pay_money" checked="checked">实际收款额
+                    <input type="checkbox" name="raffinat" value="raffinat" >残液
+                    <input type="checkbox" name="deposit" value="deposit" >押金
+                    <input type="checkbox" name="residual_gas" value="residual_gas" >余气
+                    <input type="checkbox" name="depreciation" value="depreciation" >折旧
+                    <input type="checkbox" name="status" value="status" >订单状态
+                </div>
+            </div>
+        </div>
+        <div class="rqOption fr">
+            <input type="hidden" name="paramData" id="paramData" value="{$paramData}" />
+            <a href="javascript:;" class="blueBtn import_order">导出</a>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/orderManage.js"></script>{/block}

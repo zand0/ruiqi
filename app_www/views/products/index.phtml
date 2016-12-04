@@ -1,0 +1,42 @@
+{extends file='main.phtml'}
+{block name=rtitle}
+配件管理
+{/block}
+{block name=operate}
+<a href="/products/add">添加配件</a>
+{/block}
+
+{block name=body}
+<div class="orderList contRList">
+    <table>
+        <tr>
+            <td>物品编号</td>
+            <td>物品名称</td>
+            <td>品牌</td>
+            <td>规格</td>
+            <td>单价</td>
+            <td>产地</td>  
+            <td>操作</td>
+        </tr>
+        {if $ext neq ''}
+        {foreach $ext['list'] as $value}
+        <tr>
+            <td>{$value['products_no']}</td>
+            <td>{$value['products_name']}</td>
+            <td>{$value['products_brand']}</td>
+            <td>{$value['products_norm']}</td>
+            <td>{$value['products_price']}</td>
+            <td>{$value['products_address']}</td>
+            <td><a href="/products/edite?id={$value['id']}">编辑</a>|<a href="/products/del?id={$value['id']}">删除</a></td>
+        </tr>
+        {/foreach} 
+        {/if}
+    </table>
+    <div class="table-pages pageNav clearfix" id="pageNav"></div>
+</div>
+<script type="text/javascript">
+    var page = {$page};
+    var totalPage = {$count};
+</script>
+<script type="text/javascript" src="{$_PUBLIC}/js/common.js"></script>
+{/block}

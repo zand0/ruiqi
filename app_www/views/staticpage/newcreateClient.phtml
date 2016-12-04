@@ -1,0 +1,130 @@
+{extends file='footer.phtml'}
+
+{block name=title}
+静态页面展示
+{/block}
+
+{block name=head}
+{include file='staticpage.phtml'}
+{/block}
+
+{block name=body}
+<div class="wrap">
+    {include file='staticpage_header.phtml'}
+    <div class="content">
+        {include file='staticpage_top.phtml'}
+        <div class="contCent clearfix">
+            {include file='staticpage_right.phtml'}
+            <div class="contRight fr">
+                <div class="contRItem">
+                    <div class="contRTitle">
+                        新建客户
+                        <span></span>
+                    </div>
+                    <div class="contRList">
+                        <div class="rqLine clearfix">
+                            <div class="rqOption fl">
+                                <label class="fl">客户姓名：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:150px;">
+                                    <span>输入姓名</span>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">客户电话：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:150px;">
+                                    <span>请输入正确号码</span>
+                                </div>
+                            </div>
+                            <div class="rqOption fl">
+                                <label class="fl">所属片区：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="" class="selectmenu">
+                                            <option selected="selected">海淀区</option>
+                                            <option>大兴区</option>
+                                            <option>西城区</option>
+                                            <option>丰台区</option>
+                                            <option>朝阳区</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption clearfix">
+                                <label class="fl">所属街道：</label>
+                                <div class="selectBox fl" style="width:172px;">
+                                    <div class="mySelect">
+                                        <select name="" class="selectmenu">
+                                            <option selected="selected">雅宝路</option>
+                                            <option>Slow</option>
+                                            <option>Medium</option>
+                                            <option>Fast</option>
+                                            <option>Faster</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption clearfix">
+                                <label class="fl">详细地址：</label>
+                                <div class="inputBox fl placeholder">
+                                    <input type="text" style="width:435px;">
+                                    <span>输入详细地址</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqRadio">
+                                <label class="fl">客户类型：</label>
+                                <div class="myradio fl">
+                                    <div class="radiobox clearfix">
+                                        <a href="javascript:;" class="active" data-value="居民用户">居民用户</a>
+                                        <a href="javascript:;" data-value="商业用户">商业用户</a>
+                                    </div>
+                                    <input type="hidden" value="居民用户">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption clearfix rqRadio">
+                                <label class="fl">发展渠道：</label>
+                                <div class="myradio fl">
+                                    <div class="radiobox clearfix">
+                                        <a href="javascript:;" class="active" data-value="呼叫中心">呼叫中心</a>
+                                        <a href="javascript:;" data-value="门店拓展">门店拓展</a>
+                                        <a href="javascript:;" data-value="活动促销">活动促销</a>
+                                        <a href="javascript:;" data-value="他人推荐">他人推荐</a>
+                                    </div>
+                                    <input type="hidden" value="呼叫中心">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rqLine">
+                            <div class="rqOption clearfix">
+                                <label class="fl">备注说明：</label>
+                                <div class="fl">
+                                    <textarea></textarea>
+                                    <div  class="rqLine">
+                                        <div class="rqOption fl">
+                                            <a href="javascript:;" class="blueBtn">保存</a>
+                                        </div>
+                                        <div class="rqOption fl">
+                                            <a href="javascript:;" class="grayBtn">清除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {include file='staticpage_footer.phtml'}
+</div>
+<script type="text/javascript" src="{$_PUBLIC}/js/common.js"></script>
+{/block}

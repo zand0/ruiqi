@@ -1,0 +1,116 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}优惠折扣活动{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRight fr">
+    <div class="contRItem">
+        <div class="contRTitle">
+            优惠折扣活动
+            <span></span>
+            <a href="/promotions/add" class="blueBtn6">优惠折扣</a>
+        </div>
+        <div class="contRList">
+            <form name="form" method="POST">
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">类型：</label>
+                        <div class="selectBox fl">
+                            <div class="mySelect">
+                                <select name="type" class="selectmenu"  style="width:144px;">
+                                    <option value="">类型</option>
+                                    {if $typeObject neq ''}
+                                    {foreach $typeObject as $key => $sVal}
+                                    {if $key eq $param['type']}
+                                    <option value="{$key}" selected="selected">{$sVal}</option>
+                                    {else}
+                                    <option value="{$key}">{$sVal}</option>
+                                    {/if}
+                                    {/foreach}
+                                    {/if}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqLine clearfix">
+                    <div class="rqOption fl">
+                        <label class="fl">有效期：</label>
+                        <div class="riliInputBox fl">
+                            <div class="riliInput fl">
+                                <input type="text" style="width:150px;" name="time_start" id="time_start" value="{$param['time_start']}">
+                            </div>
+                            <span class="fl">至</span>
+                            <div class="riliInput fl">
+                                <input type="text" id="time_end" name="time_end" style="width:150px;" value="{$param['time_end']}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rqOption fl">
+                        <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                        <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="contRItem">
+        <div class="contRTitle">
+            优惠折扣活动
+            <span></span>
+        </div>
+        <div class="contRList">
+            <div class="rqTabItem">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>类型</th>
+                            <th>价格</th>
+                            <th>附件</th>
+                            <th>状态</th>
+                            <th>有效期</th>
+                            <th>范围</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {if $ext['list'] neq ''}
+                        {foreach $ext['list'] as $value}
+                        <tr>
+                            <td>{$value['promotionsn']}</td>
+                            <td>{($value['type'] == 1) ? '优惠券': '折扣商品'}</td>
+                            <td>{$value['money']}</td>
+                            <td>{$value['title']}</td>
+                            <td>{($value['status'] == 1) ? '正常' : '删除'}</td>
+                            <td>{($value['time_start']>0) ? date('Y-m-d',$value['time_start']) : ''}-{($value['time_end'] > 0) ? date('Y-m-d',$value['time_end']) : ''}</td>
+                            <td>{($value['range_use'] == 2) ? '送气工' : '其它'}</td>
+                            <td>{$value['comment']}</td>
+                            <td><a href="/promotions/add?id={$value['id']}">修改</a>|<a href="javascript:;">删除</a></td>
+                        </tr>
+                        {/foreach}
+                        {else}
+                        <tr><td colspan="8">暂时没有投诉数据</td></tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="clearfix sqspBottom">
+                <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                <input type="hidden" class="currentPage" value="{$param['page']}">
+                <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                <input type="hidden" class="paramlist" value="{$getparamlist}" />
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

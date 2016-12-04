@@ -1,0 +1,139 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}申请审批{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        申请审批
+        <span></span>
+        <a href="/approval/add" class="blueBtn6">发布申请</a>
+        <span></span>
+        <a href="/approval/index" class="blueBtn6 blueBtn9">我收到的</a>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">编号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="approvalsn" value="{$param['approvalsn']}" style="width:90px;">
+                        <span>正确编号</span>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">申请人：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="username" value="{$param['username']}" style="width:90px;">
+                        <span>真实姓名</span>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">审批状态：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="approval_status" class="selectmenu" style="width:140px;">
+                                <option selected="selected" value="">选择审批状态</option>
+                                {foreach $statusObject as $key =>$value}
+                                {if $param['approval_status'] eq $key}
+                                <option value="{$key}" selected="selected">{$value}</option>
+                                {else}
+                                <option value="{$key}">{$value}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption3 fl">
+                    <label class="fl">申请类型：</label>
+                    <div class="selectBox fl">
+                        <div class="mySelect">
+                            <select name="approval_type" class="selectmenu" style="width:140px;">
+                                <option selected="selected" value="">选择申请状态</option>
+                                {foreach $typeObject as $k => $val}
+                                {if $param['approval_type'] eq $k}
+                                <option value="{$k}" selected="selected">{$val}</option>
+                                {else}
+                                <option value="{$k}">{$val}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption3 fl">
+                    <label class="fl">发布时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:140px;" id="time_start" name="time_start" value="{$param['time_start']}">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:140px;" name="time_end" value="{$param['time_end']}">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rq_tab">
+            <ul class="tabBtnbox clearfix rq_btnbox">
+                <li class="tabBtn active">我发起的申请<span></span></li>
+            </ul>
+            <ul class="tabItembox rqTabItem">
+                <li class="tabItem" style="display:block;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>申请人</th>
+                                <th>申请标题</th>
+                                <th>附件</th>
+                                <th>审批状态</th>
+                                <th>公文类型</th>
+                                <th>发布时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {if $ext['list'] neq ''}
+                            {foreach $ext['list'] as $value}
+                            <tr>
+                                <td>{$value['approvalsn']}</td>
+                                <td>{$value['username']}</td>
+                                <td class="tableBtn"><a href="/approval/detial?id={$value['id']}">{$value['title']}</a></td>
+                                <td>{if $value['approval_annex'] neq ''}有{else}无{/if}</td>
+                                <td>{$statusObject[$value['approval_status']]}</td>
+                                <td>{$typeObject[$value['approval_type']]}</td>
+                                <td>{date('Y-m-d',$value['time_created'])}</td>
+                            </tr>
+                            {/foreach} 
+                            {else}
+                            <tr><td colspan="7">暂时没有投诉数据</td></tr>
+                            {/if}
+                        </tbody>
+                    </table>
+                    <div class="clearfix sqspBottom">
+                        <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+                        <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+                        <input type="hidden" class="currentPage" value="{$page}">
+                        <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/shenqingshenpi.js"></script>{/block}

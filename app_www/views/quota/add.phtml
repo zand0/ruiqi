@@ -1,0 +1,60 @@
+{extends file='main.phtml'}
+{block name=rtitle}额度管理{/block}
+{block name=body}
+<div class="contRList">
+    <form name="form" method="POST" action="/quota/add">
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">类型：</label>
+                <div class="selectBox fl" style="width:172px;">
+                    <div class="mySelect">
+                        <select name="type" class="selectmenu">
+                            <option value="">类型</option>
+                            {foreach $typeobject as $key => $value}
+                            {if $status eq $key}
+                            <option value="{$key}" selected="selected">{$value}</option>
+                            {else}
+                            <option value="{$key}">{$value}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">额度：</label>
+                <div class="inputBox fl placeholder">
+                    <input type="text" name="price" value="{$price}" style="width:150px;">
+                    <span>额度</span>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine clearfix">
+            <div class="rqOption fl">
+                <label class="fl">备注：</label>
+                <div class="inputBox fl">
+                    <textarea type="text" name="comment">{$comment}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl"></label>
+                <div class="fl">
+                    <div class="rqLine">
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.submit();" class="blueBtn">保存</a>
+                        </div>
+                        <div class="rqOption fl">
+                            <a href="javascript:document.form.reset();" class="grayBtn">清除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{$id}">
+    </form>
+</div>
+{/block}

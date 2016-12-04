@@ -1,0 +1,70 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}门店配送计划单{/block}
+{block name=head}
+{literal}
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        配送计划单
+        <span></span>
+        <p>配送时间：{$ps_time}</p>
+    </div>
+    <div class="contRList">
+        <div class="path">
+            <a href="/filling/index">配送列表</a>&nbsp;
+            <i></i>&nbsp;
+            <a href="javascript:void(0);" class="active">配送详情</a>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl">配送明细：</label>
+                <div class="rqTabItem rqTabItem2 fl" style="width:580px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>类别</th>
+                                <th>规格</th>
+                                <th>数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$list}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl">回库明细：</label>
+                <div class="rqTabItem rqTabItem2 fl" style="width:580px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>类别</th>
+                                <th>规格</th>
+                                <th>数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$list1}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="rqLine">
+            <div class="rqOption clearfix">
+                <label class="fl">备注：</label>
+                <textarea class="fl" style="width:558px;height:140px;">{$comment}</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/peisongjihua.js"></script>{/block}

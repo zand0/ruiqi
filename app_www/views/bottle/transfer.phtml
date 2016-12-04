@@ -1,0 +1,63 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}钢瓶充装日志{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/ui-dialog.css"/>
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="orderList contRList">
+        <form name="form" method="POST">
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">芯片号：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" name="xinpian" value="{$xinpian}" style="width:150px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <input type="hidden" name="page" value="1">
+                    <a href="javascript:postPage();" class="blueBtn">搜索</a>
+                </div>
+            </div>
+        </form>
+        <table>
+            <tr>
+                <td>钢印号</td>
+                <td>芯片号</td>
+                <td>条形码</td>
+                <td>备注</td>
+                <td>时间</td>
+            </tr>
+            {if $ext['list'] neq ''}
+            {foreach $ext['list'] as $key => $value}
+            <tr>
+                <td>{$value['number']}</td>
+                <td>{$value['xinpian']}</td>
+                <td>
+                    {$value['bar_code']}
+                </td>
+                <td>{$value['comment']}</td>
+                <td>{date('Y-m-d H:i:s',$value['time_created'])}</td>
+            </tr>
+            {/foreach}
+            {else}
+            <tr><td colspan="5">暂时还没有数据</td></tr>
+            {/if}
+        </table>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count']/15)}">
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/other.js"></script>{/block}

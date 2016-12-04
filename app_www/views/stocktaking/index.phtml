@@ -1,0 +1,153 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}气罐盘存{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+
+<script type="text/javascript" src="/statics/js/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+{/literal}
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        气罐盘存
+        <span></span>
+    </div>
+    <div class="contRList">
+        {if $data neq ''}
+        {foreach $data as $value}
+        {assign var="tankid" value=$value['tankid']}
+        <div class="qiItem">
+            <div class="clearfix">
+                <div class="fl kcLeft">
+                    <div class="rqTabItem">
+                        <table>
+                            {if count($tanklogData[$tankid]) > 0}
+                            <tr>
+                                {foreach $tanklogData[$tankid] as $tVal}
+                                <td>{date('m.d',$tVal['time_created'])}</td>
+                                {/foreach}
+                            </tr>
+                            <tr>
+                                {foreach $tanklogData[$tankid] as $tVal}
+                                <td>{$tVal['volume']}</td>
+                                {/foreach}
+                            </tr>
+                            {/if}
+                        </table>
+                    </div>
+                    {literal} 
+                    <script>
+                        $(function () {
+                            $('#container{/literal}{$tankid}{literal}').highcharts({
+                                title: {
+                                    text: '',
+                                    x: -20 //center
+                                },
+                                credits: {
+                                    enabled: false // 禁用版权信息
+                                },
+                                xAxis: {
+                                    title: {
+                                        text: '日期'
+                                    },
+                                    categories: {/literal}{json_encode($returnTime[$tankid])}{literal}
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: '库存'
+                                    },
+                                    labels: {
+                                        formatter: function () {
+                                            return this.value + '吨'
+                                        }
+                                    },
+                                    plotLines: [{
+                                            value: 0,
+                                            width: 1,
+                                            color: '#808080'
+                                        }]
+                                },
+                                tooltip: {
+                                    valueDecimals: 2,
+                                    valueSuffix: '吨'
+                                },
+                                legend: {
+                                    enabled: false
+                                },
+                                series: [{"name": "库存", "data": {/literal}{json_encode($returnValue[$tankid])}{literal}}]
+                            });
+                        });
+                    </script>
+                    {/literal}
+                    <div id="container{$tankid}" style="height:400px;"></div>
+                </div>
+                <div class="fl kcRight">
+                    <div class="guanImg">
+                        <span>30%</span>
+                        <div class="qi_overf">
+                            <div class="qiBox" data-value="{$value['total']}" data-total="51.5">
+                                <div class="qi"></div>
+                                <div class="qi2"></div>
+                            </div>
+                        </div>
+                        <div class="guan"></div>
+                    </div>
+                    <p>{$value['tank_name']}</p>
+                    <form action="javascript:;" id="formgas">
+                        <ul class="mb20">
+
+                            <li>
+                                <label>当前日期：</label>
+                                <input type="text" id="datetime" value="{date('Y-m-d H:i:s')}" style="width:135px;">
+                                <input type="hidden" id="tankid" value="{$value['tankid']}" />
+                            </li>
+                            <li>
+                                <label>总储量：</label>
+                                <input type="text" id="total" value="51.5" style="width:60px;" readonly="readonly"><b>立方(m³)</b>
+                            </li>
+                            <li>
+                                <label>当前高度：</label>
+                                <input type="text" id="height" value="{$firstValue[$tankid]['height']}" style="width:60px;"><b>米(m)</b>
+                            </li>
+                            <li>
+                                <label>当前密度：</label>
+                                <input type="text" id="density" value="{$firstValue[$tankid]['density']}" style="width:118px;"><b>ρ</b>
+                            </li>
+                            <li>
+                                <label>当前温度：</label>
+                                <input type="text" id="temperature" value="{$firstValue[$tankid]['temperature']}" style="width:118px;"><b>℃</b>
+                            </li>
+                            <li>
+                                <label>当前储量：</label>
+                                <input type="text" id="total" value="{$firstValue[$tankid]['volume']}" style="width:118px;" readonly="readonly"><b>吨(t)</b>
+                            </li>
+                            <li>
+                                <label>当前体积：</label>
+                                <input type="text" id="total" value="{$value['total']}" style="width:60px;" readonly="readonly"><b>立方(m³)</b>
+                            </li>
+                            <!--li>
+                                <label>气含量：</label>
+                                甲烷：<input type="text" value="" style="width:36px;">
+                                丙烷：<input type="text" value="" style="width:36px;">
+                                其他：<input type="text" value="" style="width:36px;">
+                            </li-->
+
+                        </ul>
+                    </form>
+                    <div class="clearfix qiBtnBox">
+                        <a href="javascript:;" class="qi_blueBtn mr10 addgaslog">添加</a>
+                        <a href="javascript:;" class="qi_grayBtn qkgaslog">清除</a>
+                    </div>
+                </div>
+            </div>
+            <div class="qiLine"></div>
+        </div>
+        {/foreach}
+        {/if}
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/qiguankucun.js"></script>{/block}

@@ -1,0 +1,186 @@
+{extends file='ztemp/main.phtml'}
+{block name=title}欠款记录{/block}
+{block name=head}
+{literal}
+<link rel="stylesheet" type="text/css" href="/statics/css/style.css">
+<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css">
+<script type="text/javascript" src="/statics/js/require.min.js"></script>
+{/literal}
+{/block}
+{block name=operate}
+<div class="contRItem">
+    <div class="contRTitle">
+        欠款记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>欠款类型</th>
+                        <th>欠款金额</th>
+                        <th>总欠款额</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $data neq ''}
+                    {foreach $data as $tKey => $tVal}
+                    <tr>
+                        <td>{$arrearType[$tVal['arrears_type']]}</td>
+                        <td>{$tVal['total']}</td>
+                        {if $tKey eq 0}
+                        <td rowspan="{$total}">{$tMoney}</td>
+                        {/if}
+                    </tr>
+                    {/foreach}
+                    {else}
+                    <tr><td colspan="3">暂时没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}
+{block name=body}
+<div class="contRItem">
+    <div class="contRTitle">
+        欠款记录
+        <span></span>
+    </div>
+    <div class="contRList">
+        <form name="form" method="POST">
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">合同号：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="contractno" value="{$param['contractno']}" style="width:148px;">
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">客户姓名：</label>
+                    <div class="inputBox fl placeholder">
+                        <input type="text" name="username" value="{$param['username']}" style="width:148px;">
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    <label class="fl">客户类型：</label>
+                    <div class="mySelect fl">
+                        <select name="ktype" class="selectmenu" style="width:170px;">
+                            <option value=''>选择客户类型</option>
+                            {foreach $kehuType as $key=>$kv}
+                            {if $key eq $param['ktype']}
+                            <option value="{$key}" selected="selected">{$kv}</option>
+                            {else}
+                            <option value="{$key}">{$kv}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine">
+                <div class="rqOption clearfix">
+                    {if isset($is_show_shop) && !empty($is_show_shop)}
+                    <div class="rqOption fl"><input type="hidden" name="shop_id" value="{$is_show_shop}" /></div>
+                    {else}
+                    <label class="fl">所属站点：</label>
+                    <div class="mySelect fl">
+                        <select name="shop_id" class="selectmenu" style="width:170px;">
+                            <option value=''>选择所属站点</option>
+                            {foreach $shopObject as $k=>$v}
+                            {if $k eq $param['shop_id']}
+                            <option value="{$k}" selected="selected">{$v['shop_name']}</option>
+                            {else}
+                            <option value="{$k}">{$v['shop_name']}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                    {/if}
+                </div>
+                <div class="rqOption clearfix">
+                    <label class="fl">欠款类型：</label>
+                    <div class="mySelect fl">
+                        <select name="arrears_type" class="selectmenu" style="width:170px;">
+                            <option value=''>欠款类型</option>
+                            {foreach $arrearType as $k=>$v}
+                            {if $k eq $param['arrears_type']}
+                            <option value="{$k}" selected="selected">{$v}</option>
+                            {else}
+                            <option value="{$k}">{$v}</option>
+                            {/if}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="rqLine clearfix">
+                <div class="rqOption fl">
+                    <label class="fl">欠款时间：</label>
+                    <div class="riliInputBox fl">
+                        <div class="riliInput fl">
+                            <input type="text" style="width:148px;" id="time_start" name="time_start" value="">
+                        </div>
+                        <span class="fl">至</span>
+                        <div class="riliInput fl">
+                            <input type="text" id="time_end" style="width:148px;" name="time_end" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="rqOption fl">
+                    <!--a href='javascript:;' onclick="postPage()" class="blueBtn">搜索</a-->
+                    <input type="submit" name="submit" class="blueBtn" value="搜索" />
+                </div>
+            </div>
+        </form>
+        <div class="rqTabItem">
+            <table>
+                <thead>
+                    <tr>
+                        <th>客户姓名</th>
+                        <th>用户类型</th>
+                        <th>欠费金额</th>
+                        <th>欠款类型</th>
+                        <th>所属站点</th>
+                        <th>欠款时间</th>
+                        <th>欠款合同号</th>
+                        <th>订单号</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {if $ext['list'] neq ''}
+                    {foreach $ext['list'] as $value}
+                    <tr>
+                        <td class="tableBtn"><a href="/order/index?kid={$value['kid']}" target="_blank">{$value['user_name']}</a></td>
+                        <td>{($value['ktype'] == 1) ? '居民' : '商业'}</td>
+                        <td>{$value['money']}</td>
+                        <td>{($value['arrears_type'] == 1) ? '液化气欠款' : (($value['arrears_type'] == 2) ? '押金欠款':'配件欠款')}</td>
+                        <td>{$shopObject[$value['shop_id']]['shop_name']}</td>  
+                        <td>{date('m-d H:i',$value['time'])}</td> 
+                        <td>{$value['contractno']}</td>
+                        <td>{$value['order_sn']}</td>
+                    </tr>
+                    {/foreach} 
+                    {else}
+                    <tr><td colspan="8">暂时没有数据</td></tr>
+                    {/if}
+                </tbody>
+            </table>
+        </div>
+        <div class="clearfix sqspBottom">
+            <p class="fl">共 <span>{$ext['count']}</span> 条记录</p>
+            <div class="table-pages pageNav clearfix fr" id="pageNav"></div>
+            <input type="hidden" class="currentPage" value="{$page}">
+            <input type="hidden" class="totalPage" value="{ceil($ext['count'] / 15)}">
+            <input type="hidden" class="paramlist" value="{$getparamlist}" />
+        </div>
+    </div>
+</div>
+{/block}
+{block name=fjs}<script type="text/javascript" src="/statics/js/controllers/yingshouzhangkuan.js"></script>{/block}
