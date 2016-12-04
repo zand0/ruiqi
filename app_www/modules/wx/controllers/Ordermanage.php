@@ -27,7 +27,7 @@ class OrdermanageController extends Com\Controller\My\Guest {
             } catch (Exception $e) {
                 return $this->ajaxReturn(0,$e->getMessage(),'');
             }
-        }*/
+        }***/
         $this->_view->display('ordermanage\order_management.phtml');
     }
     public function detailAction(){
