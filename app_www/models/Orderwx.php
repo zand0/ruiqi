@@ -76,7 +76,7 @@ class OrderwxModel extends \Com\Model\Base {
 
         $data = $orderModel->where($where)->order($orderlist)->limit($pageStart, $param['pagesize'])->select();
         foreach ($data as &$d){
-            $d['order_info']=$this->getUserOrderInfoList(['ordersn'=>$res['order_sn']]);
+            $d['order_info']=$this->getUserOrderInfoList(['ordersn'=>$d['order_sn']]);
         }
         unset($d);
         return $data;

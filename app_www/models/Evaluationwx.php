@@ -13,15 +13,16 @@ class EvaluationwxModel extends \Com\Model\Base {
     }
 
     public function getComment($osn){
-        return LibF::M('evaluation')->where(['order_sn'=>$osn])->find();
+        $kid = Tools::session('kid');
+        return LibF::M('evaluation')->where(['kehu_id'=>$kid,'order_sn'=>$osn])->find();
     }
     
     public function setComment($post){
-        
+        $kid = Tools::session('kid');
         if(!isset($post['ordersn']) || empty($post['ordersn'])){
             throw new Exception("ordersn is empty");
         }
-        if(!isset($post['kid']) || empty($post['kid'])){
+        if(empty($kid)){
             throw new Exception("kehuid is empty");
         }
         if(!isset($post['type']) || empty($post['type'])){
@@ -30,14 +31,14 @@ class EvaluationwxModel extends \Com\Model\Base {
         if(!isset($post['comment']) || empty($post['comment'])){
             throw new Exception("comment is empty");
         }
-        $type = '['.implode(',',[0,0,1]).']';
+        $type = '['.implode(',',[0,0,$post['type']]).']';
         $data=[
             'order_sn'=>$post['ordersn'],
-            'kehu_id'=>$post['kid'],
+            'kehu_id'=>$kid,
             'type'=>$type,
             'comment'=>$post['comment']
         ];
-        LibF::M('evaluation')->add($data);
+        return LibF::M('evaluation')->add($data);
     }
     
 }

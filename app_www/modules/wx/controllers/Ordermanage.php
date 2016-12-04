@@ -94,7 +94,7 @@ class OrdermanageController extends Com\Controller\My\Guest {
     
     
     
-    public function getcomment(){
+    public function getcommentAction(){
         $post = $this->getRequest()->getQuery();
         $osn = isset($post['ordersn'])?$post['ordersn']:0;
         if(empty($osn)){
@@ -117,13 +117,13 @@ class OrdermanageController extends Com\Controller\My\Guest {
         }
     }
     
-    public function addcomment(){
+    public function addcommentAction(){
         $post = $this->getRequest()->getPost();
         $osn = isset($post['ordersn'])?$post['ordersn']:0;
         if(empty($osn)){
             return $this->ajaxReturn(0,'osn is empty','');
         }
-        $post['kid']=$this->_session->get('kid');
+        //$post['kid']=$this->_session->get('kid');
         if(1 || $this->_req->isXmlHttpRequest()){
             try {
                 //调用User的方法判断验证登录
