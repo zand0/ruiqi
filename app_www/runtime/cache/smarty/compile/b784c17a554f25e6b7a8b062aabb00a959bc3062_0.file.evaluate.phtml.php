@@ -1,3 +1,29 @@
+<?php /* Smarty version 3.1.27, created on 2016-12-05 10:22:27
+         compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\evaluate.phtml" */ ?>
+<?php
+/*%%SmartyHeaderCode:179405844cf635e8319_66083097%%*/
+if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    'b784c17a554f25e6b7a8b062aabb00a959bc3062' => 
+    array (
+      0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\evaluate.phtml',
+      1 => 1480904544,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '179405844cf635e8319_66083097',
+  'has_nocache_code' => false,
+  'version' => '3.1.27',
+  'unifunc' => 'content_5844cf635f5ec0_93360417',
+),false);
+/*/%%SmartyHeaderCode%%*/
+if ($_valid && !is_callable('content_5844cf635f5ec0_93360417')) {
+function content_5844cf635f5ec0_93360417 ($_smarty_tpl) {
+
+$_smarty_tpl->properties['nocache_hash'] = '179405844cf635e8319_66083097';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +32,21 @@
 	<title>评价</title>
 	<link rel="stylesheet" href="/statics/css/base.css"/>
 	<link rel="stylesheet" href="/statics/css/style.css"/>
-	<script src="/statics/js/jquery-1.8.3.min.js"></script>
-	<script src="/statics/js/main.js"></script>
-	<script type="text/javascript" src="/statics/js/Vue.min.js"></script>
-	<script type="text/javascript" src="/statics/js/vue-resource.min.js"></script>
-	{include '../header.phtml'}
+	<?php echo '<script'; ?>
+ src="/statics/js/jquery-1.8.3.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="/statics/js/main.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript" src="/statics/js/Vue.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript" src="/statics/js/vue-resource.min.js"><?php echo '</script'; ?>
+>
+	<?php echo $_smarty_tpl->getSubTemplate ('../header.phtml', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0);
+?>
+
 </head>
 <body id="Vbody">
 	<div class="goods_detail" style="margin-top: 0">
@@ -50,7 +86,8 @@
 		</div>
 	</template>
 	</div>
-<script type="text/javascript">
+<?php echo '<script'; ?>
+ type="text/javascript">
 var type = 1;
 var ordersn = null;
 var type={
@@ -132,6 +169,9 @@ new Vue({
 		}
 	}
 })
-</script>
+<?php echo '</script'; ?>
+>
 </body>
-</html>
+</html><?php }
+}
+?>

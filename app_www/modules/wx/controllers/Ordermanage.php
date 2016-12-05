@@ -128,6 +128,7 @@ class OrdermanageController extends Com\Controller\My\Guest {
             try {
                 //调用User的方法判断验证登录
                 if($data = (new EvaluationwxModel)->setComment($post)){
+                    LibF::M('order')->where(['order_sn'=>$osn])->save(['is_evaluation'=>1]);
                     return $this->ajaxReturn(1,'ok',$data);
                     //return $this->success('登录成功','/index.php');
                 }else{

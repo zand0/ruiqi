@@ -14,7 +14,12 @@ class EvaluationwxModel extends \Com\Model\Base {
 
     public function getComment($osn){
         $kid = Tools::session('kid');
-        return LibF::M('evaluation')->where(['kehu_id'=>$kid,'order_sn'=>$osn])->find();
+        $res = LibF::M('evaluation')->where(['kehu_id'=>$kid,'order_sn'=>$osn])->find();
+        if(!empty($res)){
+            $res['type'] = substr($res['type'],1,strlen($res['type'])-2);
+            $res['type']=explode(',',$res['type'])[2];
+        }
+        return $res;
     }
     
     public function setComment($post){
@@ -36,9 +41,14 @@ class EvaluationwxModel extends \Com\Model\Base {
             'order_sn'=>$post['ordersn'],
             'kehu_id'=>$kid,
             'type'=>$type,
-            'comment'=>$post['comment']
+            'comment'=>$post['comment'],
+            'time_created'=>time()
         ];
-        return LibF::M('evaluation')->add($data);
+        $model = LibF::M('evaluation');
+        if($res=$model->where(['kehu_id'=>$data['kehu_id'],'order_sn'=>$data['order_sn']])->find()){
+            throw new Exception("您已评论过此订单！");
+        }
+        return $model->add($data);
     }
     
 }

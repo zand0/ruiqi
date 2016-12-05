@@ -1,3 +1,29 @@
+<?php /* Smarty version 3.1.27, created on 2016-12-05 11:02:37
+         compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\order_management.phtml" */ ?>
+<?php
+/*%%SmartyHeaderCode:96145844d8cd435a62_08194744%%*/
+if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+$_valid = $_smarty_tpl->decodeProperties(array (
+  'file_dependency' => 
+  array (
+    '7605af652b5c9b834365ac41c3fce50e33d70176' => 
+    array (
+      0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\order_management.phtml',
+      1 => 1480906945,
+      2 => 'file',
+    ),
+  ),
+  'nocache_hash' => '96145844d8cd435a62_08194744',
+  'has_nocache_code' => false,
+  'version' => '3.1.27',
+  'unifunc' => 'content_5844d8cd444e16_28736547',
+),false);
+/*/%%SmartyHeaderCode%%*/
+if ($_valid && !is_callable('content_5844d8cd444e16_28736547')) {
+function content_5844d8cd444e16_28736547 ($_smarty_tpl) {
+
+$_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +32,21 @@
 	<title>订单管理</title>
 	<link rel="stylesheet" href="/statics/css/base.css"/>
 	<link rel="stylesheet" href="/statics/css/style.css"/>
-	<script src="/statics/js/jquery-1.8.3.min.js"></script>
-	<script src="/statics/js/main.js"></script>
-	<script type="text/javascript" src="/statics/js/Vue.min.js"></script>
-	<script type="text/javascript" src="/statics/js/vue-resource.min.js"></script>
-	{include '../header.phtml'}
+	<?php echo '<script'; ?>
+ src="/statics/js/jquery-1.8.3.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="/statics/js/main.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript" src="/statics/js/Vue.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ type="text/javascript" src="/statics/js/vue-resource.min.js"><?php echo '</script'; ?>
+>
+	<?php echo $_smarty_tpl->getSubTemplate ('../header.phtml', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0);
+?>
+
 </head>
 <body id="Vbody">
 	<div class="t_manager">
@@ -112,7 +148,8 @@
 			</p>
 		</div></template>
 	</div>
-<script type="text/javascript">
+<?php echo '<script'; ?>
+ type="text/javascript">
 new Vue({
 	el: '#Vbody',
 	ready: function() {
@@ -133,6 +170,9 @@ new Vue({
 		},
 	}
 })
-</script>
+<?php echo '</script'; ?>
+>
 </body>
-</html>
+</html><?php }
+}
+?>

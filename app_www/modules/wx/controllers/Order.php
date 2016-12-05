@@ -90,6 +90,7 @@ class OrderController extends Com\Controller\My\Guest {
         if(!Wxlogin::islogin())
             Wxlogin::wlogin($code);
         
+        $post = $this->getRequest()->getPost();
         $bottle_id = $this->getRequest()->getPost('bottle_id');
         $bottle_num = $this->getRequest()->getPost('bottle_num', 1);
         $comment = $this->getRequest()->getPost('comment', '');
@@ -104,18 +105,23 @@ class OrderController extends Com\Controller\My\Guest {
                     $bottleArr[] = $value . '|' . $bottle_num[$key];
             }
             $bottleList = implode('-', $bottleArr);
-
+            if(empty($bottleList)){
+                return $this->ajaxReturn(0,'请选择商品','');
+            }
             $param['bottle_list'] = $bottleList;
             $param['mobile'] = $mobile;
             $param['comment'] = $comment;
             $param['num'] = 0;
+            $param['sendtime']=isset($post['sendtime'])?strtotime($post['sendtime']):time();
+            $param['promotion_id'] = isset($post['promotion_id'])?$post['promotion_id']:0;
+            $param["promotion_money"] = isset($post['promotion_money'])?$post['promotion_money']:0;
             if (!empty($username)) {
                 $param['username'] = $username;
             }
             $param['time_created'] = time();
             $status = LibF::M('order_snap')->add($param);
             if ($status) {
-                $returnData = array('code' => 1, 'msg' => '下单成功,请您耐心等待，稍后送气工会送气上门');
+                $returnData = array('code' => 1, 'msg' => '下单成功,请您耐心等待，稍后送气工会送气上门','data'=>['id'=>$status]);
             } else {
                 $returnData['msg'] = '下单失败';
             }
@@ -153,6 +159,58 @@ class OrderController extends Com\Controller\My\Guest {
             return $this->ajaxReturn(0,'获取失败','');
         }
         
+        //$this->_view->assign('data', $commdify);
+    }
+
+    public function getordertmpAction(){
+        $post = $this->getRequest()->getQuery();
+        $id = isset($post['id'])?$post['id']:0;
+        if(empty($id)){
+            return $this->ajaxReturn(0,'id is empty','');
+        }
+        $goods = [];
+        $cmdf = LibF::M('commodity');
+        $res = LibF::M('order_snap')->where(['id'=>$id])->find();
+        foreach (explode('-',$res['bottle_list']) as $v){
+            $arr = explode('|',$v);
+            $gtype = $this->getgoods($arr[0]);
+            $goodst['id']=$arr[0];
+            $goodst['norm_id']=$arr[1];
+            $goodst['price']=$arr[2];
+            $goodst['num']=$arr[3];
+            $goodst['name']=$gtype['name'];
+            $goodst['type']=$gtype['cname'];
+            $goods[]=$goodst;
+            
+        }
+        $res['goods']=$goods;
+        $res['sendtime_str'] = date('Y-m-d H:i:s',$res['sendtime']);
+        return $this->ajaxReturn(1,'ok',$res);
+    }
+    
+    private function getgoods($id){
+        $bottleTypeModel = new BottletypeModel();
+        $bottleTypeData = $bottleTypeModel->getBottleTypeArray();
+    
+        //获取配件规格
+        $productTypeModel = new ProducttypeModel();
+        $productTypeData = $productTypeModel->getProductTypeArray();
+    
+        $commdify = LibF::M('commodity')->where(array('id'=>$id,'status' => 0, 'type' => 1))->select();
+        if (!empty($commdify)) {
+            foreach ($commdify as &$value) {
+                if ($value['type'] == 1) {
+                    $value['cname'] = $bottleTypeData[$value['norm_id']]['bottle_name'];
+                } else {
+                    $value['cname'] = $productTypeData[$value['norm_id']]['name'];
+                }
+            }
+            unset($value);
+            return $commdify[0];
+        }else{
+            return null;
+        }
+    
         //$this->_view->assign('data', $commdify);
     }
 

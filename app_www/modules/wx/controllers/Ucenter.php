@@ -134,7 +134,7 @@ class UcenterController extends Com\Controller\My\Guest {
      */
     public function getuserAction(){
         
-        $res = LibF::M('kehu')->where(['kid'=>Tools::session('kid')])->find();
+        $res = LibF::M('kehu')->field('kid,user_name,mobile_phone,address')->where(['kid'=>Tools::session('kid')])->find();
         if(empty($res)){
             return $this->ajaxReturn(0,'用户信息获取失败','');
         }else{

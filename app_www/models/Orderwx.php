@@ -21,7 +21,8 @@ class OrderwxModel extends \Com\Model\Base {
             $res['order_info']=$this->getUserOrderInfoList(['ordersn'=>$res['order_sn']]);
             //获取用户信息
             $res['user_info']=LibF::M('kehu')->where('kid=%d',[$res['kid']])->getField('kid,user_name,mobile_phone,address')[$res['kid']];
-            //获取地址
+            $res['orderstatus']=$this->getOrderStatus($res);
+            $res['otime_str'] = date('Y-m-d H:i:s',$res['otime']);
             return $res;
         }
     }
@@ -77,11 +78,30 @@ class OrderwxModel extends \Com\Model\Base {
         $data = $orderModel->where($where)->order($orderlist)->limit($pageStart, $param['pagesize'])->select();
         foreach ($data as &$d){
             $d['order_info']=$this->getUserOrderInfoList(['ordersn'=>$d['order_sn']]);
+            $d['orderstatus'] = $this->getOrderStatus($d);
+            //$d['ctime'] = date('Y-m-d H:i:s',$d['ctime']);
         }
         unset($d);
         return $data;
     }
-    
+    public function getOrderStatus($d){
+        switch ($d['status']){
+            case 1:
+                return '未派发';
+                break;
+            case 2:
+                return '待收货';
+                break;
+            case 4:
+                return '已完成';
+                break;
+            default:
+                return '未知';
+        }
+        if($d['is_evaluation']==1){
+            return '已评价';
+        }
+    }
     /**
      * 订单列表展示
      * 
