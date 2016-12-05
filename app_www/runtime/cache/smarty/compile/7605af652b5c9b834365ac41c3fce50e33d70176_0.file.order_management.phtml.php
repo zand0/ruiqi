@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-05 11:02:37
+<?php /* Smarty version 3.1.27, created on 2016-12-05 17:39:20
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\order_management.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:96145844d8cd435a62_08194744%%*/
+/*%%SmartyHeaderCode:21861584535c8dcf697_74315214%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7605af652b5c9b834365ac41c3fce50e33d70176' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\order_management.phtml',
-      1 => 1480906945,
+      1 => 1480930758,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '96145844d8cd435a62_08194744',
+  'nocache_hash' => '21861584535c8dcf697_74315214',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5844d8cd444e16_28736547',
+  'unifunc' => 'content_584535c8ddb133_63807841',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5844d8cd444e16_28736547')) {
-function content_5844d8cd444e16_28736547 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_584535c8ddb133_63807841')) {
+function content_584535c8ddb133_63807841 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
+$_smarty_tpl->properties['nocache_hash'] = '21861584535c8dcf697_74315214';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,8 +59,8 @@ $_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
 	</div>
 	<!--  全部-->
 	<div class="all">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-for="order in orders" class="all_detail">
-			<p class="all_head">
+		<div  v-for="order in orders" class="all_detail">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
@@ -74,7 +74,7 @@ $_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
 				<span>￥[[order.money]]</span>
 				<span class="l_">货到付款</span>
 			</p>
-			<div onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.status==4" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
 		</div>
 		
 	</div>
@@ -82,8 +82,8 @@ $_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
 	<div class="wait_goods">
 		
 		<template v-for="order in orders">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-if="order.status==2"  class="all_detail go_ps">
-			<p class="all_head">
+		<div  v-if="order.status==2"  class="all_detail go_ps">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
@@ -108,8 +108,8 @@ $_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
 	<div class="finish_order">
 		
 		<template v-for="order in orders">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-if="order.status==4"  class="all_detail">
-			<p class="all_head">
+		<div  v-if="order.status==4"  class="all_detail">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
@@ -123,7 +123,7 @@ $_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
 				<span>￥[[order.money]]</span>
 				<span class="l_">货到付款</span>
 			</p>
-			<div onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.is_evaluation==0" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
 		
 		</div></template>
 	</div>
@@ -131,8 +131,8 @@ $_smarty_tpl->properties['nocache_hash'] = '96145844d8cd435a62_08194744';
 	<div class="finish_eval">
 		
 		<template v-for="order in orders">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-if="order.is_evaluation==1"  class="all_detail go_detail">
-			<p class="all_head">
+		<div  v-if="order.is_evaluation==1"  class="all_detail go_detail">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>

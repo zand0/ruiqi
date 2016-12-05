@@ -23,8 +23,8 @@
 	</div>
 	<!--  全部-->
 	<div class="all">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-for="order in orders" class="all_detail">
-			<p class="all_head">
+		<div  v-for="order in orders" class="all_detail">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
@@ -38,7 +38,7 @@
 				<span>￥[[order.money]]</span>
 				<span class="l_">货到付款</span>
 			</p>
-			<div onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.status==4" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
 		</div>
 		
 	</div>
@@ -46,8 +46,8 @@
 	<div class="wait_goods">
 		
 		<template v-for="order in orders">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-if="order.status==2"  class="all_detail go_ps">
-			<p class="all_head">
+		<div  v-if="order.status==2"  class="all_detail go_ps">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
@@ -72,8 +72,8 @@
 	<div class="finish_order">
 		
 		<template v-for="order in orders">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-if="order.status==4"  class="all_detail">
-			<p class="all_head">
+		<div  v-if="order.status==4"  class="all_detail">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
@@ -87,7 +87,7 @@
 				<span>￥[[order.money]]</span>
 				<span class="l_">货到付款</span>
 			</p>
-			<div onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.is_evaluation==0" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
 		
 		</div></template>
 	</div>
@@ -95,8 +95,8 @@
 	<div class="finish_eval">
 		
 		<template v-for="order in orders">
-		<div onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" v-if="order.is_evaluation==1"  class="all_detail go_detail">
-			<p class="all_head">
+		<div  v-if="order.is_evaluation==1"  class="all_detail go_detail">
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'" class="all_head">
 				<span>订单号：</span>
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>

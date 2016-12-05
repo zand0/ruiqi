@@ -11,7 +11,7 @@ function makePrice(){
 	for(var i in Goods){
 		if(Goods[i].num!=0){
 			//str_gname += Goods[i].name+Goods[i].cname+'x'+Goods[i].num+' ';
-			Order.price += Goods[i].direct_price*Goods[i].num;
+			Order.price += Goods[i].retail_price*Goods[i].num;
 		}
 	}
     //alert(Order.price);alert(promoprice);
