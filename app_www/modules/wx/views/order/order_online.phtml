@@ -8,6 +8,8 @@
 	<link rel="stylesheet" href="/statics/css/style.css"/>
 	<script src="/statics/js/jquery-1.8.3.min.js"></script>
 	<script src="/statics/js/main.js"></script>
+	<script src="/statics/js/radialIndicator.min.js"></script>
+	<script src="/statics/js/laydate/laydate.js"></script>
 	<script type="text/javascript" src="/statics/js/Vue.min.js"></script>
 	<script type="text/javascript" src="/statics/js/vue-resource.min.js"></script>
 	{include '../header.phtml'}
@@ -20,17 +22,17 @@
 	<div class="con_detail">
 		<ul>
 			<li class="b_bottom choose_goods"><span>选择商品</span> <img src="/statics/images/right.png" alt="">
-			<span id="goods_list" class="yhj"></span>
+			<span id="goods_list" class="yhj length_over"></span>
 			</li>
 			<li onclick="location.href='/wx/ucenter/promotion?from=order'" class="b_bottom">
     			<span>优惠券
     				<img src="/statics/images/right.png" alt="">
 				</span> 
-				<span class="yhj">
+				<span class="yhj" >
 					[[promotion.id==null?promocount+'张':'￥'+promotion.name]]
 				</span>
 			</li>
-			<li><span>配送时间</span> <img src="/statics/images/right.png" alt=""></li>
+			<li><span>配送时间</span><img src="/statics/images/right.png" alt=""><span id="sendtime" class="datat" onclick="laydate()"></span></li>
 		</ul>
 	</div>
 	<div class="note">
@@ -193,7 +195,7 @@ var vv = new Vue({
 					bottle_id:bottle_id,
 					bottle_num:bottle_num,
 					comment:comment,
-					sendtime:'2016-12-31',
+					sendtime:$("#sendtime").html(),
 					promotion_id:promotion.id,
 					promotion_money:promotion.name
 			};
@@ -211,7 +213,7 @@ var vv = new Vue({
 							 //dig("保存成功！");alert
 							 location.href="/wx/order/vpay?id="+data.data.id;
 						  }else{
-							  //dig(data.msg);
+							 dig(data.msg);
 						  }
 					  },
 					  error:function (){

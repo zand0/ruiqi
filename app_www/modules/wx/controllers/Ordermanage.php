@@ -9,6 +9,10 @@ class OrdermanageController extends Com\Controller\My\Guest {
         
     }
     public function listAction(){
+        $post = $this->getRequest()->getQuery();
+        $code = isset($post['code'])?$post['code']:0;
+        if(!Wxlogin::islogin())
+            Wxlogin::wlogin($code);
         /*$post = $this->getRequest()->getQuery();
         $kid = isset($post['kid'])?$post['kid']:0;
         if(empty($kid)){
@@ -31,10 +35,20 @@ class OrdermanageController extends Com\Controller\My\Guest {
         $this->_view->display('ordermanage\order_management.phtml');
     }
     public function detailAction(){
+        $post = $this->getRequest()->getQuery();
+        $code = isset($post['code'])?$post['code']:0;
+        if(!Wxlogin::islogin())
+            Wxlogin::wlogin($code);
+        
         $this->_view->display('ordermanage\order_detail.phtml');
     }
     
     public function commentAction(){
+        $post = $this->getRequest()->getQuery();
+        $code = isset($post['code'])?$post['code']:0;
+        if(!Wxlogin::islogin())
+            Wxlogin::wlogin($code);
+        
         $this->_view->display('ordermanage\evaluate.phtml');
     }
     public function islogin(){
@@ -44,12 +58,13 @@ class OrdermanageController extends Com\Controller\My\Guest {
         }
     }
     public function getlistAction(){
-        $this->islogin();
+        //$this->islogin();
         $post = $this->getRequest()->getQuery();
         $kid = Tools::session()['kid'];
         if(empty($kid)){
             return $this->ajaxReturn(0,'kid is empty','');
         }
+        $post['kid']=$kid;
         if(1 || $this->_req->isXmlHttpRequest()){
             try {
                 //调用User的方法判断验证登录

@@ -51,15 +51,15 @@ class OrderwxModel extends \Com\Model\Base {
         $where = array();
     
         if ($ordersn)
-            $where = array('order_sn' => $ordersn);
+            $where['order_sn'] = $ordersn;
         if ($kid)
-            $where = array('kid' => $kid);
+            $where['kid'] = $kid;
         if($shop_id)
             $where['shop_id'] = $shop_id;
         if ($shipperMobile)
-            $where = array('shipper_mobile' => $shipperMobile);
+            $where['shipper_mobile'] = $shipperMobile;
         if ($mobile)
-            $where = array('mobile' => $mobile);
+            $where['mobile'] = $mobile;
         if ($start_time && $end_time)
             $where['ctime'] = array(array('egt', $start_time), array('elt', $end_time), 'and');
         if ($status)
@@ -75,7 +75,8 @@ class OrderwxModel extends \Com\Model\Base {
         }
         $orderlist = (!empty($order)) ? $order : 'order_id desc';
 
-        $data = $orderModel->where($where)->order($orderlist)->limit($pageStart, $param['pagesize'])->select();
+        //$data = $orderModel->where($where)->order($orderlist)->limit($pageStart, $param['pagesize'])->select();
+        $data = $orderModel->where(['kid'=>$kid])->order($orderlist)->limit($pageStart, $param['pagesize'])->select();
         foreach ($data as &$d){
             $d['order_info']=$this->getUserOrderInfoList(['ordersn'=>$d['order_sn']]);
             $d['orderstatus'] = $this->getOrderStatus($d);

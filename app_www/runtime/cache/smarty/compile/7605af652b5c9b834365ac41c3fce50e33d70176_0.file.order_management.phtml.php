@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-05 17:39:20
+<?php /* Smarty version 3.1.27, created on 2016-12-06 12:55:07
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\order_management.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:21861584535c8dcf697_74315214%%*/
+/*%%SmartyHeaderCode:31332584644aba7e9c9_26398356%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7605af652b5c9b834365ac41c3fce50e33d70176' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\order_management.phtml',
-      1 => 1480930758,
+      1 => 1481000101,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '21861584535c8dcf697_74315214',
+  'nocache_hash' => '31332584644aba7e9c9_26398356',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_584535c8ddb133_63807841',
+  'unifunc' => 'content_584644aba8af56_55235162',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_584535c8ddb133_63807841')) {
-function content_584535c8ddb133_63807841 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_584644aba8af56_55235162')) {
+function content_584644aba8af56_55235162 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '21861584535c8dcf697_74315214';
+$_smarty_tpl->properties['nocache_hash'] = '31332584644aba7e9c9_26398356';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,9 +72,10 @@ $_smarty_tpl->properties['nocache_hash'] = '21861584535c8dcf697_74315214';
 			<p class="f_border">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
-			<div v-if="order.status==4" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.status==4 && order.is_evaluation==0" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.status==4 && order.is_evaluation==1" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">已评价</div>
 		</div>
 		
 	</div>
@@ -98,7 +99,7 @@ $_smarty_tpl->properties['nocache_hash'] = '21861584535c8dcf697_74315214';
 			<p>
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
 		
 		</div></template>
@@ -121,9 +122,10 @@ $_smarty_tpl->properties['nocache_hash'] = '21861584535c8dcf697_74315214';
 			<p class="f_border">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
 			<div v-if="order.is_evaluation==0" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.is_evaluation==1" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">已评价</div>
 		
 		</div></template>
 	</div>
@@ -144,7 +146,7 @@ $_smarty_tpl->properties['nocache_hash'] = '21861584535c8dcf697_74315214';
 			<p>
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
 		</div></template>
 	</div>

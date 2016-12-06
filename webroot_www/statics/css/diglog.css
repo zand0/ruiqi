@@ -1,0 +1,20 @@
+@CHARSET "UTF-8";
+/*提交按钮*/
+.submit_box{width: 94%; margin:30px auto;background-color: #fff;}
+.btn2{-webkit-appearance: none;border:1px solid #ddd;background-color: #fff;font-size: 1.2rem;color: #333;text-align: center;-webkit-transition: all ease-in .3s;}
+.btn2:hover,.btn2.active,.btn2:focus,.btn2:active{background-color: #eee;}
+.btn-submit{padding:1rem 0;font-size: 1.6rem;letter-spacing: 3px;background-color: #999;color: #fff;-webkit-border-radius:4px;font-weight: bold;}
+.btn-submit:hover,.btn-submit.active,.btn-submit:focus,.btn-submit:active{background-color: #999;}
+.btn-submit.disable{background-color: #999}
+.btn-block{width: 100%;}
+.btn-help{padding:.3rem 0;font-size: 1.4rem;border:1px solid  #cdcdcd;color: #333;background-color: none;}
+
+/*模态框效果的样式*/
+.w_modal{width: 100%;height: 100%;position: fixed;left: 0;top: 0;right: 0;bottom: 0;background-color: rgba(0,0,0,.0);z-index: 99999!important;}
+.w_modal .modal_inner{width: 60%;/*min-height:100px;*/background-color: rgba(0,0,0,.7);-webkit-border-radius:4px;position: absolute;left: 50%;top: 57%;-webkit-transform: translate(-50%,-50%);padding:10px;}
+.w_modal .submit_box{width: 100%;border-top: 1px solid #ededed;margin:0px;text-align: center;background-color: transparent;}
+.w_modal .submit_box .btn{width: 80%;margin:10px auto;padding:.5rem 1rem;-webkit-border-radius:4px;display: inline-block;}
+.w_modal .w_modaltit{color: #ccc;font-size: 1.2rem;text-align: center;padding:10px 0 5px;}
+.w_modal .w_modalcon{/*padding:37px 2%;*/font-size: 2.0rem;color:#ccc}
+.w_modal .submit_box .btn-cancel,.w_modal .submit_box .btn-sure{width: 40%;margin: 10px 5px;}
+.w_modal .submit_box .btn-sure{background-color: #999;color: #fff;}

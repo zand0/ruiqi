@@ -33,9 +33,9 @@
 	</div>
 	<div class="eval_con">
 		<ul class="choose_eval">
-			<li><img onclick="type=1;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.hp]].png" alt="">好评<img class="flow" src="/statics/images/hao.png" alt=""></li>
-			<li><img onclick="type=2;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.zp]].png" alt="">中评<img class="flow" src="/statics/images/zhong.png" alt=""></li>
-			<li><img onclick="type=3;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.cp]].png" alt="">差评<img class="flow" src="/statics/images/cha.png" alt=""></li>
+			<li><img onclick="Type=1;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.hp]].png" alt="">好评<img class="flow" src="/statics/images/hao.png" alt=""></li>
+			<li><img onclick="Type=2;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.zp]].png" alt="">中评<img class="flow" src="/statics/images/zhong.png" alt=""></li>
+			<li><img onclick="Type=3;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.cp]].png" alt="">差评<img class="flow" src="/statics/images/cha.png" alt=""></li>
 		</ul>
 	<template v-if="pl==0">
 		
@@ -51,7 +51,7 @@
 	</template>
 	</div>
 <script type="text/javascript">
-var type = 1;
+var Type = 0;
 var ordersn = null;
 var type={
 		hp:'f',
@@ -107,10 +107,11 @@ new Vue({
 		},
 		addComment:function(){
 			var params = {
-				type:type,
+				type:Type,
 				comment:$("#comment").val(),
 				ordersn:ordersn,
 			};
+			//var ready = this.ready;
 			$.ajax({
 				  type: 'POST',
 				  url: '/wx/ordermanage/addcomment',
@@ -120,9 +121,13 @@ new Vue({
 				  success: function(data){
 					  if(data.status==1){
 						 //dig("保存成功！");alert
-						 alert("评论成功");
+						 dig("评论成功");
+						 setTimeout(function(){
+						 	location.reload();
+						 },1200);
+						 
 					  }else{
-						 alert("评论失败");
+						 dig(data.msg);
 					  }
 				  },
 				  error:function (){

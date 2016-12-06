@@ -37,6 +37,7 @@ class EvaluationwxModel extends \Com\Model\Base {
             throw new Exception("comment is empty");
         }
         $type = '['.implode(',',[0,0,$post['type']]).']';
+        
         $data=[
             'order_sn'=>$post['ordersn'],
             'kehu_id'=>$kid,

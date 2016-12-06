@@ -85,11 +85,14 @@ class OrderController extends Com\Controller\My\Guest {
     }
 
     public function createorderAction() {
-        $post = $this->getRequest()->getQuery();
+        /*$post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
         if(!Wxlogin::islogin())
-            Wxlogin::wlogin($code);
-        
+            Wxlogin::wlogin($code);*/
+        $kid = Tools::session('kid');
+        if(empty($kid)){
+            return $this->ajaxReturn(0,'请先登录','');
+        }
         $post = $this->getRequest()->getPost();
         $bottle_id = $this->getRequest()->getPost('bottle_id');
         $bottle_num = $this->getRequest()->getPost('bottle_num', 1);

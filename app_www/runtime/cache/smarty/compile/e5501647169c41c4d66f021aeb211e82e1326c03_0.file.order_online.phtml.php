@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-05 17:20:27
+<?php /* Smarty version 3.1.27, created on 2016-12-06 14:06:53
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\order\order_online.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:36765845315bcb9544_12517991%%*/
+/*%%SmartyHeaderCode:86445846557d8208e5_11216863%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e5501647169c41c4d66f021aeb211e82e1326c03' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\order\\order_online.phtml',
-      1 => 1480929624,
+      1 => 1481004410,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '36765845315bcb9544_12517991',
+  'nocache_hash' => '86445846557d8208e5_11216863',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5845315bccec30_28543868',
+  'unifunc' => 'content_5846557d8392c9_40345707',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5845315bccec30_28543868')) {
-function content_5845315bccec30_28543868 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_5846557d8392c9_40345707')) {
+function content_5846557d8392c9_40345707 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '36765845315bcb9544_12517991';
+$_smarty_tpl->properties['nocache_hash'] = '86445846557d8208e5_11216863';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +37,12 @@ $_smarty_tpl->properties['nocache_hash'] = '36765845315bcb9544_12517991';
 >
 	<?php echo '<script'; ?>
  src="/statics/js/main.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="/statics/js/radialIndicator.min.js"><?php echo '</script'; ?>
+>
+	<?php echo '<script'; ?>
+ src="/statics/js/laydate/laydate.js"><?php echo '</script'; ?>
 >
 	<?php echo '<script'; ?>
  type="text/javascript" src="/statics/js/Vue.min.js"><?php echo '</script'; ?>
@@ -56,17 +62,17 @@ $_smarty_tpl->properties['nocache_hash'] = '36765845315bcb9544_12517991';
 	<div class="con_detail">
 		<ul>
 			<li class="b_bottom choose_goods"><span>选择商品</span> <img src="/statics/images/right.png" alt="">
-			<span id="goods_list" class="yhj"></span>
+			<span id="goods_list" class="yhj length_over"></span>
 			</li>
 			<li onclick="location.href='/wx/ucenter/promotion?from=order'" class="b_bottom">
     			<span>优惠券
     				<img src="/statics/images/right.png" alt="">
 				</span> 
-				<span class="yhj">
+				<span class="yhj" >
 					[[promotion.id==null?promocount+'张':'￥'+promotion.name]]
 				</span>
 			</li>
-			<li><span>配送时间</span> <img src="/statics/images/right.png" alt=""></li>
+			<li><span>配送时间</span><img src="/statics/images/right.png" alt=""><span id="sendtime" class="datat" onclick="laydate()"></span></li>
 		</ul>
 	</div>
 	<div class="note">
@@ -232,7 +238,7 @@ var vv = new Vue({
 					bottle_id:bottle_id,
 					bottle_num:bottle_num,
 					comment:comment,
-					sendtime:'2016-12-31',
+					sendtime:$("#sendtime").html(),
 					promotion_id:promotion.id,
 					promotion_money:promotion.name
 			};
@@ -250,7 +256,7 @@ var vv = new Vue({
 							 //dig("保存成功！");alert
 							 location.href="/wx/order/vpay?id="+data.data.id;
 						  }else{
-							  //dig(data.msg);
+							 dig(data.msg);
 						  }
 					  },
 					  error:function (){

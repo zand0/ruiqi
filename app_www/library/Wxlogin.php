@@ -2,26 +2,33 @@
 
 class Wxlogin
 {
-    private static $appid='wxedb065b0527bcf9c';
-    private static $appsecret='365c80e20fd80b2e82ff90a6cb87f804';
-    
+    private static $appid='wxccf5868dd605affe';
+    private static $appsecret='d82a60977cdeaf8eb5f46a6a85e76779';
+    private static $fromurl = '';
     public static function wlogin($code){
-        if(empty($code)){
-            self::sw(self::getOpenid($code));
-        }else{
-            throw new Exception("code is empty");
-        }
+        if(empty(Tools::session('kid'))){
+            if(!empty($code)){
+                self::sw(self::getOpenid($code));
+            }else{
+                throw new Exception("code is empty");
+            }
+        } 
     }
     public static function islogin(){
-        Tools::session('kid',170);
-        return true;
+        //Tools::session('kid',null);
+        //return true;
         //var_dump(Tools::session('kid'));
-        if(empty(Tools::session('kid')) || Tools::session('kid')!=Tools::cookie('kid')){
+        $code = $_GET['code'];
+        if(!empty($code)){
+            return false;
+        }
+        if(empty(Tools::session('kid'))){
             self::logout();
             //执行登陆
             //self::sw(self::getOpenid());
             $return_url = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-            header('Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid='.self::$appid.'&redirect_uri='.$return_url.'&response_type=code&scope=snsapi_userinfo&state=5#wechat_redirect');
+            self::$fromurl = $return_url;
+            header('Location: https://open.weixin.qq.com/connect/oauth2/authorize?appid='.self::$appid.'&redirect_uri='.$return_url.'&response_type=code&scope=snsapi_base&state=5#wechat_redirect');
         }else{
             return true;
         }
@@ -61,9 +68,10 @@ class Wxlogin
     private static  function sw($openid){
         if( $res = LibF::M('kehu')->where(['openid'=>$openid])->find() ){
             self::login($res['kid']);
+            //header("Location: {self::$fromurl}");
         }else{
-            $return_url = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-            header('Location: /wx/ucenter/vbind?openid='.$openid.'&fromurl='.$return_url);
+            //$return_url = urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+            header('Location: /wx/ucenter/vbind?openid='.$openid.'&fromurl='.self::$fromurl);
         }
     }
     

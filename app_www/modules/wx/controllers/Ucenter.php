@@ -22,6 +22,7 @@ class UcenterController extends Com\Controller\My\Guest {
         $this->_view->display('ucenter\coupon.phtml');  
     }
     public function myAction(){
+        //var_dump(Tools::session('kid'));
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
         if(!Wxlogin::islogin())
@@ -66,10 +67,10 @@ class UcenterController extends Com\Controller\My\Guest {
                     //return $this->error('登录失败');
                 }
             } catch (Exception $e) {
+                //throw $e;
                 return $this->ajaxReturn(0,$e->getMessage(),'');
             }
-        }
-        
+        }  
     }
     /**
      * 获取优惠券

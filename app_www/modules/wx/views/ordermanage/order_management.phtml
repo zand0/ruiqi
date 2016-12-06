@@ -36,9 +36,10 @@
 			<p class="f_border">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
-			<div v-if="order.status==4" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.status==4 && order.is_evaluation==0" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.status==4 && order.is_evaluation==1" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">已评价</div>
 		</div>
 		
 	</div>
@@ -62,7 +63,7 @@
 			<p>
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
 		
 		</div></template>
@@ -85,9 +86,10 @@
 			<p class="f_border">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
 			<div v-if="order.is_evaluation==0" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">去评价</div>
+			<div v-if="order.is_evaluation==1" onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="go_eval">已评价</div>
 		
 		</div></template>
 	</div>
@@ -108,7 +110,7 @@
 			<p>
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
-				<span class="l_">货到付款</span>
+				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
 			</p>
 		</div></template>
 	</div>

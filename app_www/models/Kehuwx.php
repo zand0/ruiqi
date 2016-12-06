@@ -13,19 +13,36 @@ class KehuwxModel extends \Com\Model\Base {
 
     public function bindOpenid($openid,$phone){
         $mkehu = LibF::M('kehu');
-        if($res=$mkehu->where(['mobile_phone'=>$phone])->find()){
-            $mkehu->where(['kid'=>$res['kid']])->save(['openid'=>$openid]);
-            Wxlogin::login($res['kid']);
-            return true;
+        if($res=$mkehu->where(['openid'=>$openid])->find()){
+            if($res['mobile_phone']==$phone){
+                Wxlogin::login($res['kid']);
+                return true;
+            }else{
+                $mkehu->where(['kid'=>$res['kid']])->save(['mobile_phone'=>$phone]);
+                Wxlogin::login($res['kid']);
+                return true;
+            }
+            
         }else{
             $data=[
-                
+                'user_name'=>$phone,
+                'mobile_phone'=>$phone,
+                'password'=>md5(substr($phone, -6)),
+                'address'=>'',
+                //'shop_name'=>'',
+                'ctime'=>time()
             ];
-            $kid = $this->add($data);
+            if($r=$mkehu->field('kid')->where(['mobile_phone'=>$phone])->find()){
+                $mkehu->where(['kid'=>$r['kid']])->save(['openid'=>$openid]);
+                $kid=$r['kid'];
+            }else {
+                $kid = $mkehu->add($data);
+            }
+            
             Wxlogin::login($kid);
             return true;
         }
-        return false;
+        //return false;
     }
     /**
      * 客户列表

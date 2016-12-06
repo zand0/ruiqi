@@ -109,7 +109,7 @@ $(function(){
     	//console.log(str_gname);
     });
     // 支付方式选择页
-    $('.r_btn').click(function(){
+    $('.submit_btn').click(function(){
         $('.mask').css("display","block");
         $('.pay_mode').css("display","block");
     });
@@ -155,7 +155,7 @@ $(function(){
         if($(this).attr("src")=="/statics/images/btn_f.png"){
             $(this).attr("src", "/statics/images/btn_t.png"); 
         }else{
-            $(this).attr("src", "/statics/images/btn_f.png"); 
+            //$(this).attr("src", "/statics/images/btn_f.png"); 
         }
     });
     // 订单管理head

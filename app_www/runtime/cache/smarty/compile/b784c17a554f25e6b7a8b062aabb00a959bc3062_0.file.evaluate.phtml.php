@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-05 10:22:27
+<?php /* Smarty version 3.1.27, created on 2016-12-06 13:41:06
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\evaluate.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:179405844cf635e8319_66083097%%*/
+/*%%SmartyHeaderCode:1878658464f72686876_11209246%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'b784c17a554f25e6b7a8b062aabb00a959bc3062' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\evaluate.phtml',
-      1 => 1480904544,
+      1 => 1481002863,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '179405844cf635e8319_66083097',
+  'nocache_hash' => '1878658464f72686876_11209246',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5844cf635f5ec0_93360417',
+  'unifunc' => 'content_58464f72692554_31368099',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5844cf635f5ec0_93360417')) {
-function content_5844cf635f5ec0_93360417 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_58464f72692554_31368099')) {
+function content_58464f72692554_31368099 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '179405844cf635e8319_66083097';
+$_smarty_tpl->properties['nocache_hash'] = '1878658464f72686876_11209246';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,9 +69,9 @@ $_smarty_tpl->properties['nocache_hash'] = '179405844cf635e8319_66083097';
 	</div>
 	<div class="eval_con">
 		<ul class="choose_eval">
-			<li><img onclick="type=1;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.hp]].png" alt="">好评<img class="flow" src="/statics/images/hao.png" alt=""></li>
-			<li><img onclick="type=2;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.zp]].png" alt="">中评<img class="flow" src="/statics/images/zhong.png" alt=""></li>
-			<li><img onclick="type=3;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.cp]].png" alt="">差评<img class="flow" src="/statics/images/cha.png" alt=""></li>
+			<li><img onclick="Type=1;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.hp]].png" alt="">好评<img class="flow" src="/statics/images/hao.png" alt=""></li>
+			<li><img onclick="Type=2;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.zp]].png" alt="">中评<img class="flow" src="/statics/images/zhong.png" alt=""></li>
+			<li><img onclick="Type=3;" class="ch_btn cirle_btn" src="/statics/images/btn_[[type.cp]].png" alt="">差评<img class="flow" src="/statics/images/cha.png" alt=""></li>
 		</ul>
 	<template v-if="pl==0">
 		
@@ -88,7 +88,7 @@ $_smarty_tpl->properties['nocache_hash'] = '179405844cf635e8319_66083097';
 	</div>
 <?php echo '<script'; ?>
  type="text/javascript">
-var type = 1;
+var Type = 0;
 var ordersn = null;
 var type={
 		hp:'f',
@@ -144,10 +144,11 @@ new Vue({
 		},
 		addComment:function(){
 			var params = {
-				type:type,
+				type:Type,
 				comment:$("#comment").val(),
 				ordersn:ordersn,
 			};
+			//var ready = this.ready;
 			$.ajax({
 				  type: 'POST',
 				  url: '/wx/ordermanage/addcomment',
@@ -157,9 +158,13 @@ new Vue({
 				  success: function(data){
 					  if(data.status==1){
 						 //dig("保存成功！");alert
-						 alert("评论成功");
+						 dig("评论成功");
+						 setTimeout(function(){
+						 	location.reload();
+						 },1200);
+						 
 					  }else{
-						 alert("评论失败");
+						 dig(data.msg);
 					  }
 				  },
 				  error:function (){
