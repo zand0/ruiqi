@@ -17,7 +17,7 @@
 		<span>手机号</span><input id="phone" type="tel" placeholder="请输入手机号" maxlength="11">
 	</div>
 	<div class="code">
-		<input id="vcode" type="number" placeholder="请输入验证码"><span>获取验证码</span>
+		<input id="vcode" type="number" placeholder="请输入验证码"><span v-on:click="getCode">获取验证码</span>
 	</div>
 	<div v-on:click="bind" class="finish">完成</div>
 <script type="text/javascript">
@@ -32,7 +32,7 @@ new Vue({
 		//this.getPromotion();
 	},
 	methods: {
-		//获取订单
+		//绑定方法
 		bind:function(){
 			var phone = $('#phone').val();
 			var vcode = $("#vcode").val();
@@ -62,8 +62,16 @@ new Vue({
 				  }
 			});
 		},
+		//获取验证码接口
 		getCode:function(){
+			var phone = $("#phone").val();
+			this.$http.get('/wx/ucenter/getcode?phone='+phone,function(data, status, request){
+				if(data.status==1){
 
+				}else{
+					dig(data.msg);
+				}
+			});
 		}
 	}
 })

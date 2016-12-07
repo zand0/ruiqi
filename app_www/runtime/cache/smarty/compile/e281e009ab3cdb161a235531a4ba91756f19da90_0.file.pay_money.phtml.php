@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-05 17:01:00
+<?php /* Smarty version 3.1.27, created on 2016-12-07 17:15:37
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\order\pay_money.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:2073558452cccc1f683_58009520%%*/
+/*%%SmartyHeaderCode:278475847d3398f5570_05457209%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e281e009ab3cdb161a235531a4ba91756f19da90' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\order\\pay_money.phtml',
-      1 => 1480928458,
+      1 => 1481102135,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '2073558452cccc1f683_58009520',
+  'nocache_hash' => '278475847d3398f5570_05457209',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_58452cccc2d9a2_18366590',
+  'unifunc' => 'content_5847d33990c514_19993438',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_58452cccc2d9a2_18366590')) {
-function content_58452cccc2d9a2_18366590 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_5847d33990c514_19993438')) {
+function content_5847d33990c514_19993438 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '2073558452cccc1f683_58009520';
+$_smarty_tpl->properties['nocache_hash'] = '278475847d3398f5570_05457209';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,7 +59,7 @@ $_smarty_tpl->properties['nocache_hash'] = '2073558452cccc1f683_58009520';
 					<span class="user_name">[[user.user_name]]</span>
 					<span class="user_tel">[[user.mobile_phone]]</span>
 				</li>
-				<li>
+				<li onclick="getSigin()">
 					[[user.address]]
 				</li>
 			</ul>
@@ -98,23 +98,29 @@ $_smarty_tpl->properties['nocache_hash'] = '2073558452cccc1f683_58009520';
 			<img src="/statics/images/money.png" alt="">
 			<span class="money">[[totalprice]]</span>
 		</div>
-		<div class="r_btn">立即支付</div>
+		<div class="r_btn submit_btn">立即支付</div>
 	</div>
 	<!-- 选择支付方式页 -->
 	<div class="mask"></div>
 	<div class="pay_mode">
 		<h1>选择支付方式</h1>
 		<ul>
-			<li><img class="icon_pay" src="/statics/images/xianj.png" alt="">货到付款<img class="choose c_circle" src="/statics/images/btn_f.png" alt=""></li>
-			<li><img class="icon_pay" src="/statics/images/weixin.png" alt="">微信缴费<span>（功能暂未开放）</span><img class="c_circle" src="/statics/images/btn_f.png" alt=""></li>
+			<li><img class="icon_pay" src="/statics/images/xianj.png" alt="">货到付款<img onclick="payType=0;" class="choose c_circle" src="/statics/images/btn_f.png" alt=""></li>
+			<li><img class="icon_pay" src="/statics/images/weixin.png" alt="">微信缴费<span>（功能暂未开放）</span><img onclick="payType=1" class="choose c_circle" src="/statics/images/btn_f.png" alt=""></li>
 		</ul>
 		<div class="f_pay">
 			<div class="l_cancel">取消</div>
-			<div class="r_sure">确定</div>
+			<div v-on:click="pay" class="r_sure">确定</div>
 		</div>
 	</div>
 <?php echo '<script'; ?>
+ type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
  type="text/javascript">
+var payType=0;
+var payMoney = 0;
+var Promoid = 0;
 var id = GetQueryString('id');
 new Vue({
 	el: '#Vbody',
@@ -132,7 +138,9 @@ new Vue({
 					for(var i in goods){
 						totalpric += goods[i].num*goods[i].price; 
 					}
-					totalpric -= data.data.promotion_money; 
+					totalpric -= data.data.promotion_money;
+					payMoney =  totalpric;
+					Promoid = data.data.promotion_id;
 					this.$set('totalprice',totalpric);
 					this.$set('order', data.data);
 				}else{
@@ -150,8 +158,128 @@ new Vue({
 				}
 			});
 		},
+		pay:function(){
+			var params = {
+				paytype:payType,
+				paymoney:payMoney,
+				promoid:Promoid
+			};
+			if(params.paytype==1){
+				location.href='';
+			}
+			$.ajax({
+				  type: 'GET',
+				  url: '/wx/order/pay',
+				  data: params,
+				  cache:false,  
+				  dataType:'json',
+				  success: function(data){
+					  if(data.status==1){
+						//dig("绑定成功！");
+						location.href="/wx/ucenter/my";
+					  }else{
+						dig(data.msg);
+					  }
+				  },
+				  error:function (){
+					  //dig('系统繁忙！');
+				  }
+			});
+		}
 	}
 })
+
+//获取共享地址
+function getSigin(){
+		var appId='';
+		var timestamp='';
+		var nonceStr='';
+		var signature='';
+		var url='';
+		var addrSign = '';
+		var targetUrl=location.href.split("#")[0];
+		$.ajax({
+			url:'/wx/order/sign?url='+encodeURIComponent(targetUrl),
+			type:'get',
+			dataType:'json',
+			async : false, //默认为true 异步
+			error:function(err){
+				console.log(err);
+			},
+			success:function(data){
+				appId=data.data.appId;
+				timestamp=data.data.timestamp;
+				nonceStr=data.data.nonceStr;
+				signature=data.data.signature;
+				url  =	data.data.url;
+				addrSign = data.data.addrSign;
+				//alert(addrSign);
+			}
+		});
+
+		//var title='【秒小空】'+coName+',正在急聘'+jmName+',快来推荐,快拿佣金吧！';//分享标题
+		//var link='http://web.miaoxiaokong.com/co_jobshow.html?jmid='+urlhref;//分享链接
+    	//var link='http://web.miaoxiaokong.com/indexshare.html?jmid='+urlhref+'&S_ID='+s_id+'&CM_ID='+cm_id;//分享链接
+		//var imgUrl='http://m.miaozhunpin.com/static/img/fenxiang.png';//分享图片
+		//var desc='秒小空已经有10000+人次成功推荐办理入职';//描述
+		wx.config({
+			debug: true,
+			appId: appId,
+			timestamp: timestamp,
+			nonceStr: nonceStr,
+			signature: signature,
+			jsApiList: [
+				'openAddress',
+				'checkJsApi',
+			    'editAddress',
+			    'chooseWXPay',
+			    'getLatestAddress',
+			    'openCard',
+			    'getLocation'
+			]
+		});
+
+		/*wx.checkJsApi({
+		    jsApiList: [
+		    	'openAddress',
+		    	'checkJsApi',
+			    'editAddress',
+			    'chooseWXPay',
+			    'getLatestAddress',
+			    'openCard',
+			    'getLocation'
+		    ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+		    success: function(res) {
+		        // 以键值对的形式返回，可用的api值true，不可用为false
+		        
+		        
+		    }
+		});*/
+		var editConfig = {
+			"appId": appId,
+			"scope": "jsapi_address",
+			"signType": "sha1",
+			"addrSign": addrSign,
+			"timeStamp": timestamp,
+			"nonceStr": nonceStr,
+		};
+
+		console.log(editConfig);
+
+		WeixinJSBridge.invoke('editAddress', editConfig, function (res) {
+			//若res 中所带的返回值不为空，则表示用户选择该返回值作为收货地址。
+			//否则若返回空，则表示用户取消了这一次编辑收货地址。
+			alert(res);
+		});
+		//});
+		wx.ready(function () {
+			
+		});
+
+		wx.error(function (res) {
+			dig(res.errMsg);  //打印错误消息。及把 debug:false,设置为debug:ture就可以直接在网页上看到弹出的错误提示
+		});
+	}
 <?php echo '</script'; ?>
 >
 </body>

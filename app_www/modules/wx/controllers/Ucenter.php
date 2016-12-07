@@ -1,10 +1,12 @@
 <?php
 
 /**
- * 微信下订单
+ * “我的”相关功能控制器
  */
 class UcenterController extends Com\Controller\My\Guest {
-    
+    /**
+     * 渲染绑定页面
+     */
     public function vbindAction(){
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
@@ -12,7 +14,9 @@ class UcenterController extends Com\Controller\My\Guest {
 //             Wxlogin::wlogin($code);
         $this->_view->display('ucenter\account_bind.phtml');
     }
-    
+    /**
+     * 渲染优惠券页面
+     */
     public function promotionAction(){
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
@@ -21,7 +25,11 @@ class UcenterController extends Com\Controller\My\Guest {
         
         $this->_view->display('ucenter\coupon.phtml');  
     }
+    /**
+     * 渲染我的页面
+     */
     public function myAction(){
+        //header("Location: /wx/order/vorder");
         //var_dump(Tools::session('kid'));
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
@@ -32,7 +40,7 @@ class UcenterController extends Com\Controller\My\Guest {
     }
     /**
      * 
-     *绑定接口
+     *绑定手机号和openid接口
      */
     public function bindAction(){
         $post = $this->getRequest()->getQuery();
@@ -51,10 +59,11 @@ class UcenterController extends Com\Controller\My\Guest {
         }
         if(1 || $this->_req->isXmlHttpRequest()){
             try {
-                if(!(new VerificationCodeModel)->checkCode($phone,$code)){
+                //检查验证码
+                /*if(!(new VerificationCodeModel)->checkCode($phone,$code)){
                     return $this->ajaxReturn(0,'验证码失效','');
                     //return $this->error('验证码失效');
-                }
+                }*/
                 //调用User的方法判断验证登录
                 if($data = (new KehuwxModel)->bindOpenid($openid,$phone)){
                     if (!empty($fromurl)){
@@ -73,7 +82,7 @@ class UcenterController extends Com\Controller\My\Guest {
         }  
     }
     /**
-     * 获取优惠券
+     * 获取优惠券接口
      */
     public function getpromotionAction(){
         
@@ -97,6 +106,9 @@ class UcenterController extends Com\Controller\My\Guest {
             }
         }
     }
+    /**
+     * 获取可用优惠券数量接口
+     */
     public function promocountAction(){
         //$this->islogin();
         $res = LibF::M('promotions_user')->where([
@@ -107,7 +119,7 @@ class UcenterController extends Com\Controller\My\Guest {
         return $this->ajaxReturn(1,'ok',['count'=>$res]);
     }
     /**
-     * 添加优惠券
+     * 添加优惠券接口
      */
     public function addpromotionAction(){
         $post = $this->getRequest()->getPost();
@@ -131,7 +143,7 @@ class UcenterController extends Com\Controller\My\Guest {
         }
     }
     /**
-     * 获取用户信息
+     * 获取用户信息接口
      */
     public function getuserAction(){
         
@@ -141,5 +153,103 @@ class UcenterController extends Com\Controller\My\Guest {
         }else{
             return $this->ajaxReturn(1,'ok',$res);
         }  
+    }
+    /**
+     * 获取手机验证码
+     */
+    public function getcodeAction(){
+        $post = $this->getRequest()->getQuery();
+        $phone = isset($post['phone'])?$post['phone']:0;
+        $isreg = isset($post['isreg'])?$post['isreg']:0;
+        $type = isset($post['type'])?$post['type']:1;
+        $token = isset($post['token'])?$post['token']:0;
+        if(empty($phone)){
+            return $this->ajaxReturn(0,'手机号不得为空','');
+        }
+        if(!isset($phone) || !$phone){
+            return $this->ajaxReturn(0,'请填写手机号','');exit;
+        }
+        if(!is_numeric($phone)){
+            return $this->ajaxReturn(0,'请填写正确的手机号','');
+        }
+        if(!preg_match("/^1[3|4|5|7|8]\d{9}$/", $phone)){
+            return $this->ajaxReturn(0,'手机号不正确','');
+        }
+        $msg = $this->_req->getPost('msg');
+        $isver = isset($post['isver'])?$post['isver']:1;
+//         if(isset($token) && $token && $token!=4493049){
+//             return $this->show_json(array('state'=>0,'msg'=>'err','url'=>''));exit;
+//         }
+        $msgs = [
+            1=>'欢迎你的关注,您的验证码是',
+            //2=>'欢迎登录秒小空,您的验证码是',
+            //2=>'',
+            //0=>'',
+        ];
+        if(isset($type) && $type && !$msg){
+            $msg = $msgs[$type];
+        }
+        if(!isset($msg)){
+            $msg='';
+        }
+        if($phone){
+            $verify=mt_rand(1000,9999);
+            //Session::set('verify',$verify);
+            
+            if(!$msg){
+                $msg = $msgs[1];
+            }
+            if(!$isver){
+                $verify='';
+            }
+            $data=$msg.$verify;
+			
+            try {
+                $res = [];
+                $uc = new VerificationCodeModel();
+                //$uc->R_getSmsLimit($phone);
+                //验证码接口
+                //$sms=new Sms;
+                //$res= $sms->SendData($phone,$data,$verify);
+                
+                if($res['returnstatus']=='Success'){
+                    if($uc->addCode(array('phone'=>$phone,'code'=>$verify))){
+                        $this->ajaxReturn(1,$res['message'],'');
+                        exit;
+                    }
+                }else{
+                    $this->ajaxReturn(0,$res['message'],'');
+                    exit;
+                }
+            } catch (Exception $e) {
+                return $this->ajaxReturn(0,$e->getMessage(),'');
+            }
+            
+        }
+        return $this->ajaxReturn(0,'请输入手机号！','');
+        exit;
+    }
+    
+    /**
+     * 更改用户收获地址
+     */
+    public function upaddrAction(){
+        $post = $this->getRequest()->getPost();
+        $addr = isset($post['addr'])?$post['addr']:0;
+        $kid = Tools::session('kid');
+        if(empty($addr)){
+            return $this->ajaxReturn(0,'地址为空','');
+        }
+        if(empty($kid)){
+            return $this->ajaxReturn(0,'登陆超时','');
+        }
+        $khm = LibF::M('kehu');
+        //$khm->where(['kid'=>$kid])->find()
+        if($res=$khm->where(['kid'=>$kid])->find()){
+            if(empty($res['address'])){
+                $khm->where(['kid'=>$kid])->save(['address'=>$addr]);
+            }
+        }
+        return $this->ajaxReturn(1,'ok','');
     }
 }

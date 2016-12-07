@@ -12,7 +12,7 @@ class Jssdk {
 
   public function getSignPackage() {
     $jsapiTicket = $this->getJsApiTicket();
-
+    $accesstoken = $this->getAccessToken();
     // 注意 URL 一定要动态获取，不能 hardcode.
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
     //$url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -23,16 +23,19 @@ class Jssdk {
 
     // 这里参数的顺序要按照 key 值 ASCII 码升序排序
     $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
-
+    $string2 = "accesstoken={$accesstoken}&appid={$this->appId}&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
     $signature = sha1($string);
-
+    //SHA1(accesstoken=OezXcEiiBSKSxW0eoylIeBFk1b8VbNtfWALJ5g6aMgZHaqZwK4euEskSn78Qd5pLsfQtuMdgmhajVM5QDm24W8X3tJ18kz5mhmkUcI3RoLm7qGgh1cEnCHejWQo8s5L3VvsFAdawhFxUuLmgh5FRA&appid=wx17ef1eaef46752cb&noncestr=123456&timestamp=1384841012&url=http://open.weixin.qq.com/)
+    $addrSign = sha1($string2);
     $signPackage = array(
       "appId"     => $this->appId,
       "nonceStr"  => $nonceStr,
       "timestamp" => $timestamp,
       "url"       => $url,
       "signature" => $signature,
-      "rawString" => $string
+      "rawString" => $string,
+      "addrSignStr" => $string2,
+      "addrSign" => $addrSign
     );
     return $signPackage; 
   }
@@ -60,6 +63,7 @@ class Jssdk {
         $data->expire_time = time() + 7000;
         $data->jsapi_ticket = $ticket;
         $this->set_php_file("jsapi_ticket.php", json_encode($data));
+        chmod("jsapi_ticket.php", 0777);
       }
     } else {
       $ticket = $data->jsapi_ticket;
@@ -81,6 +85,7 @@ class Jssdk {
         $data->expire_time = time() + 7000;
         $data->access_token = $access_token;
         $this->set_php_file("access_token.php", json_encode($data));
+        chmod("access_token.php", 0777);
       }
     } else {
       $access_token = $data->access_token;

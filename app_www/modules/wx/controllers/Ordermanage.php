@@ -8,32 +8,20 @@ class OrdermanageController extends Com\Controller\My\Guest {
     public function indexAction(){
         
     }
+    /**
+     * 获取订单列表页面
+     */
     public function listAction(){
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
         if(!Wxlogin::islogin())
             Wxlogin::wlogin($code);
-        /*$post = $this->getRequest()->getQuery();
-        $kid = isset($post['kid'])?$post['kid']:0;
-        if(empty($kid)){
-            return $this->ajaxReturn(0,'kid is empty','');
-        }
-        if(1 || $this->_req->isXmlHttpRequest()){
-            try {
-                //调用User的方法判断验证登录
-                if($data = (new OrderwxModel)->getOrderList($post)){
-                    return $this->ajaxReturn(1,'ok',$data);
-                    //return $this->success('登录成功','/index.php');
-                }else{
-                    return $this->ajaxReturn(0,'获取失败','');
-                    //return $this->error('登录失败');
-                }
-            } catch (Exception $e) {
-                return $this->ajaxReturn(0,$e->getMessage(),'');
-            }
-        }***/
+        
         $this->_view->display('ordermanage\order_management.phtml');
     }
+    /**
+     * 渲染订单详情页面
+     */
     public function detailAction(){
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
@@ -42,7 +30,9 @@ class OrdermanageController extends Com\Controller\My\Guest {
         
         $this->_view->display('ordermanage\order_detail.phtml');
     }
-    
+    /**
+     * 渲染评论页面
+     */
     public function commentAction(){
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
@@ -51,12 +41,9 @@ class OrdermanageController extends Com\Controller\My\Guest {
         
         $this->_view->display('ordermanage\evaluate.phtml');
     }
-    public function islogin(){
-        //Tools::session('kid',170);
-        if(empty(Tools::session('kid')) && Tools::session('kid')!=$_COOKIE['kid']){
-            return $this->ajaxReturn(0,'登陆超时。。','');
-        }
-    }
+    /**
+     * 获取订单列表接口
+     */
     public function getlistAction(){
         //$this->islogin();
         $post = $this->getRequest()->getQuery();
@@ -82,7 +69,7 @@ class OrdermanageController extends Com\Controller\My\Guest {
     }
     /**
      *
-     * 查询单个订单
+     * 查询单个订单借口
      */
     public function oneAction(){
         $post = $this->getRequest()->getQuery();
@@ -108,7 +95,9 @@ class OrdermanageController extends Com\Controller\My\Guest {
     }
     
     
-    
+    /**
+     * 获取评论接口
+     */
     public function getcommentAction(){
         $post = $this->getRequest()->getQuery();
         $osn = isset($post['ordersn'])?$post['ordersn']:0;
@@ -131,7 +120,9 @@ class OrdermanageController extends Com\Controller\My\Guest {
             }
         }
     }
-    
+    /**
+     * 添加评论接口
+     */
     public function addcommentAction(){
         $post = $this->getRequest()->getPost();
         $osn = isset($post['ordersn'])?$post['ordersn']:0;

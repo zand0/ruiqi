@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-06 14:06:53
+<?php /* Smarty version 3.1.27, created on 2016-12-07 18:04:24
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\order\order_online.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:86445846557d8208e5_11216863%%*/
+/*%%SmartyHeaderCode:276735847dea8dd8e68_82090729%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e5501647169c41c4d66f021aeb211e82e1326c03' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\order\\order_online.phtml',
-      1 => 1481004410,
+      1 => 1481104183,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '86445846557d8208e5_11216863',
+  'nocache_hash' => '276735847dea8dd8e68_82090729',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5846557d8392c9_40345707',
+  'unifunc' => 'content_5847dea8df5058_25250497',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5846557d8392c9_40345707')) {
-function content_5846557d8392c9_40345707 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_5847dea8df5058_25250497')) {
+function content_5847dea8df5058_25250497 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '86445846557d8208e5_11216863';
+$_smarty_tpl->properties['nocache_hash'] = '276735847dea8dd8e68_82090729';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,6 +54,9 @@ $_smarty_tpl->properties['nocache_hash'] = '86445846557d8208e5_11216863';
 ?>
 
 </head>
+<style>
+
+</style>
 <body id="Vbody">
 	<div class="warn_tip">
 		<span class="warn_text">微信下单立减5元</span>
@@ -72,7 +75,7 @@ $_smarty_tpl->properties['nocache_hash'] = '86445846557d8208e5_11216863';
 					[[promotion.id==null?promocount+'张':'￥'+promotion.name]]
 				</span>
 			</li>
-			<li><span>配送时间</span><img src="/statics/images/right.png" alt=""><span id="sendtime" class="datat" onclick="laydate()"></span></li>
+			<li><span>配送时间</span><img src="/statics/images/right.png" alt=""><span id="sendtime" class="datat"></span></li>
 		</ul>
 	</div>
 	<div class="note">
@@ -144,8 +147,28 @@ $_smarty_tpl->properties['nocache_hash'] = '86445846557d8208e5_11216863';
 			</div>-->
 		</div>	
 	</div>
-<?php echo '<script'; ?>
+<!-- <?php echo '<script'; ?>
  src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"><?php echo '</script'; ?>
+> -->
+<?php echo '<script'; ?>
+ type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+>
+	var start = {
+	  elem: '#sendtime',
+	  format: 'YYYY-MM-DD hh:00',
+	  min: laydate.now(), //设定最小日期为当前日期
+	  max: '2099-06-16 23:59:59', //最大日期
+	  istime: true,
+	  istoday: false,
+	  choose: function(datas){
+	     end.min = datas; //开始日选好后，重置结束日的最小日期
+	     end.start = datas //将结束日的初始值设定为开始日
+	  }
+	};
+	laydate(start);
+<?php echo '</script'; ?>
 >
 <?php echo '<script'; ?>
  type="text/javascript">
@@ -170,7 +193,7 @@ if(getCookie('goods')!=null){
 	var Goods = eval("("+getCookie('goods')+")");console.log(Goods);
 	//var Goods = Order.goods;
 	
-	promotion
+	//promotion
 	makePrice();
 	showGoods();
 }else{
@@ -196,10 +219,14 @@ var vv = new Vue({
 		this.getUser();
 	},
 	methods: {
+		//获取用户信息
 		getUser:function(){
 			this.$http.get('/wx/ucenter/getuser', function(data, status, request) {
 				if(data.status==1){
-					User = data.data;
+					User = data.data;//alert(User.addr);
+					if(User.address==''){
+						getSigin();
+					}
 					this.$set('user', data.data);
 				}else{
 					this.$set('user', '');
@@ -216,7 +243,7 @@ var vv = new Vue({
 				}
 			});
 		},
-		//获取订单
+		//提交订单
 		submitOrder:function(){
 			setCookie('goods',null);
 			var comment = $("#beizhu").val();
@@ -254,7 +281,9 @@ var vv = new Vue({
 					  success: function(data){
 						  if(data.code==1){
 							 //dig("保存成功！");alert
-							 location.href="/wx/order/vpay?id="+data.data.id;
+							 var url = 'http://'+window.location.host+"/wx/order/vpay?id="+data.data.id;
+							 //alert(url);
+							 location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxccf5868dd605affe&redirect_uri='+encodeURIComponent(url).toLowerCase()+'&response_type=code&scope=snsapi_userinfo&state=5#wechat_redirect';
 						  }else{
 							 dig(data.msg);
 						  }
@@ -269,6 +298,7 @@ var vv = new Vue({
 			}
 			
 		},
+		//获取商品
 		getGoods:function(){
 			this.$http.get('/wx/order/getgoods',function(data, status, request){
 				if(data.status==1){
@@ -289,10 +319,14 @@ function changeNum(obj,num){
 	for(var i in Goods){
 		if(Goods[i].id==id){
 			Goods[i].num = parseInt(Goods[i].num)+num;
+			if(Goods[i].num<0){
+				Goods[i].num=0;
+			}
 		}
 	}
 	vv.$set('goods2',Goods);//console.log(vv.aa);
 }
+//获取共享地址
 function getSigin(){
 		var appId='';
 		var timestamp='';
@@ -323,40 +357,78 @@ function getSigin(){
 		//var imgUrl='http://m.miaozhunpin.com/static/img/fenxiang.png';//分享图片
 		//var desc='秒小空已经有10000+人次成功推荐办理入职';//描述
 		wx.config({
-			debug: true,
+			debug: false,
 			appId: appId,
 			timestamp: timestamp,
 			nonceStr: nonceStr,
 			signature: signature,
 			jsApiList: [
 				'openAddress',
-				//'onMenuShareTimeline',
-				//'onMenuShareAppMessage',
-				//'onMenuShareQQ',
-				//'onMenuShareWeibo',
-				//'onMenuShareQZone'
+				'checkJsApi',
+			    'editAddress',
+			    'chooseWXPay',
+			    'getLatestAddress',
+			    'openCard',
+			    'getLocation'
 			]
 		});
 
+		/*wx.checkJsApi({
+		    jsApiList: [
+		    	'openAddress',
+		    	'checkJsApi',
+			    'editAddress',
+			    'chooseWXPay',
+			    'getLatestAddress',
+			    'openCard',
+			    'getLocation'
+		    ], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+		    success: function(res) {
+		        // 以键值对的形式返回，可用的api值true，不可用为false
+		        
+		        
+		    }
+		});*/
 		wx.ready(function () {
+			//alert(wx.openAddress);
 			wx.openAddress({
-			     success: function (data) {
+			     success: function (res) {
 			          // 用户成功拉出地址
-			          console.log(data);
+			          //alert(data);
+			          var params = {
+			          	addr:res.provinceName+res.cityName+res.detailInfo
+			          };
+			          $.ajax({
+						  type: 'POST',
+						  url: '/wx/ucenter/upaddr',
+						  data: params,
+						  cache:false,  
+						  dataType:'json',
+						  success: function(data){
+							  if(data.status==1){
+								 dig("保存成功！");
+								 //location.href="/wx/order/vpay?id="+data.data.id;
+							  }else{
+								 dig(data.msg);
+							  }
+						  },
+						  error:function (){
+							  dig('系统繁忙！');
+						  }
+					});
 			     },
 			     cancel: function (data) {
 			          // 用户取消拉出地址
-			    	 console.log(data);
+			    	 dig(data);
 				 }
 			});
-			
 		});
 
 		wx.error(function (res) {
-			console.log(res.errMsg);  //打印错误消息。及把 debug:false,设置为debug:ture就可以直接在网页上看到弹出的错误提示
+			dig(res.errMsg);  //打印错误消息。及把 debug:false,设置为debug:ture就可以直接在网页上看到弹出的错误提示
 		});
 	}
-	getSigin();
+	
 <?php echo '</script'; ?>
 >
 </body>

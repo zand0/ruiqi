@@ -1,12 +1,14 @@
 <?php
 
 /**
- * 微信下订单
+ * 订气相关功能控制器
  */
 class OrderController extends Com\Controller\My\Guest {
 
     
-    
+    /**
+     * 渲染订单页面
+     */
     public function vorderAction() {
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
@@ -15,18 +17,23 @@ class OrderController extends Com\Controller\My\Guest {
         
         $this->_view->display('order\order_online.phtml'); 
     }
+    /**
+     * 渲染支付页面
+     */
     public function vpayAction(){
         $post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
-        if(!Wxlogin::islogin())
-            Wxlogin::wlogin($code);
+        /*if(!Wxlogin::islogin())
+            Wxlogin::wlogin($code);*/
         
         $this->_view->display('order\pay_money.phtml');
     }
-    
+    /**
+     * 获取微信签名配置包接口
+     */
     public function signAction(){
         try {
-            $jssdk = new Jssdk("wx70eaff95525d402a", "1b6e66de0e89e25e567a3c4b38ed5464",$_GET['url']);
+            $jssdk = new Jssdk("wxccf5868dd605affe", "d82a60977cdeaf8eb5f46a6a85e76779",$_GET['url']);
             $signPackage = $jssdk->GetSignPackage();
             //$callback = $_GET['callback'];
             return $this->ajaxReturn(1,'操作成功',$signPackage);
@@ -35,8 +42,10 @@ class OrderController extends Com\Controller\My\Guest {
         }
         
     }
-    
-    public function order(){
+    /**
+     * 提交订单接口
+     */
+    /*public function order(){
         Wxlogin::islogin();
         $post = $this->getRequest()->getQuery();
         $kid = Tools::session('kid');
@@ -57,11 +66,26 @@ class OrderController extends Com\Controller\My\Guest {
                 return $this->ajaxReturn(0,$e->getMessage(),'');
             }
         }
+    }*/
+    /**
+     * 支付接口
+     */
+    public function payAction(){
+        $post = $this->getRequest()->getQuery();
+        $type = isset($post['type'])?$post['type']:0;
+        $pid = isset($post['promoid'])?$post['promoid']:0;
+        if(empty($pid)){
+            $this->ajaxReturn(1,'pid is empty','');
+        }
+        if($type==0){
+            //货到付款处理
+            LibF::M('promotions_user')->where(['id'=>$pid])->save(['status'=>1]);
+            return $this->ajaxReturn(1,'ok','');
+        }
     }
-    
-    public function pay(){
-        
-    }
+    /**
+     * 
+     */
     public function testindexAction() {
         //获取当前钢瓶规格
         $bottleTypeModel = new BottletypeModel();
@@ -84,6 +108,9 @@ class OrderController extends Com\Controller\My\Guest {
         $this->_view->assign('data', $commdify);
     }
 
+    /**
+     * 提交订单接口
+     */
     public function createorderAction() {
         /*$post = $this->getRequest()->getQuery();
         $code = isset($post['code'])?$post['code']:0;
@@ -115,9 +142,16 @@ class OrderController extends Com\Controller\My\Guest {
             $param['mobile'] = $mobile;
             $param['comment'] = $comment;
             $param['num'] = 0;
-            $param['sendtime']=isset($post['sendtime'])?strtotime($post['sendtime']):time();
+            $param['sendtime']=isset($post['sendtime'])&&!empty($post['sendtime'])?strtotime($post['sendtime']):0;
+            
             $param['promotion_id'] = isset($post['promotion_id'])?$post['promotion_id']:0;
             $param["promotion_money"] = isset($post['promotion_money'])?$post['promotion_money']:0;
+            if(empty($param['sendtime'])){
+                return $this->ajaxReturn(0,'请选择配送时间','');
+            }
+            if(mb_strlen($param['comment'],'utf8')>60){
+                return $this->ajaxReturn(0,'备注不能超过60个字','');
+            }
             if (!empty($username)) {
                 $param['username'] = $username;
             }
@@ -138,7 +172,9 @@ class OrderController extends Com\Controller\My\Guest {
     public function appAction() {
         
     }
-    
+    /**
+     * 获取商品接口
+     */
     public function getgoodsAction(){
         $bottleTypeModel = new BottletypeModel();
         $bottleTypeData = $bottleTypeModel->getBottleTypeArray();
@@ -165,6 +201,9 @@ class OrderController extends Com\Controller\My\Guest {
         //$this->_view->assign('data', $commdify);
     }
 
+    /**
+     * 支付页获取商品列表
+     */
     public function getordertmpAction(){
         $post = $this->getRequest()->getQuery();
         $id = isset($post['id'])?$post['id']:0;
@@ -187,10 +226,13 @@ class OrderController extends Com\Controller\My\Guest {
             
         }
         $res['goods']=$goods;
-        $res['sendtime_str'] = date('Y-m-d H:i:s',$res['sendtime']);
+        $res['sendtime_str'] = date('Y-m-d H:00:00',$res['sendtime']);
         return $this->ajaxReturn(1,'ok',$res);
     }
-    
+    /**
+     * 获取单个商品
+     * @param unknown $id
+     */
     private function getgoods($id){
         $bottleTypeModel = new BottletypeModel();
         $bottleTypeData = $bottleTypeModel->getBottleTypeArray();

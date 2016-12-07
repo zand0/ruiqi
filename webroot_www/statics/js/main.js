@@ -120,10 +120,11 @@ $(function(){
     });
     //单选框
     $('.choose').click(function(){
+        $(this).parent().siblings().children('.c_circle').attr("src", "/statics/images/btn_f.png");
         if($(this).attr("src")=="/statics/images/btn_f.png"){
             $(this).attr("src", "/statics/images/btn_t.png"); 
         }else{
-            $(this).attr("src", "/statics/images/btn_f.png"); 
+            //$(this).attr("src", "/statics/images/btn_f.png"); 
         }
         
     }) ;

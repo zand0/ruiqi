@@ -3,7 +3,7 @@
     var b = {
         path: "",
         defSkin: "default",
-        format: "YYYY-MM-DD",
+        format: "YYYY-MM-DD hh:00",
         min: "1900-01-01 00:00:00",
         max: "2099-12-31 23:59:59",
         isv: !1
@@ -221,6 +221,9 @@
         }), h.ok = b("#laydate_ok"), c.on(h.ok, "click", function () {
             c.valid && c.creation([c.ymd[0], c.ymd[1] + 1, c.ymd[2]])
         }), e.times = b("#laydate_time"), c.hmsin = e.hmsin = b("#laydate_hms input"), e.hmss = ["小时", "分钟", "秒数"], e.hmsarr = [], c.msg = function (a, d) {
+            if(d=='分钟'||d=='秒数'){
+                return;
+            }
             var f = '<div class="laydte_hsmtex">' + (d || "提示") + "<span>×</span></div>";
             "string" == typeof a ? (f += "<p>" + a + "</p>", c.shde(b("#" + h[0])), c.removeClass(e.times, "laydate_time1").addClass(e.times, "laydate_msg")) : (e.hmsarr[a] ? f = e.hmsarr[a] : (f += '<div id="laydate_hmsno" class="laydate_hmsno">', c.each(new Array(0 === a ? 24 : 60), function (a) {
                 f += "<span>" + a + "</span>"

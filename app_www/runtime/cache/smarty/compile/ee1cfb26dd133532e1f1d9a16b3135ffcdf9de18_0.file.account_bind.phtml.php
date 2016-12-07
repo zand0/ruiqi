@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-06 16:32:02
+<?php /* Smarty version 3.1.27, created on 2016-12-07 12:41:58
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ucenter\account_bind.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:25639584677826d69d2_54940269%%*/
+/*%%SmartyHeaderCode:3267758479316b49253_66708119%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ee1cfb26dd133532e1f1d9a16b3135ffcdf9de18' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ucenter\\account_bind.phtml',
-      1 => 1481012876,
+      1 => 1481078845,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '25639584677826d69d2_54940269',
+  'nocache_hash' => '3267758479316b49253_66708119',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_584677826dfa62_20545785',
+  'unifunc' => 'content_58479316b52376_83208745',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_584677826dfa62_20545785')) {
-function content_584677826dfa62_20545785 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_58479316b52376_83208745')) {
+function content_58479316b52376_83208745 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '25639584677826d69d2_54940269';
+$_smarty_tpl->properties['nocache_hash'] = '3267758479316b49253_66708119';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +53,7 @@ $_smarty_tpl->properties['nocache_hash'] = '25639584677826d69d2_54940269';
 		<span>手机号</span><input id="phone" type="tel" placeholder="请输入手机号" maxlength="11">
 	</div>
 	<div class="code">
-		<input id="vcode" type="number" placeholder="请输入验证码"><span>获取验证码</span>
+		<input id="vcode" type="number" placeholder="请输入验证码"><span v-on:click="getCode">获取验证码</span>
 	</div>
 	<div v-on:click="bind" class="finish">完成</div>
 <?php echo '<script'; ?>
@@ -69,7 +69,7 @@ new Vue({
 		//this.getPromotion();
 	},
 	methods: {
-		//获取订单
+		//绑定方法
 		bind:function(){
 			var phone = $('#phone').val();
 			var vcode = $("#vcode").val();
@@ -99,8 +99,16 @@ new Vue({
 				  }
 			});
 		},
+		//获取验证码接口
 		getCode:function(){
+			var phone = $("#phone").val();
+			this.$http.get('/wx/ucenter/getcode?phone='+phone,function(data, status, request){
+				if(data.status==1){
 
+				}else{
+
+				}
+			});
 		}
 	}
 })
