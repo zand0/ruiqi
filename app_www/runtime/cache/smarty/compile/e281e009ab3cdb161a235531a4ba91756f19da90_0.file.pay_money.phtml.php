@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-07 17:15:37
+<?php /* Smarty version 3.1.27, created on 2016-12-08 11:17:30
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\order\pay_money.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:278475847d3398f5570_05457209%%*/
+/*%%SmartyHeaderCode:310415848d0ca607798_68249189%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e281e009ab3cdb161a235531a4ba91756f19da90' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\order\\pay_money.phtml',
-      1 => 1481102135,
+      1 => 1481167047,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '278475847d3398f5570_05457209',
+  'nocache_hash' => '310415848d0ca607798_68249189',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5847d33990c514_19993438',
+  'unifunc' => 'content_5848d0ca619078_08887292',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5847d33990c514_19993438')) {
-function content_5847d33990c514_19993438 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_5848d0ca619078_08887292')) {
+function content_5848d0ca619078_08887292 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '278475847d3398f5570_05457209';
+$_smarty_tpl->properties['nocache_hash'] = '310415848d0ca607798_68249189';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,7 @@ $_smarty_tpl->properties['nocache_hash'] = '278475847d3398f5570_05457209';
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
 	<title>提交订单</title>
 	<link rel="stylesheet" href="/statics/css/base.css"/>
-	<link rel="stylesheet" href="/statics/css/style.css"/>
+	<!-- <link rel="stylesheet" href="/statics/css/style.css"/> -->
 	<?php echo '<script'; ?>
  src="/statics/js/jquery-1.8.3.min.js"><?php echo '</script'; ?>
 >
@@ -56,8 +56,8 @@ $_smarty_tpl->properties['nocache_hash'] = '278475847d3398f5570_05457209';
 		<div class="r_con">
 			<ul>
 				<li>
-					<span class="user_name">[[user.user_name]]</span>
-					<span class="user_tel">[[user.mobile_phone]]</span>
+					<span class="user_name name_word">用户名：[[user.user_name]]</span>
+					<span class="user_tel">手机号：[[user.mobile_phone]]</span>
 				</li>
 				<li onclick="getSigin()">
 					[[user.address]]
@@ -139,6 +139,9 @@ new Vue({
 						totalpric += goods[i].num*goods[i].price; 
 					}
 					totalpric -= data.data.promotion_money;
+					if(totalpric>5){
+						totalpric -= 5;
+					}
 					payMoney =  totalpric;
 					Promoid = data.data.promotion_id;
 					this.$set('totalprice',totalpric);
@@ -164,8 +167,10 @@ new Vue({
 				paymoney:payMoney,
 				promoid:Promoid
 			};
+
 			if(params.paytype==1){
-				location.href='';
+				location.href='';//支付页面
+				return;
 			}
 			$.ajax({
 				  type: 'GET',
@@ -191,6 +196,7 @@ new Vue({
 
 //获取共享地址
 function getSigin(){
+	return;
 		var appId='';
 		var timestamp='';
 		var nonceStr='';
@@ -269,7 +275,7 @@ function getSigin(){
 		WeixinJSBridge.invoke('editAddress', editConfig, function (res) {
 			//若res 中所带的返回值不为空，则表示用户选择该返回值作为收货地址。
 			//否则若返回空，则表示用户取消了这一次编辑收货地址。
-			alert(res);
+			alert(res.err_msg);
 		});
 		//});
 		wx.ready(function () {

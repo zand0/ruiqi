@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
 	<title>提交订单</title>
 	<link rel="stylesheet" href="/statics/css/base.css"/>
-	<link rel="stylesheet" href="/statics/css/style.css"/>
+	<!-- <link rel="stylesheet" href="/statics/css/style.css"/> -->
 	<script src="/statics/js/jquery-1.8.3.min.js"></script>
 	<script src="/statics/js/main.js"></script>
 	<script type="text/javascript" src="/statics/js/Vue.min.js"></script>
@@ -20,8 +20,8 @@
 		<div class="r_con">
 			<ul>
 				<li>
-					<span class="user_name">[[user.user_name]]</span>
-					<span class="user_tel">[[user.mobile_phone]]</span>
+					<span class="user_name name_word">用户名：[[user.user_name]]</span>
+					<span class="user_tel">手机号：[[user.mobile_phone]]</span>
 				</li>
 				<li onclick="getSigin()">
 					[[user.address]]
@@ -100,6 +100,9 @@ new Vue({
 						totalpric += goods[i].num*goods[i].price; 
 					}
 					totalpric -= data.data.promotion_money;
+					if(totalpric>5){
+						totalpric -= 5;
+					}
 					payMoney =  totalpric;
 					Promoid = data.data.promotion_id;
 					this.$set('totalprice',totalpric);
@@ -125,8 +128,10 @@ new Vue({
 				paymoney:payMoney,
 				promoid:Promoid
 			};
+
 			if(params.paytype==1){
-				location.href='';
+				location.href='';//支付页面
+				return;
 			}
 			$.ajax({
 				  type: 'GET',

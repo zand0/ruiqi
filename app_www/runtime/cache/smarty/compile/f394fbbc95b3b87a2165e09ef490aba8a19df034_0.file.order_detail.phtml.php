@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-05 14:14:20
+<?php /* Smarty version 3.1.27, created on 2016-12-08 16:41:07
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\order_detail.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:30604584505bc6832c2_28525256%%*/
+/*%%SmartyHeaderCode:343158491ca3b4e0d0_00727259%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,27 +9,27 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f394fbbc95b3b87a2165e09ef490aba8a19df034' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\order_detail.phtml',
-      1 => 1480918360,
+      1 => 1481186404,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '30604584505bc6832c2_28525256',
+  'nocache_hash' => '343158491ca3b4e0d0_00727259',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_584505bc698369_19738317',
+  'unifunc' => 'content_58491ca3b5c632_23701121',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_584505bc698369_19738317')) {
-function content_584505bc698369_19738317 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_58491ca3b5c632_23701121')) {
+function content_58491ca3b5c632_23701121 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '30604584505bc6832c2_28525256';
+$_smarty_tpl->properties['nocache_hash'] = '343158491ca3b4e0d0_00727259';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
-	<title>订单详情（已完成）</title>
+	<title>订单详情</title>
 	<link rel="stylesheet" href="/statics/css/base.css"/>
 	<link rel="stylesheet" href="/statics/css/style.css"/>
 	<?php echo '<script'; ?>
@@ -60,8 +60,8 @@ $_smarty_tpl->properties['nocache_hash'] = '30604584505bc6832c2_28525256';
 		<div class="r_con">
 			<ul>
 				<li>
-					<span class="user_name">[[order.username]]</span>
-					<span class="user_tel">[[order.mobile]]</span>
+					<span class="user_name name_word">用户名：[[order.username]]</span>
+					<span class="user_tel">手机号：[[order.mobile]]</span>
 				</li>
 				<li>
 					[[order.address]]
@@ -90,14 +90,14 @@ $_smarty_tpl->properties['nocache_hash'] = '30604584505bc6832c2_28525256';
 			<template v-for="info in order.order_info">
 			<tr>
 				<td>[[info.name]]</td>
-				<td>[[info.type]]</td>
+				<td>[[info.cname==undefined?info.type:'']]</td>
 				<td>[[info.goods_price]]</td>
 				<td>[[info.goods_num]]</td>
 			</tr>
 			</template>
 		</table>
 	</div>
-	<div class="all_sum">
+	<!-- <div class="all_sum">
 		<p class="sum_t">
 			<span>
 				商品金额
@@ -109,15 +109,16 @@ $_smarty_tpl->properties['nocache_hash'] = '30604584505bc6832c2_28525256';
 		<p class="sum_t">金额</p>
 		<template v-for="info in order.order_info">
 		<p class="sum_c">
-			<span>[[info.type]]</span>
+			<span>[[info.cname]]</span>
 			<span>[[info.goods_num]]</span>
 			<span>￥[[info.goods_price]]</span>
 		</p>
 		</template>
 		
-	</div>
+	</div> -->
+	
 	<div class="wx_order">
-		<p class="sum_t">
+		<p v-if="order.order_type==0" class="sum_t">
 			<span>
 				微信下单
 			</span>
@@ -138,24 +139,40 @@ $_smarty_tpl->properties['nocache_hash'] = '30604584505bc6832c2_28525256';
 				残液抵扣
 			</span>
 			<span>
-				-￥5
+				-￥[[order.raffinat==null?0:order.raffinat]]
 			</span>
 		</p>
-		<p>折旧</p>
-		<p class="sum_cc">
+		<p class="sum_t">
+			<span>
+				折旧
+			</span>
+			<span>
+				-￥[[order.depreciation]]
+			</span>
+		</p>
+		<!-- <p>折旧</p> -->
+		<!-- <p class="sum_cc">
 			<span>30kg</span>
 			<span>08年</span>
 			<span>2</span>
 			<span>-￥30</span>
-		</p>
+		</p> -->
 	</div>
 	<div class="pay_con">
 		<p class="sum_t">
 			<span>
-				应付
+				押金
 			</span>
 			<span>
-				￥[[order.shouldmoney]]
+				￥[[order.deposit]]
+			</span>
+		</p>
+		<p class="sum_t">
+			<span>
+				商品应付金额：
+			</span>
+			<span>
+				￥[[order.pay_money-order.deposit]]
 			</span>
 		</p>
 		<p class="sum_t">
@@ -191,15 +208,15 @@ $_smarty_tpl->properties['nocache_hash'] = '30604584505bc6832c2_28525256';
 	</div>
 	<div class="finish_time">
 		<div class="l_time">配送时间</div>
-		<div class="r_time">2016-11-24 08:00</div>
+		<div class="r_time">[[order.good_time_str]]</div>
 	</div>
 	<div class="blank_c"></div>
 	<template v-if="order.status==4">
 	<div class="f_submit">
-		<div class="l_sub">
+		<!-- <div class="l_sub">
 			删除订单
-		</div>
-		<div class="r_btn evaluate">去评价</div>
+		</div> -->
+		<div onclick="location.href='/wx/ordermanage/comment?orderid=[[order.order_id]]'" class="r_btn evaluate">[[order.is_evaluation==1?'已评价':'去评价']]</div>
 	</div>
 	</template>
 <?php echo '<script'; ?>

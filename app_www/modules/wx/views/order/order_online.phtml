@@ -18,6 +18,8 @@
 
 </style>
 <body id="Vbody">
+<div style="overflow:hidden;width:100%">
+
 	<div class="warn_tip">
 		<span class="warn_text">微信下单立减5元</span>
 		<img class="close" src="/statics/images/close.png" alt="">
@@ -107,6 +109,7 @@
 			</div>-->
 		</div>	
 	</div>
+</div>
 <!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> -->
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
 <script>
@@ -236,7 +239,8 @@ var vv = new Vue({
 							 //dig("保存成功！");alert
 							 var url = 'http://'+window.location.host+"/wx/order/vpay?id="+data.data.id;
 							 //alert(url);
-							 location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxccf5868dd605affe&redirect_uri='+encodeURIComponent(url).toLowerCase()+'&response_type=code&scope=snsapi_userinfo&state=5#wechat_redirect';
+							 location.href=url;
+							 //location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxccf5868dd605affe&redirect_uri='+encodeURIComponent(url).toLowerCase()+'&response_type=code&scope=snsapi_userinfo&state=5#wechat_redirect';
 						  }else{
 							 dig(data.msg);
 						  }
@@ -349,7 +353,8 @@ function getSigin(){
 			          // 用户成功拉出地址
 			          //alert(data);
 			          var params = {
-			          	addr:res.provinceName+res.cityName+res.detailInfo
+			          	addr:res.provinceName+res.cityName+res.detailInfo,
+			          	name:res.userName
 			          };
 			          $.ajax({
 						  type: 'POST',
@@ -372,7 +377,7 @@ function getSigin(){
 			     },
 			     cancel: function (data) {
 			          // 用户取消拉出地址
-			    	 dig(data);
+			    	 //dig(data);
 				 }
 			});
 		});

@@ -10,7 +10,7 @@ class OrderwxModel extends \Com\Model\Base {
     public function __construct() {
         $this->errorStatusPrefix = '801';
     }
-
+    //获取订单详情
     public function getOrder($id){
         $param['orderid']=$id;
         $res = $this->getOrderList($param);
@@ -22,13 +22,17 @@ class OrderwxModel extends \Com\Model\Base {
             //获取用户信息
             $res['user_info']=LibF::M('kehu')->where('kid=%d',[$res['kid']])->getField('kid,user_name,mobile_phone,address')[$res['kid']];
             $res['orderstatus']=$this->getOrderStatus($res);
-            $res['otime_str'] = date('Y-m-d H:i:s',$res['otime']);
+            $res['otime_str'] = date('Y-m-d H:i',$res['otime']);
+            $res['good_time_str'] = date('Y-m-d H:i',$res['good_time']);
+            if(empty($res['shop_name'])){
+                $res['shop_name'] = LibF::M('shop')->field('shop_name')->where(['shop_id'=>$res['shop_id']])->find()['shop_name'];
+            }
             return $res;
         }
     }
     
     /**
-     * 获取用户订单信息
+     * 获取用户订单列表
      * @param string $param
      * @param string $order
      * @return unknown
@@ -287,7 +291,32 @@ class OrderwxModel extends \Com\Model\Base {
                 $d['type']='';
                 $d['name']=$d['goods_name'];
             }
-            
+            if(empty($d['type'])){
+                $bottleTypeModel = new BottletypeModel();
+                $bottleTypeData = $bottleTypeModel->getBottleTypeArray();
+                
+                //获取配件规格
+                $productTypeModel = new ProducttypeModel();
+                $productTypeData = $productTypeModel->getProductTypeArray();
+                
+                $commdify = LibF::M('commodity')->where(array('id'=>$d['goods_id'],'status' => 0, 'type' => 1))->select();
+                if (!empty($commdify)) {
+                    foreach ($commdify as &$value) {
+                        if ($value['type'] == 1) {
+                            $value['cname'] = $bottleTypeData[$value['norm_id']]['bottle_name'];
+                        } else {
+                            $value['cname'] = $productTypeData[$value['norm_id']]['name'];
+                        }
+                    }
+                    unset($value);
+                    //return $commdify[0];
+                    $d['type']=$commdify[0]['cname'];
+                }else{
+                    //return null;
+                    $d['type']='';
+                }
+                //$d['type'] = LibF::M('bottle_type')->field('bottle_name')->where(['id'=>$d['goods_id']])->find()['bottle_name'];
+            }
         }
         unset($d);
         return $data;

@@ -25,7 +25,7 @@ body{
 }
 /*在线下单*/
 .warn_tip{
-	width: 100%;
+	/*width: 100%;*/
 	height: 4rem;
 	line-height: 4rem;
 	padding: 0 20px;
@@ -242,7 +242,7 @@ body{
 .goods_detail,.else-info{
 	margin-top: 10px;
 	background: #fff;
-	width: 100%;
+	/*width: 100%;*/
 }
 .goods_detail table{
 	width: 100%;
@@ -274,14 +274,15 @@ body{
 }
 .else-info{
 	padding-left: 10px;
-	width: 100%;
+	/*width: 100%;*/
+	overflow: hidden;
 }
 .else-info li{
 	height: 4.5rem;
 	line-height: 4.5rem;
 	font-size: 15px;
 	color: #666;
-	width: 94%;
+	/*width: 94%;*/
     padding-right: 10px;
 	border-bottom: 1px solid #e0e0e0;
 }
@@ -350,13 +351,21 @@ body{
 .r_sure{
 	color:#0280e5;
 }
+.name_word{
+	width:45%;
+	display:inline-block;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
 /*账户绑定*/
 .tel,.code{
 	background: #fff;
 	padding: 0 20px;
 	height: 4.5rem;
 	line-height: 4.5rem;
-	width: 100%;
+	/*width: 100%;*/
+	overflow: hidden;
 }
 .tel span{
 	width: 30%;
@@ -368,7 +377,7 @@ body{
 
 }
 .tel input{
-	width: 70%;
+	width: 60%;
 	font-size: 16px;
 	color: #898989;
 	height: 2.5rem;
@@ -387,12 +396,12 @@ body{
     border: none;
 }
 .code span{
-	width: 20%;
+	width: 23%;
 	float: right;
 	height: 3rem;
     line-height: 3rem;
     margin-top: .7rem;
-    margin-right: 3rem;
+    /*margin-right: 3rem;*/
 	font-size: 14px;
 	color: #0280e5;
 	border-radius: 8px;

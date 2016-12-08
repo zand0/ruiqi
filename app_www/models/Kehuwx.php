@@ -10,7 +10,8 @@ class KehuwxModel extends \Com\Model\Base {
     public function __construct() {
         $this->errorStatusPrefix = '801';
     }
-
+    
+    //绑定openid
     public function bindOpenid($openid,$phone){
         $mkehu = LibF::M('kehu');
         if($res=$mkehu->where(['openid'=>$openid])->find()){

@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-07 12:41:58
+<?php /* Smarty version 3.1.27, created on 2016-12-08 12:25:36
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ucenter\account_bind.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:3267758479316b49253_66708119%%*/
+/*%%SmartyHeaderCode:119335848e0c03900d7_01434969%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ee1cfb26dd133532e1f1d9a16b3135ffcdf9de18' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ucenter\\account_bind.phtml',
-      1 => 1481078845,
+      1 => 1481171093,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '3267758479316b49253_66708119',
+  'nocache_hash' => '119335848e0c03900d7_01434969',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_58479316b52376_83208745',
+  'unifunc' => 'content_5848e0c03a18c0_04952554',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_58479316b52376_83208745')) {
-function content_58479316b52376_83208745 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_5848e0c03a18c0_04952554')) {
+function content_5848e0c03a18c0_04952554 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '3267758479316b49253_66708119';
+$_smarty_tpl->properties['nocache_hash'] = '119335848e0c03900d7_01434969';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,7 @@ $_smarty_tpl->properties['nocache_hash'] = '3267758479316b49253_66708119';
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0"/>
 	<title>账户绑定</title>
 	<link rel="stylesheet" href="/statics/css/base.css"/>
-	<link rel="stylesheet" href="/statics/css/style.css"/>
+	<!-- <link rel="stylesheet" href="/statics/css/style.css"/> -->
 	<?php echo '<script'; ?>
  src="/statics/js/jquery-1.8.3.min.js"><?php echo '</script'; ?>
 >
@@ -48,17 +48,43 @@ $_smarty_tpl->properties['nocache_hash'] = '3267758479316b49253_66708119';
 ?>
 
 </head>
-<body id="Vbody">
-	<div class="tel">
-		<span>手机号</span><input id="phone" type="tel" placeholder="请输入手机号" maxlength="11">
+<body id="Vbody" style="overflow:hidden;width:100%">
+	<div style="overflow:hidden;width:100%">
+		<div class="tel">
+			<span>手机号</span><input id="phone" type="tel" placeholder="请输入手机号" maxlength="11">
+		</div>
+		<div class="code">
+			<input id="vcode" type="number" placeholder="请输入验证码"><span id="getCode" v-on:click="getCode">获取验证码</span>
+		</div>
+		<div v-on:click="bind" class="finish">完成</div>
 	</div>
-	<div class="code">
-		<input id="vcode" type="number" placeholder="请输入验证码"><span v-on:click="getCode">获取验证码</span>
-	</div>
-	<div v-on:click="bind" class="finish">完成</div>
+	
 <?php echo '<script'; ?>
  type="text/javascript">
+var validCode=true;
 
+$(function  () {
+	//获取短信验证码
+	// $("#getCode").click (function  () {
+	// 	var time=30;
+	// 	var code=$(this);
+	// 	if (validCode && $("#phone").val()) {
+	// 		validCode=false;
+	// 		//code.addClass("msgs1");
+	// 	var t=setInterval(function  () {
+	// 			time--;
+	// 			code.html('等待'+time+"秒");
+	// 			if (time==0) {
+	// 				clearInterval(t);
+	// 			code.html("获取验证码");
+	// 				validCode=true;
+	// 			//code.removeClass("msgs1");
+
+	// 			}
+	// 		},1000)
+	// 	}
+	// })
+})
 new Vue({
 	el: '#Vbody',
 	data:{
@@ -101,12 +127,35 @@ new Vue({
 		},
 		//获取验证码接口
 		getCode:function(){
+			if(!validCode){
+				return;
+			}
 			var phone = $("#phone").val();
 			this.$http.get('/wx/ucenter/getcode?phone='+phone,function(data, status, request){
 				if(data.status==1){
+					//获取短信验证码
+					//$("#getCode").click (function  () {
+						var time=30;
+						var code=$("#getCode");
+						if (validCode && $("#phone").val()) {
+							validCode=false;
+							//code.addClass("msgs1");
+						var t=setInterval(function  () {
+								time--;
+								code.html('等待'+time+"秒");
+								if (time==0) {
+									clearInterval(t);
+								code.html("获取验证码");
+									validCode=true;
+								//code.removeClass("msgs1");
 
+								}
+							},1000)
+						}
+					//});
+					dig(data.msg);
 				}else{
-
+					dig(data.msg);
 				}
 			});
 		}

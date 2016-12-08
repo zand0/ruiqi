@@ -4,7 +4,7 @@
  * 通用的树型类，可以生成任何树型结构
  */
 class VerificationCodeModel extends \Com\Model\Base {
-
+    //检查验证码有效性
     public function checkCode($phone,$code){
         //return 1;
         //$uc = $this->_m;
@@ -24,7 +24,7 @@ class VerificationCodeModel extends \Com\Model\Base {
             return 0;
         }
     }
-    
+    //添加验证码
     public function addCode($post){
         $data = array(
             'mobile'=>$post['phone'],
@@ -47,7 +47,7 @@ class VerificationCodeModel extends \Com\Model\Base {
         }
     
     }
-    
+    //检查验证码获取频率
     public function getSmsLimit($phone){
         $m_vc = LibF::M('verification_code');
         $time = $m_vc->where(['mobile'=>$phone])->find()['time'];

@@ -5,6 +5,7 @@ class Wxlogin
     private static $appid='wxccf5868dd605affe';
     private static $appsecret='d82a60977cdeaf8eb5f46a6a85e76779';
     private static $fromurl = '';
+    //执行登陆
     public static function wlogin($code){
         if(empty(Tools::session('kid'))){
             if(!empty($code)){
@@ -14,9 +15,10 @@ class Wxlogin
             }
         } 
     }
+    //检查是否登陆
     public static function islogin(){
-        Tools::session('kid',170);
-        return true;
+        //Tools::session('kid',170);
+        //return true;
         //var_dump(Tools::session('kid'));
         $code = $_GET['code'];
         if(!empty($code)){
@@ -64,7 +66,7 @@ class Wxlogin
         }
         return $openid;
     } 
-    
+    //检查是否绑定，未绑定调到绑定页面
     private static  function sw($openid){
         if( $res = LibF::M('kehu')->where(['openid'=>$openid])->find() ){
             self::login($res['kid']);

@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-07 18:04:24
+<?php /* Smarty version 3.1.27, created on 2016-12-08 17:09:23
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\order\order_online.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:276735847dea8dd8e68_82090729%%*/
+/*%%SmartyHeaderCode:243385849234349b595_34013814%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e5501647169c41c4d66f021aeb211e82e1326c03' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\order\\order_online.phtml',
-      1 => 1481104183,
+      1 => 1481187618,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '276735847dea8dd8e68_82090729',
+  'nocache_hash' => '243385849234349b595_34013814',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5847dea8df5058_25250497',
+  'unifunc' => 'content_584923434b65c9_92697817',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5847dea8df5058_25250497')) {
-function content_5847dea8df5058_25250497 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_584923434b65c9_92697817')) {
+function content_584923434b65c9_92697817 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '276735847dea8dd8e68_82090729';
+$_smarty_tpl->properties['nocache_hash'] = '243385849234349b595_34013814';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,6 +58,8 @@ $_smarty_tpl->properties['nocache_hash'] = '276735847dea8dd8e68_82090729';
 
 </style>
 <body id="Vbody">
+<div style="overflow:hidden;width:100%">
+
 	<div class="warn_tip">
 		<span class="warn_text">微信下单立减5元</span>
 		<img class="close" src="/statics/images/close.png" alt="">
@@ -147,6 +149,7 @@ $_smarty_tpl->properties['nocache_hash'] = '276735847dea8dd8e68_82090729';
 			</div>-->
 		</div>	
 	</div>
+</div>
 <!-- <?php echo '<script'; ?>
  src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"><?php echo '</script'; ?>
 > -->
@@ -283,7 +286,8 @@ var vv = new Vue({
 							 //dig("保存成功！");alert
 							 var url = 'http://'+window.location.host+"/wx/order/vpay?id="+data.data.id;
 							 //alert(url);
-							 location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxccf5868dd605affe&redirect_uri='+encodeURIComponent(url).toLowerCase()+'&response_type=code&scope=snsapi_userinfo&state=5#wechat_redirect';
+							 location.href=url;
+							 //location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxccf5868dd605affe&redirect_uri='+encodeURIComponent(url).toLowerCase()+'&response_type=code&scope=snsapi_userinfo&state=5#wechat_redirect';
 						  }else{
 							 dig(data.msg);
 						  }
@@ -396,7 +400,8 @@ function getSigin(){
 			          // 用户成功拉出地址
 			          //alert(data);
 			          var params = {
-			          	addr:res.provinceName+res.cityName+res.detailInfo
+			          	addr:res.provinceName+res.cityName+res.detailInfo,
+			          	name:res.userName
 			          };
 			          $.ajax({
 						  type: 'POST',
@@ -419,7 +424,7 @@ function getSigin(){
 			     },
 			     cancel: function (data) {
 			          // 用户取消拉出地址
-			    	 dig(data);
+			    	 //dig(data);
 				 }
 			});
 		});

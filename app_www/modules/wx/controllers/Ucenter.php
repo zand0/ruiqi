@@ -175,7 +175,7 @@ class UcenterController extends Com\Controller\My\Guest {
         if(!preg_match("/^1[3|4|5|7|8]\d{9}$/", $phone)){
             return $this->ajaxReturn(0,'手机号不正确','');
         }
-        $msg = $this->_req->getPost('msg');
+        $msg = $this->getRequest()->getPost('msg');
         $isver = isset($post['isver'])?$post['isver']:1;
 //         if(isset($token) && $token && $token!=4493049){
 //             return $this->show_json(array('state'=>0,'msg'=>'err','url'=>''));exit;
@@ -209,8 +209,9 @@ class UcenterController extends Com\Controller\My\Guest {
                 $uc = new VerificationCodeModel();
                 //$uc->R_getSmsLimit($phone);
                 //验证码接口
-                //$sms=new Sms;
-                //$res= $sms->SendData($phone,$data,$verify);
+                //...
+                //临时方案
+                return $this->ajaxReturn(1,$verify,'');
                 
                 if($res['returnstatus']=='Success'){
                     if($uc->addCode(array('phone'=>$phone,'code'=>$verify))){
@@ -236,9 +237,13 @@ class UcenterController extends Com\Controller\My\Guest {
     public function upaddrAction(){
         $post = $this->getRequest()->getPost();
         $addr = isset($post['addr'])?$post['addr']:0;
+        $name = isset($post['name'])?$post['name']:0;
         $kid = Tools::session('kid');
         if(empty($addr)){
             return $this->ajaxReturn(0,'地址为空','');
+        }
+        if(empty($name)){
+            return $this->ajaxReturn(0,'姓名为空','');
         }
         if(empty($kid)){
             return $this->ajaxReturn(0,'登陆超时','');
@@ -247,7 +252,7 @@ class UcenterController extends Com\Controller\My\Guest {
         //$khm->where(['kid'=>$kid])->find()
         if($res=$khm->where(['kid'=>$kid])->find()){
             if(empty($res['address'])){
-                $khm->where(['kid'=>$kid])->save(['address'=>$addr]);
+                $khm->where(['kid'=>$kid])->save(['address'=>$addr,'user_name'=>$name]);
             }
         }
         return $this->ajaxReturn(1,'ok','');

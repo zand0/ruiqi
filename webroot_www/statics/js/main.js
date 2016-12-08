@@ -21,6 +21,10 @@ function makePrice(){
         //Order.price = 0;
 		//Order.price += parseInt(Goods[i].direct_price)*Goods[i].num;
 	}
+    //微信下单-5元
+    if(Order.price>5){
+        Order.price=Order.price-5;
+    }
 	
 }
 function saveO2J(obj,name){

@@ -149,6 +149,12 @@ class OrderController extends Com\Controller\My\Guest {
             if(empty($param['sendtime'])){
                 return $this->ajaxReturn(0,'请选择配送时间','');
             }
+            if($param['sendtime']<time()){
+                return $this->ajaxReturn(0,'请选择将来的时间点','');
+            }
+            if($param['sendtime'] > (time()+3600*24*3) ){
+                return $this->ajaxReturn(0,'请选择3天之内的时间点','');
+            }
             if(mb_strlen($param['comment'],'utf8')>60){
                 return $this->ajaxReturn(0,'备注不能超过60个字','');
             }
