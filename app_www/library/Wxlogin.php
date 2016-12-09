@@ -17,8 +17,8 @@ class Wxlogin
     }
     //检查是否登陆
     public static function islogin(){
-        //Tools::session('kid',170);
-        //return true;
+        Tools::session('kid',170);
+        return true;
         //var_dump(Tools::session('kid'));
         $code = $_GET['code'];
         if(!empty($code)){

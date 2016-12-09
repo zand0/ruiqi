@@ -99,7 +99,12 @@ new Vue({
 					for(var i in goods){
 						totalpric += goods[i].num*goods[i].price; 
 					}
-					totalpric -= data.data.promotion_money;
+					if(totalpric>data.data.promotion_money){
+						totalpric -= data.data.promotion_money;
+					}else{
+						totalpric = 0;
+					}
+					
 					if(totalpric>5){
 						totalpric -= 5;
 					}

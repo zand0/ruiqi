@@ -136,7 +136,7 @@
 				商品应付金额：
 			</span>
 			<span>
-				￥[[order.pay_money-order.deposit]]
+				￥[[order.status==4?order.pay_money-order.deposit:order.money-order.deposit]]
 			</span>
 		</p>
 		<p class="sum_t">
@@ -144,7 +144,7 @@
 				实付
 			</span>
 			<span>
-				￥[[order.pay_money]]
+				￥[[order.status==4?order.pay_money:order.money]]
 			</span>
 		</p>
 		<p class="sum_p">
@@ -163,7 +163,7 @@
 	</div>
 	<div class="remark">
 		<div class="l_remark">订单备注</div>
-		<div class="r_remark">[[order.comment]]</div>
+		<div class="r_remark" style="word-break:break-all">[[order.comment]]</div>
 	</div>
 
 	<div class="finish_time">

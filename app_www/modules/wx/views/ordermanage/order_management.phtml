@@ -29,11 +29,11 @@
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell"><template v-for="info in order.order_info">[[info.goods_name]],</template> </span>
 			</p>
-			<p class="f_border">
+			<p class="f_border" onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
@@ -53,14 +53,14 @@
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell">
 				<template v-for="info in order.order_info">[[info.goods_name]],</template>
 				...
 				</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
@@ -79,11 +79,11 @@
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell"><template v-for="info in order.order_info">[[info.goods_name]],</template>...</span>
 			</p>
-			<p class="f_border">
+			<p class="f_border" onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
@@ -103,11 +103,11 @@
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell"><template v-for="info in order.order_info">[[info.goods_name]],</template></span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>

@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-08 11:17:30
+<?php /* Smarty version 3.1.27, created on 2016-12-09 10:49:11
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\order\pay_money.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:310415848d0ca607798_68249189%%*/
+/*%%SmartyHeaderCode:29196584a1ba7f1dce3_92243535%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e281e009ab3cdb161a235531a4ba91756f19da90' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\order\\pay_money.phtml',
-      1 => 1481167047,
+      1 => 1481251117,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '310415848d0ca607798_68249189',
+  'nocache_hash' => '29196584a1ba7f1dce3_92243535',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5848d0ca619078_08887292',
+  'unifunc' => 'content_584a1ba7f36023_55816226',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5848d0ca619078_08887292')) {
-function content_5848d0ca619078_08887292 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_584a1ba7f36023_55816226')) {
+function content_584a1ba7f36023_55816226 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '310415848d0ca607798_68249189';
+$_smarty_tpl->properties['nocache_hash'] = '29196584a1ba7f1dce3_92243535';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,7 +138,12 @@ new Vue({
 					for(var i in goods){
 						totalpric += goods[i].num*goods[i].price; 
 					}
-					totalpric -= data.data.promotion_money;
+					if(totalpric>data.data.promotion_money){
+						totalpric -= data.data.promotion_money;
+					}else{
+						totalpric = 0;
+					}
+					
 					if(totalpric>5){
 						totalpric -= 5;
 					}

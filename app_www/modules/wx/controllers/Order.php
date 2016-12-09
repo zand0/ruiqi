@@ -120,6 +120,9 @@ class OrderController extends Com\Controller\My\Guest {
         if(empty($kid)){
             return $this->ajaxReturn(0,'请先登录','');
         }
+        if(!LibF::M('kehu')->field('address')->where(['kid'=>$kid])->find()['address']){
+            return $this->ajaxReturn(0,'无收货地址，请重新进入此页填写','');
+        }
         $post = $this->getRequest()->getPost();
         $bottle_id = $this->getRequest()->getPost('bottle_id');
         $bottle_num = $this->getRequest()->getPost('bottle_num', 1);

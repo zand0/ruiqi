@@ -15,10 +15,10 @@ function makePrice(){
 		}
 	}
     //alert(Order.price);alert(promoprice);
-	if(Order.price > limit){
+	if(Order.price > promoprice){
 		Order.price = Order.price - promoprice;
 	}else{
-        //Order.price = 0;
+        Order.price = 0;
 		//Order.price += parseInt(Goods[i].direct_price)*Goods[i].num;
 	}
     //微信下单-5元

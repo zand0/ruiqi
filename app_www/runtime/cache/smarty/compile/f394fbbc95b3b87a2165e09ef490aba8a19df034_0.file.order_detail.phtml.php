@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-08 16:41:07
+<?php /* Smarty version 3.1.27, created on 2016-12-09 13:41:08
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\order_detail.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:343158491ca3b4e0d0_00727259%%*/
+/*%%SmartyHeaderCode:7378584a43f476e918_64644439%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'f394fbbc95b3b87a2165e09ef490aba8a19df034' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\order_detail.phtml',
-      1 => 1481186404,
+      1 => 1481261903,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '343158491ca3b4e0d0_00727259',
+  'nocache_hash' => '7378584a43f476e918_64644439',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_58491ca3b5c632_23701121',
+  'unifunc' => 'content_584a43f477c076_26720148',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_58491ca3b5c632_23701121')) {
-function content_58491ca3b5c632_23701121 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_584a43f477c076_26720148')) {
+function content_584a43f477c076_26720148 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '343158491ca3b4e0d0_00727259';
+$_smarty_tpl->properties['nocache_hash'] = '7378584a43f476e918_64644439';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -172,7 +172,7 @@ $_smarty_tpl->properties['nocache_hash'] = '343158491ca3b4e0d0_00727259';
 				商品应付金额：
 			</span>
 			<span>
-				￥[[order.pay_money-order.deposit]]
+				￥[[order.status==4?order.pay_money-order.deposit:order.money-order.deposit]]
 			</span>
 		</p>
 		<p class="sum_t">
@@ -180,7 +180,7 @@ $_smarty_tpl->properties['nocache_hash'] = '343158491ca3b4e0d0_00727259';
 				实付
 			</span>
 			<span>
-				￥[[order.pay_money]]
+				￥[[order.status==4?order.pay_money:order.money]]
 			</span>
 		</p>
 		<p class="sum_p">
@@ -199,7 +199,7 @@ $_smarty_tpl->properties['nocache_hash'] = '343158491ca3b4e0d0_00727259';
 	</div>
 	<div class="remark">
 		<div class="l_remark">订单备注</div>
-		<div class="r_remark">[[order.comment]]</div>
+		<div class="r_remark" style="word-break:break-all">[[order.comment]]</div>
 	</div>
 
 	<div class="finish_time">

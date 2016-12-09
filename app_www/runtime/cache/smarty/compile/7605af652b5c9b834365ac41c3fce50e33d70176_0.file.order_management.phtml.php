@@ -1,7 +1,7 @@
-<?php /* Smarty version 3.1.27, created on 2016-12-07 15:10:29
+<?php /* Smarty version 3.1.27, created on 2016-12-09 10:48:50
          compiled from "E:\xampp\htdocs\rq\ruiqi\app_www\modules\Wx\views\ordermanage\order_management.phtml" */ ?>
 <?php
-/*%%SmartyHeaderCode:108685847b5e50b0065_11267618%%*/
+/*%%SmartyHeaderCode:23082584a1b92b71785_60605354%%*/
 if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
@@ -9,20 +9,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '7605af652b5c9b834365ac41c3fce50e33d70176' => 
     array (
       0 => 'E:\\xampp\\htdocs\\rq\\ruiqi\\app_www\\modules\\Wx\\views\\ordermanage\\order_management.phtml',
-      1 => 1481089613,
+      1 => 1481250501,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '108685847b5e50b0065_11267618',
+  'nocache_hash' => '23082584a1b92b71785_60605354',
   'has_nocache_code' => false,
   'version' => '3.1.27',
-  'unifunc' => 'content_5847b5e50bc994_58131570',
+  'unifunc' => 'content_584a1b92b7f553_92958780',
 ),false);
 /*/%%SmartyHeaderCode%%*/
-if ($_valid && !is_callable('content_5847b5e50bc994_58131570')) {
-function content_5847b5e50bc994_58131570 ($_smarty_tpl) {
+if ($_valid && !is_callable('content_584a1b92b7f553_92958780')) {
+function content_584a1b92b7f553_92958780 ($_smarty_tpl) {
 
-$_smarty_tpl->properties['nocache_hash'] = '108685847b5e50b0065_11267618';
+$_smarty_tpl->properties['nocache_hash'] = '23082584a1b92b71785_60605354';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,11 +65,11 @@ $_smarty_tpl->properties['nocache_hash'] = '108685847b5e50b0065_11267618';
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell"><template v-for="info in order.order_info">[[info.goods_name]],</template> </span>
 			</p>
-			<p class="f_border">
+			<p class="f_border" onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
@@ -89,14 +89,14 @@ $_smarty_tpl->properties['nocache_hash'] = '108685847b5e50b0065_11267618';
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell">
 				<template v-for="info in order.order_info">[[info.goods_name]],</template>
 				...
 				</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
@@ -115,11 +115,11 @@ $_smarty_tpl->properties['nocache_hash'] = '108685847b5e50b0065_11267618';
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell"><template v-for="info in order.order_info">[[info.goods_name]],</template>...</span>
 			</p>
-			<p class="f_border">
+			<p class="f_border" onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
@@ -139,11 +139,11 @@ $_smarty_tpl->properties['nocache_hash'] = '108685847b5e50b0065_11267618';
 				<span>[[order.order_sn]]</span>
 				<span>[[order.orderstatus]]</span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span class="st">商品：</span>
 				<span class="ell"><template v-for="info in order.order_info">[[info.goods_name]],</template></span>
 			</p>
-			<p>
+			<p onclick="location.href='/wx/ordermanage/detail?id=[[order.order_id]]'">
 				<span>金额：</span>
 				<span>￥[[order.money]]</span>
 				<span class="l_">[[order.order_paytype==1?'网上支付':'现金']]</span>
